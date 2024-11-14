@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">SelenaApp</string>
-    <string name="title_home">Home</string>
+    <string name="title_home">Beranda</string>
     <string name="title_transaction">Transaksi</string>
     <string name="title_settings">Pengaturan</string>
     <!-- TODO: Remove or change this placeholder text -->
