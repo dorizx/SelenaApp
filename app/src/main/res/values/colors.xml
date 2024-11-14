@@ -8,9 +8,14 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="main">#018383</color>
-    <color name="button_1">#02A8A8</color>
-    <color name="button_2">#42E6A4</color>
-    <color name="text">#F5DEA3</color>
+    <color name="main_light">#018383</color>
+    <color name="button_1_light">#02A8A8</color>
+    <color name="button_2_light">#42E6A4</color>
+    <color name="text_light">#F5DEA3</color>
+
+    <color name="main_dark">#00A4A4</color>
+    <color name="button_1_dark">#03CFCF</color>
+    <color name="button_2_dark">#3ADF9B</color>
+    <color name="text_dark">#E2C68C</color>
 
 </resources>
