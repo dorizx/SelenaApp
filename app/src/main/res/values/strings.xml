@@ -12,4 +12,12 @@
     <string name="choose_method">Pilih Metode</string>
     <string name="add_data">Isi Data</string>
     <string name="add_file">Upload File Excel</string>
+
+    <string name="amount">Jumlah</string>
+    <string name="type_transaction">Jenis Transaksi</string>
+    <string name="date">Tanggal</string>
+    <string name="notes">Catatan</string>
+    <string name="send">Kirim</string>
+    <string name="title_form_data">Form Tambah Transaksi</string>
+
 </resources>
