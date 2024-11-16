@@ -25,7 +25,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="50dp"
-        android:alpha="0"
         android:text="@string/amount"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +38,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:alpha="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_amount"
@@ -50,6 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="@string/amount"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -60,7 +59,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="15dp"
-        android:alpha="0"
         android:text="@string/type_transaction"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,6 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
+        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_type" />
@@ -84,7 +83,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="15dp"
-        android:alpha="0"
         android:text="@string/date"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
@@ -98,7 +96,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:alpha="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_date"
@@ -109,6 +106,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="@string/date"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -119,7 +117,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="15dp"
-        android:alpha="0"
         android:text="@string/notes"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
@@ -133,7 +130,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:alpha="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_notes"
@@ -144,6 +140,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="@string/notes"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 

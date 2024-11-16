@@ -1,5 +1,6 @@
 package com.example.selenaapp.ui.transaction
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -33,6 +34,14 @@ class TransactionFragment : Fragment() {
             textView.text = it
         }
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.buttonAddTransaction.setOnClickListener {
+            val intent = Intent(requireContext(), ChooseMethodTransactionActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onDestroyView() {
