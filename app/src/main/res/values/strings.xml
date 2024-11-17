@@ -13,11 +13,17 @@
     <string name="add_data">Isi Data</string>
     <string name="add_file">Upload File Excel</string>
 
+
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+
     <string name="amount">Jumlah</string>
     <string name="type_transaction">Jenis Transaksi</string>
     <string name="date">Tanggal</string>
     <string name="notes">Catatan</string>
     <string name="send">Kirim</string>
     <string name="title_form_data">Form Tambah Transaksi</string>
+    <string name="title_login_page">Login</string>
 
 </resources>
