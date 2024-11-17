@@ -17,6 +17,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
+    <string name="name">Nama</string>
 
     <string name="amount">Jumlah</string>
     <string name="type_transaction">Jenis Transaksi</string>
@@ -25,5 +26,6 @@
     <string name="send">Kirim</string>
     <string name="title_form_data">Form Tambah Transaksi</string>
     <string name="title_login_page">Login</string>
+    <string name="title_signup_page">Sign Up</string>
 
 </resources>
