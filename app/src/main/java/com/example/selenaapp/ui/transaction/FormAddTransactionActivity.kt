@@ -14,7 +14,7 @@ class FormAddTransactionActivity : AppCompatActivity() {
         binding = ActivityFormAddTransactionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val transactionTypes = arrayOf("Pendapatan", "Penjualan")
+        val transactionTypes = arrayOf("Pendapatan", "Pengeluaran")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, transactionTypes)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.typeDropdown.adapter = adapter
