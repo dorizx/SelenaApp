@@ -1,5 +1,6 @@
 package com.example.selenaapp.ui.settings
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.selenaapp.databinding.FragmentSettingsBinding
+import com.example.selenaapp.ui.login.LoginActivity
 
 class SettingsFragment : Fragment() {
 
@@ -28,9 +30,11 @@ class SettingsFragment : Fragment() {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textSettings
-        settingViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+
+        binding.btnLogout.setOnClickListener {
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
         }
         return root
     }
