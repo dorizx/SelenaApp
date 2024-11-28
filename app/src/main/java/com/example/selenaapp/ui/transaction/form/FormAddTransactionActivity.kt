@@ -1,4 +1,4 @@
-package com.example.selenaapp.ui.transaction
+package com.example.selenaapp.ui.transaction.form
 
 import android.os.Bundle
 import android.widget.ArrayAdapter

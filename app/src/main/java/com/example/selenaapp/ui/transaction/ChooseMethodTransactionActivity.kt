@@ -2,12 +2,10 @@ package com.example.selenaapp.ui.transaction
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.selenaapp.R
 import com.example.selenaapp.databinding.ActivityChooseMethodTransactionBinding
+import com.example.selenaapp.ui.transaction.file.FileUploadActivity
+import com.example.selenaapp.ui.transaction.form.FormAddTransactionActivity
 
 class ChooseMethodTransactionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChooseMethodTransactionBinding
@@ -19,6 +17,11 @@ class ChooseMethodTransactionActivity : AppCompatActivity() {
 
         binding.btnManual.setOnClickListener {
             val intent = Intent(this, FormAddTransactionActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnFile.setOnClickListener {
+            val intent = Intent(this, FileUploadActivity::class.java)
             startActivity(intent)
         }
 

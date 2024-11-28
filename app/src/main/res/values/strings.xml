@@ -3,11 +3,14 @@
     <string name="title_home">Beranda</string>
     <string name="title_transaction">Transaksi</string>
     <string name="title_settings">Pengaturan</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!-- Package Transaksi -->
     <string name="add_transaction">Tambah Transaksi</string>
     <string name="detail_keuangan">Detail Keuangan</string>
+    <string name="shopee">Shopee</string>
+    <string name="tokopedia">Tokopedia</string>
+    <string name="choose_ecommerce">Pilih Ecommerce</string>
 
     <string name="choose_method">Pilih Metode</string>
     <string name="add_data">Isi Data</string>
