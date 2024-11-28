@@ -11,6 +11,16 @@
     <string name="shopee">Shopee</string>
     <string name="tokopedia">Tokopedia</string>
     <string name="choose_ecommerce">Pilih Ecommerce</string>
+    <string name="transaction_history">Riwayat</string>
+
+    <!-- Kotak Transaksi -->
+    <string name="average_income">Rata-rata Pemasukkan</string>
+    <string name="average_outcome">Rata-rata Pengeluaran</string>
+    <string name="anomali">Anomali</string>
+
+
+    <!-- Testing -->
+    <string name="_100000">100000</string>
 
     <string name="choose_method">Pilih Metode</string>
     <string name="add_data">Isi Data</string>
