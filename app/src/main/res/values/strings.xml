@@ -27,6 +27,7 @@
 
     <!-- Testing -->
     <string name="_100000">100000</string>
+    <string name="testing">Testing</string>
 
     <string name="choose_method">Pilih Metode</string>
     <string name="add_data">Isi Data</string>

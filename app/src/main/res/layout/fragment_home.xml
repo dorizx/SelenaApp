@@ -196,7 +196,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:textSize="20sp"
-        tools:text="@string/_100000"
+        android:text="@string/testing"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/label_finance_advice" />
 
