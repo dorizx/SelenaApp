@@ -16,9 +16,6 @@
             android:name=".ui.transaction.file.FileUploadActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.transaction.file.ChooseEcommerceActivity"
-            android:exported="false" />
-        <activity
             android:name=".SplashScreenActivity"
             android:exported="false" />
         <activity
