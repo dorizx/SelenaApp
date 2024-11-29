@@ -6,151 +6,75 @@
     android:layout_height="match_parent"
     tools:context=".ui.transaction.TransactionFragment">
 
-
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/dataContainer"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:padding="15dp"
+        android:background="@android:color/darker_gray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="16dp">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Row 1 -->
-        <LinearLayout
+        <TextView
+            android:id="@+id/label_total_income"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="8dp">
+            android:text="@string/total_income"
+            android:textStyle="bold"
+            android:textSize="20sp"/>
 
-            <!-- Kotak 1 -->
-            <LinearLayout
-                android:id="@+id/kotak1Container"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:background="@android:color/darker_gray"
-                android:gravity="center"
-                android:padding="8dp">
-
-                <TextView
-                    android:id="@+id/labelTotalPengeluaran"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/average_income"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@android:color/white" />
-
-                <TextView
-                    android:id="@+id/valueTotalPengeluaran"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/_100000"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@android:color/white"
-                    android:layout_marginTop="4dp" />
-            </LinearLayout>
-
-            <!-- Kotak 2 -->
-            <LinearLayout
-                android:id="@+id/kotak2Container"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:orientation="vertical"
-                android:background="@android:color/darker_gray"
-                android:gravity="center"
-                android:padding="8dp">
-
-                <TextView
-                    android:id="@+id/labelData2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/average_outcome"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@android:color/white" />
-
-                <TextView
-                    android:id="@+id/valueData2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/_100000"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@android:color/white"
-                    android:layout_marginTop="4dp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Row 2 -->
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_income"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginTop="5dp"
+            android:textSize="15sp"
+            android:layout_below="@+id/label_total_income"
+            tools:text="@string/_100000"/>
 
-            <!-- Kotak 3 -->
-            <LinearLayout
-                android:id="@+id/kotak3Container"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:background="@android:color/darker_gray"
-                android:gravity="center"
-                android:padding="8dp">
+        <TextView
+            android:id="@+id/label_total_outcome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/tv_income"
+            android:text="@string/total_outcome"
+            android:textStyle="bold"
+            android:textSize="20sp"/>
 
-                <TextView
-                    android:id="@+id/labelData3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/anomali"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@android:color/white" />
+        <TextView
+            android:id="@+id/tv_outcome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="15sp"
+            android:layout_below="@+id/label_total_outcome"
+            tools:text="@string/_100000"/>
 
-                <TextView
-                    android:id="@+id/valueData3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/_100000"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@android:color/white"
-                    android:layout_marginTop="4dp" />
-            </LinearLayout>
+        <TextView
+            android:id="@+id/label_total_profit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_outcome"
+            android:layout_marginTop="20dp"
+            android:text="@string/total_profit"
+            android:textStyle="bold"
+            android:textSize="20sp"/>
 
-            <!-- Kotak 4 -->
-            <LinearLayout
-                android:id="@+id/kotak4Container"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:orientation="vertical"
-                android:background="@android:color/darker_gray"
-                android:gravity="center"
-                android:padding="8dp">
+        <TextView
+            android:id="@+id/tv_profit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="15sp"
+            android:layout_below="@+id/label_total_profit"
+            tools:text="@string/_100000"/>
 
-                <TextView
-                    android:id="@+id/labelData4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/_100000"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@android:color/white" />
 
-                <TextView
-                    android:id="@+id/valueData4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/_100000"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@android:color/white"
-                    android:layout_marginTop="4dp" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/text_dashboard"

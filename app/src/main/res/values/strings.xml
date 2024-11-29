@@ -12,11 +12,17 @@
     <string name="tokopedia">Tokopedia</string>
     <string name="choose_ecommerce">Pilih Ecommerce</string>
     <string name="transaction_history">Riwayat</string>
+    <string name="total_income">Total Pemasukan</string>
+    <string name="total_outcome">Total Pengeluaran</string>
+    <string name="total_profit">Total Keuntungan</string>
 
     <!-- Kotak Transaksi -->
     <string name="average_income">Rata-rata Pemasukkan</string>
     <string name="average_outcome">Rata-rata Pengeluaran</string>
     <string name="anomali">Anomali</string>
+
+    <!-- Package Home -->
+    <string name="finance_advice">Saran Keuangan</string>
 
 
     <!-- Testing -->
