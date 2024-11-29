@@ -25,6 +25,9 @@
             android:name=".ui.login.LoginActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.help.HelpActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.transaction.DetailTransactionActivity"
             android:exported="false" />
         <activity
