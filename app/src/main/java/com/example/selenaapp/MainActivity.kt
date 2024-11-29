@@ -4,12 +4,18 @@ import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.selenaapp.databinding.ActivityMainBinding
 import com.example.selenaapp.ui.login.LoginActivity
+import com.example.selenaapp.ui.settings.SettingsPreference
+import com.example.selenaapp.ui.settings.SettingsViewModel
+import com.example.selenaapp.ui.settings.SettingsViewModelFactory
+import com.example.selenaapp.ui.settings.dataStore
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,6 +23,21 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val pref = SettingsPreference.getInstance(applicationContext.dataStore)
+
+        // Gunakan ViewModel untuk memantau pengaturan tema
+        val viewModelFactory = SettingsViewModelFactory(pref)
+        val settingsViewModel = ViewModelProvider(this, viewModelFactory).get(SettingsViewModel::class.java)
+
+        // Dapatkan pengaturan tema dari DataStore dan atur tema aplikasi
+        settingsViewModel.getThemeSettings().observe(this) { isDarkModeActive ->
+            if (isDarkModeActive) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
