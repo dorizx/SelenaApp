@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.otp.OtpActivity"
+    android:background="#333333"
+    android:id="@+id/frameLayoutRoot">
+
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:enabled="false"
+            android:cursorVisible="false"
+            android:imeOptions="actionNone"
+            android:maxLength="1"
+            android:maxLines="1"
+            android:inputType="numberDecimal"
+            android:gravity="center"
+            android:id="@+id/editTextOne"
+            android:textStyle="bold"
+            android:textSize="15pt"
+            android:textCursorDrawable="@null"
+            android:textColor="@color/white"
+            android:backgroundTint="#B7B7B7"
+            android:layout_width="40dp"
+            android:layout_height="60dp"/>
+
+        <EditText
+            android:layout_marginStart="10dp"
+            android:enabled="false"
+            android:cursorVisible="false"
+            android:imeOptions="actionNone"
+            android:maxLength="1"
+            android:maxLines="1"
+            android:inputType="numberDecimal"
+            android:gravity="center"
+            android:id="@+id/editTextTwo"
+            android:textStyle="bold"
+            android:textSize="15pt"
+            android:textCursorDrawable="@null"
+            android:textColor="@color/white"
+            android:backgroundTint="#B7B7B7"
+            android:layout_width="40dp"
+            android:layout_height="60dp"/>
+
+        <EditText
+            android:layout_marginStart="10dp"
+            android:enabled="false"
+            android:cursorVisible="false"
+            android:imeOptions="actionNone"
+            android:maxLength="1"
+            android:maxLines="1"
+            android:inputType="numberDecimal"
+            android:gravity="center"
+            android:id="@+id/editTextThree"
+            android:textStyle="bold"
+            android:textSize="15pt"
+            android:textCursorDrawable="@null"
+            android:textColor="@color/white"
+            android:backgroundTint="#B7B7B7"
+            android:layout_width="40dp"
+            android:layout_height="60dp"/>
+
+        <EditText
+            android:layout_marginStart="10dp"
+            android:enabled="false"
+            android:cursorVisible="false"
+            android:imeOptions="actionNone"
+            android:maxLength="1"
+            android:maxLines="1"
+            android:inputType="numberDecimal"
+            android:gravity="center"
+            android:id="@+id/editTextFour"
+            android:textStyle="bold"
+            android:textSize="15pt"
+            android:textCursorDrawable="@null"
+            android:textColor="@color/white"
+            android:backgroundTint="#B7B7B7"
+            android:layout_width="40dp"
+            android:layout_height="60dp"/>
+    </LinearLayout>
+
+
+
+
+</FrameLayout>
