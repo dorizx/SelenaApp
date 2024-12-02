@@ -2,19 +2,16 @@ package com.example.selenaapp.data.response
 
 import com.google.gson.annotations.SerializedName
 
-data class LoginResponse(
+data class SignupResponse(
 
 	@field:SerializedName("message")
 	val message: String? = null,
 
 	@field:SerializedName("user")
-	val user: LoginUser? = null,
-
-	@field:SerializedName("token")
-	val token: String? = null
+	val user: SignupUser? = null
 )
 
-data class LoginUser(
+data class SignupUser(
 
 	@field:SerializedName("name")
 	val name: String? = null,
