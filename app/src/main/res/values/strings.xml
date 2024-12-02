@@ -32,6 +32,7 @@
     <string name="choose_method">Pilih Metode</string>
     <string name="add_data">Isi Data</string>
     <string name="add_file">Upload File Excel</string>
+    <string name="title_next">Selanjutnya</string>
 
 
     <string name="email">Email</string>

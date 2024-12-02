@@ -10,6 +10,7 @@ import com.example.selenaapp.MainActivity
 import com.example.selenaapp.R
 import com.example.selenaapp.databinding.ActivitySignupBinding
 import com.example.selenaapp.ui.login.LoginActivity
+import com.example.selenaapp.ui.otp.OtpActivity
 
 class SignupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
@@ -20,7 +21,7 @@ class SignupActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.signupButton.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
+            startActivity(Intent(this, OtpActivity::class.java))
         }
     }
 }

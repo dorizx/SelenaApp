@@ -29,7 +29,7 @@
             android:textCursorDrawable="@null"
             android:textColor="@color/white"
             android:backgroundTint="#B7B7B7"
-            android:layout_width="40dp"
+            android:layout_width="50dp"
             android:layout_height="60dp"/>
 
         <EditText
@@ -47,7 +47,7 @@
             android:textCursorDrawable="@null"
             android:textColor="@color/white"
             android:backgroundTint="#B7B7B7"
-            android:layout_width="40dp"
+            android:layout_width="50dp"
             android:layout_height="60dp"/>
 
         <EditText
@@ -65,7 +65,7 @@
             android:textCursorDrawable="@null"
             android:textColor="@color/white"
             android:backgroundTint="#B7B7B7"
-            android:layout_width="40dp"
+            android:layout_width="50dp"
             android:layout_height="60dp"/>
 
         <EditText
@@ -83,7 +83,7 @@
             android:textCursorDrawable="@null"
             android:textColor="@color/white"
             android:backgroundTint="#B7B7B7"
-            android:layout_width="40dp"
+            android:layout_width="50dp"
             android:layout_height="60dp"/>
 
         <EditText
@@ -101,7 +101,7 @@
             android:textCursorDrawable="@null"
             android:textColor="@color/white"
             android:backgroundTint="#B7B7B7"
-            android:layout_width="40dp"
+            android:layout_width="50dp"
             android:layout_height="60dp"/>
 
         <EditText
@@ -119,11 +119,16 @@
             android:textCursorDrawable="@null"
             android:textColor="@color/white"
             android:backgroundTint="#B7B7B7"
-            android:layout_width="40dp"
+            android:layout_width="50dp"
             android:layout_height="60dp"/>
     </LinearLayout>
 
-
-
+    <Button
+        android:id="@+id/buttonSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="80dp"
+        android:text="@string/title_signup_page" />
 
 </FrameLayout>
