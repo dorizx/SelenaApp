@@ -1,6 +1,5 @@
 package com.example.selenaapp.data.api
 
-import com.example.selenaapp.data.response.RegisterResponse
 import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
