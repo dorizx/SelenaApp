@@ -17,7 +17,7 @@ interface ApiService {
     ): Response<RegisterResponse>
 
     suspend fun getOtp(
-
+        @Field("email") email: String,
     )
 }
 
