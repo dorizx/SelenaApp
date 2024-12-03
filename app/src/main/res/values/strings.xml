@@ -53,5 +53,6 @@
     <string name="help">Bantuan</string>
     <string name="help_icon">icon help</string>
     <string name="arrow_icon">icon arrow</string>
+    <string name="Amount">amount</string>
 
 </resources>
