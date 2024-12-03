@@ -1,24 +1,29 @@
 package com.example.selenaapp.ui.otp
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
 import com.example.selenaapp.R
+import com.example.selenaapp.ViewModelFactory
+import com.example.selenaapp.data.api.ApiConfig
+import com.example.selenaapp.data.api.ApiService
+import com.example.selenaapp.ui.login.LoginActivity
 
 class OtpActivity : AppCompatActivity() {
 
-    companion object {
-        private const val TEST_VERIFY_CODE = "123456"
+    private val otpViewModel: OtpViewModel by viewModels {
+        ViewModelFactory.getInstance(this)
     }
+
     private val frameLayoutRoot: FrameLayout by lazy {
         findViewById(R.id.frameLayoutRoot)
     }
@@ -65,7 +70,7 @@ class OtpActivity : AppCompatActivity() {
         setTextChangeListener(fromEditText = editTextThree, targetEditText = editTextFour)
         setTextChangeListener(fromEditText = editTextFour, targetEditText = editTextFive)
         setTextChangeListener(fromEditText = editTextFive, targetEditText = editTextSix)
-        setTextChangeListener(fromEditText = editTextSix, done ={
+        setTextChangeListener(fromEditText = editTextSix, done = {
             verifyOTPCode()
         })
         setKeyListener(fromEditText = editTextTwo, backToEditText = editTextOne)
@@ -74,14 +79,16 @@ class OtpActivity : AppCompatActivity() {
         setKeyListener(fromEditText = editTextFive, backToEditText = editTextFour)
         setKeyListener(fromEditText = editTextSix, backToEditText = editTextFive)
     }
+
     private fun initFocus() {
         editTextOne.isEnabled = true
 
         editTextOne.postDelayed({
             editTextOne.requestFocus()
-            val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val inputMethodManager =
+                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputMethodManager.showSoftInput(editTextOne, InputMethodManager.SHOW_FORCED)
-        },500)
+        }, 500)
     }
 
     private fun reset() {
@@ -107,14 +114,14 @@ class OtpActivity : AppCompatActivity() {
         targetEditText: EditText? = null,
         done: (() -> Unit)? = null
     ) {
-        fromEditText.addTextChangedListener{
+        fromEditText.addTextChangedListener {
             it?.let { string ->
                 if (string.isNotEmpty()) {
                     targetEditText?.let { editText ->
                         editText.isEnabled = true
                         editText.requestFocus()
                     } ?: run {
-                        done ?.let { done ->
+                        done?.let { done ->
                             done()
                         }
                     }
@@ -126,7 +133,7 @@ class OtpActivity : AppCompatActivity() {
     }
 
     private fun setKeyListener(fromEditText: EditText, backToEditText: EditText) {
-        fromEditText.setOnKeyListener {_, _, event ->
+        fromEditText.setOnKeyListener { _, _, event ->
 
             if (null != event && KeyEvent.KEYCODE_DEL == event.keyCode) {
                 backToEditText.isEnabled = true
@@ -140,26 +147,64 @@ class OtpActivity : AppCompatActivity() {
         }
     }
 
-    private fun verifyOTPCode() {
-        val otpCode = "${editTextOne.text.toString().trim()}" +
+
+    private fun collectOtpFromFields(): String {
+        return "${editTextOne.text.toString().trim()}" +
                 "${editTextTwo.text.toString().trim()}" +
                 "${editTextThree.text.toString().trim()}" +
                 "${editTextFour.text.toString().trim()}" +
                 "${editTextFive.text.toString().trim()}" +
                 "${editTextSix.text.toString().trim()}"
-
-        if(6 != otpCode.length) {
-            return
-        }
-        if (otpCode == TEST_VERIFY_CODE) {
-            Toast.makeText(this, "Success, Should do next", Toast.LENGTH_LONG).show()
-
-            val inputManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-            inputManager.hideSoftInputFromWindow(frameLayoutRoot.windowToken, 0)
-
-            return
-        }
-        Toast.makeText(this, "Error, please input again", Toast.LENGTH_SHORT).show()
-        reset()
     }
+
+
+    private fun verifyOTPCode() {
+
+        val otpCode = collectOtpFromFields()
+        val email = intent.getStringExtra(EXTRA_EMAIL) ?: return
+        val name = intent.getStringExtra(EXTRA_NAME) ?: return
+        val password = intent.getStringExtra(EXTRA_PASSWORD) ?: return
+
+        otpViewModel.verifyOtp(otpCode, name, email, password) { otpResponse ->
+                if (otpResponse.otp == otpCode) {
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    finish()
+                } else {
+                    Toast.makeText(this, "Invalid OTP, please try again", Toast.LENGTH_SHORT).show()
+                    reset()
+                }
+        }
+    }
+
+    companion object {
+        const val EXTRA_EMAIL = "extra_email"
+        const val EXTRA_NAME = "extra_name"
+        const val EXTRA_PASSWORD = "extra_password"
+    }
+
 }
+
+
+
+
+//        val otpCode = "${editTextOne.text.toString().trim()}" +
+//                "${editTextTwo.text.toString().trim()}" +
+//                "${editTextThree.text.toString().trim()}" +
+//                "${editTextFour.text.toString().trim()}" +
+//                "${editTextFive.text.toString().trim()}" +
+//                "${editTextSix.text.toString().trim()}"
+//
+//        if(6 != otpCode.length) {
+//            return
+//        }
+//        if (otpCode == TEST_VERIFY_CODE) {
+//            Toast.makeText(this, "Success, Should do next", Toast.LENGTH_LONG).show()
+//
+//            val inputManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+//            inputManager.hideSoftInputFromWindow(frameLayoutRoot.windowToken, 0)
+//
+//            return
+//        }
+//        Toast.makeText(this, "Error, please input again", Toast.LENGTH_SHORT).show()
+//        reset()
+//    }

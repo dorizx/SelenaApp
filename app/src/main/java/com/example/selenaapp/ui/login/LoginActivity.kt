@@ -2,12 +2,8 @@ package com.example.selenaapp.ui.login
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.selenaapp.MainActivity
-import com.example.selenaapp.R
+import com.example.selenaapp.ui.main.MainActivity
 import com.example.selenaapp.databinding.ActivityLoginBinding
 import com.example.selenaapp.ui.signup.SignupActivity
 
