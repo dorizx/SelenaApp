@@ -22,11 +22,11 @@ interface ApiService {
     ): Response<SignupResponse>
 
     @FormUrlEncoded
-    @POST("login")
+    @POST("/auth/login")
     suspend fun login(
         @Field("email") email: String,
         @Field("password") password: String
-    ): Response<LoginResponse>
+    ): LoginResponse
 
     @FormUrlEncoded
     @POST("/auth/otp/verify")

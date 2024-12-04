@@ -20,6 +20,16 @@ class UserRepository private constructor(
     private val userPreference: UserPreference
 ) {
 
+    suspend fun login(email: String, password: String): LoginResponse {
+        return withContext(Dispatchers.IO) {
+            val token = userPreference.getSession().map { it.token }.firstOrNull() ?: ""
+            Log.d("UserRepository", "Making login request with token: $token")
+            val response = ApiConfig.getApiService(token).login(email, password)
+            Log.d("UserRepository", "Login response: $response")
+            response
+        }
+    }
+
     suspend fun signup(name: String, email: String, password: String): Response<SignupResponse> {
         return withContext(Dispatchers.IO) {
             try {
@@ -56,6 +66,9 @@ class UserRepository private constructor(
         }
     }
 
+    suspend fun saveSession(user: UserModel) {
+        userPreference.saveSession(user)
+    }
 
 
     companion object {

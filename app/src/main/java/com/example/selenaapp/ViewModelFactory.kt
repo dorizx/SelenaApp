@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.selenaapp.data.injection.Injection
 import com.example.selenaapp.data.repository.UserRepository
+import com.example.selenaapp.ui.login.LoginViewModel
 import com.example.selenaapp.ui.main.MainViewModel
 import com.example.selenaapp.ui.otp.OtpViewModel
 import com.example.selenaapp.ui.signup.SignupViewModel
@@ -22,6 +23,9 @@ class ViewModelFactory (private val repository: UserRepository) : ViewModelProvi
             }
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
                 return MainViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
+                return LoginViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class")
         }
