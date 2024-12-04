@@ -12,9 +12,12 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.example.selenaapp.data.preference.UserPreference
 import com.example.selenaapp.databinding.FragmentSettingsBinding
 import com.example.selenaapp.ui.help.HelpActivity
 import com.example.selenaapp.ui.login.LoginActivity
+import kotlinx.coroutines.launch
 
 // Deklarasikan dataStore sebagai ekstensi Context
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
@@ -39,9 +42,13 @@ class SettingsFragment : Fragment() {
 
         // Tombol logout
         binding.btnLogout.setOnClickListener {
-            val intent = Intent(requireContext(), LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
+            val userPreference = UserPreference.getInstance(requireContext().dataStore)
+            lifecycleScope.launch {
+                userPreference.logout()
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+            }
         }
 
         // Tombol help
