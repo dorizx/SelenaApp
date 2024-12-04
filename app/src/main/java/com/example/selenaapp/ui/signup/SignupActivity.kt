@@ -32,7 +32,6 @@ class SignupActivity : AppCompatActivity() {
                         putExtra(OtpActivity.EXTRA_NAME, name)
                         putExtra(OtpActivity.EXTRA_EMAIL, email)
                         putExtra(OtpActivity.EXTRA_PASSWORD, password)
-                        Toast.makeText(this@SignupActivity, "Pendaftaran berhasil", Toast.LENGTH_SHORT).show()
                     }
                     startActivity(intent)
                 } else {
