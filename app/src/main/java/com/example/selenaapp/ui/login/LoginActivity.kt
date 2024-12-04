@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.selenaapp.ViewModelFactory
 import com.example.selenaapp.data.preference.UserModel
+import com.example.selenaapp.data.response.LoginResponse
 import com.example.selenaapp.ui.main.MainActivity
 import com.example.selenaapp.databinding.ActivityLoginBinding
 import com.example.selenaapp.ui.signup.SignupActivity
@@ -58,11 +59,12 @@ class LoginActivity : AppCompatActivity() {
                 passwordLayout.error = null
             }
 
-            viewModel.login(email, password) { success, token ->
-                if (success && !token.isNullOrEmpty()) {
+            viewModel.login(email, password) { success, token, userId ->
+                if (success && !token.isNullOrEmpty() && !userId.isNullOrEmpty()) {
                     showLoading(false)
                     // Simpan sesi dengan token
-                    viewModel.saveSession(UserModel(email, token, true))
+                    val userID = userId.toInt()
+                    viewModel.saveSession(UserModel(email, token, true, userID))
                     Log.d("LoginActivity", "Login successful: Token saved=$token")
                     AlertDialog.Builder(this).apply {
                         setTitle("Yeah!")

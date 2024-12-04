@@ -17,21 +17,22 @@ class LoginViewModel (private val repository: UserRepository) : ViewModel() {
         }
     }
 
-    fun login(email: String, password: String, callback: (Boolean, String?) -> Unit) {
+    fun login(email: String, password: String, callback: (Boolean, String?, String?) -> Unit) {
         viewModelScope.launch {
             try {
                 val response = repository.login(email, password)
                 val token = response.token
+                val userId = response.user?.id.toString()
                 if (!token.isNullOrEmpty()) {
                     Log.d("LoginViewModel", "Login successful: Token=$token")
-                    callback(true, token)
+                    callback(true, token, userId)
                 } else {
                     Log.e("LoginViewModel", "Login failed: Token is null or empty")
-                    callback(false, null)
+                    callback(false, null, null)
                 }
             } catch (e: Exception) {
                 Log.e("LoginViewModel", "Login error: ${e.message}", e)
-                callback(false, null)
+                callback(false, null, null)
             }
         }
     }

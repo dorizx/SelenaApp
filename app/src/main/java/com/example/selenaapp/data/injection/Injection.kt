@@ -10,4 +10,8 @@ object Injection {
         val pref = UserPreference.getInstance(context.dataStore)
         return UserRepository.getInstance(pref)
     }
+
+    fun provideUserPreference(context: Context): UserPreference {
+        return UserPreference.getInstance(context.dataStore)
+    }
 }

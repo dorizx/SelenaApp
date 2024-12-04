@@ -39,13 +39,14 @@ interface ApiService {
     ) : Response<OtpResponse>
 
     @FormUrlEncoded
-    @POST("/transactions/{transactionsId}")
+    @POST("/transactions")
     suspend fun addTransaction(
-        @Path("transactionsId") transactionsId: String,
+        //@Path("transactionsId") transactionsId: String,
         @Field("user_id") userId: String,
         @Field("amount") amount: Int,
         @Field("transaction_type") type: String,
-        @Field("date") date: String
+        @Field("date") date: String,
+        @Field("catatan") note: String
     ) : Response<FormResponse>
 }
 
