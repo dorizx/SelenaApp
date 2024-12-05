@@ -48,8 +48,9 @@ class TransactionFragment : Fragment() {
         Log.d("TransactionFragment", "onViewCreated called")
 
         showLoading(false)
-        getTransactions()
+
         binding.recyclerViewTransaksi.layoutManager = LinearLayoutManager(requireContext())
+        getTransactions()
 
         binding.buttonAddTransaction.setOnClickListener {
             val intent = Intent(requireContext(), ChooseMethodTransactionActivity::class.java)
@@ -61,7 +62,7 @@ class TransactionFragment : Fragment() {
         showLoading(true)
         val context = requireContext()
         viewLifecycleOwner.lifecycleScope.launch{
-            val userPreference = UserPreference.getInstance(requireContext().dataStore)
+            val userPreference = UserPreference.getInstance(context.dataStore)
             userPreference.getSession().collect { userModel ->
                 val token = userModel.token
                 val userId = userModel.userId
@@ -79,11 +80,11 @@ class TransactionFragment : Fragment() {
                     } else {
                         handleEmptyState(true)
                         showToast("Gagal memuat data: ${response.errorBody()?.string()}")
+                        showLoading(false)
                     }
                 } catch (e: Exception) {
                     handleEmptyState(true)
                     showToast("Error: ${e.message}")
-                }finally {
                     showLoading(false)
                 }
             }
