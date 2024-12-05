@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import com.example.selenaapp.ViewModelFactory
 import com.example.selenaapp.databinding.ActivitySignupBinding
 import com.example.selenaapp.ui.otp.OtpActivity
@@ -20,6 +21,16 @@ class SignupActivity : AppCompatActivity() {
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        observeViewModel()
+
+        binding.emailEditText.addTextChangedListener { text ->
+            signupViewModel.validateEmail(text.toString())
+        }
+
+        binding.passwordEditText.addTextChangedListener { text ->
+            signupViewModel.validatePassword(text.toString())
+        }
 
         binding.signupButton.setOnClickListener {
             val name = binding.nameEditText.text.toString()
@@ -38,6 +49,22 @@ class SignupActivity : AppCompatActivity() {
                     Toast.makeText(this, "Pendaftaran gagal: ${response.errorBody()}", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+    }
+    private fun observeViewModel() {
+        // Observe email error
+        signupViewModel.emailError.observe(this) { error ->
+            binding.emailEditTextLayout.error = error
+        }
+
+        // Observe password error
+        signupViewModel.passwordError.observe(this) { error ->
+            binding.passwordEditTextLayout.error = error
+        }
+
+        // Observe form validity
+        signupViewModel.isFormValid.observe(this) { isValid ->
+            binding.signupButton.isEnabled = isValid
         }
     }
 
