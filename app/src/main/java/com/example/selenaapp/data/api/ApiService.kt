@@ -1,5 +1,6 @@
 package com.example.selenaapp.data.api
 
+import com.example.selenaapp.data.response.DeleteResponse
 import com.example.selenaapp.data.response.FormResponse
 import com.example.selenaapp.data.response.LoginResponse
 import com.example.selenaapp.data.response.OtpResponse
@@ -9,12 +10,14 @@ import com.example.selenaapp.data.response.TokopediaResponse
 import com.example.selenaapp.data.response.TransactionResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
+import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -73,5 +76,9 @@ interface ApiService {
         @Query("user_id") userId: Int
     ) : Response<TransactionResponse>
 
+    @DELETE("/transactions/{transactionId}")
+    suspend fun deleteTransaction(
+        @Path("transactionId") transactionId: Int
+    ) : Response<DeleteResponse>
 }
 

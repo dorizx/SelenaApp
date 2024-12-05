@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.selenaapp.R
 import com.example.selenaapp.data.response.DataItem
 import com.example.selenaapp.data.response.TransactionResponse
+import com.example.selenaapp.ui.transaction.detail.DetailTransactionActivity
+import java.text.NumberFormat
+import java.util.Locale
 
 class TransactionAdapter(private val transactionList: List<DataItem?>) :
     RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
@@ -23,8 +26,10 @@ class TransactionAdapter(private val transactionList: List<DataItem?>) :
 
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
         val transaction = transactionList[position]
+        val formattedAmount = NumberFormat.getNumberInstance(Locale("id", "ID"))
+            .format(transaction?.amount)
         holder.dateTextView.text = transaction?.date
-        holder.amountTextView.text = transaction?.amount.toString()
+        holder.amountTextView.text = "Rp. $formattedAmount"
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailTransactionActivity::class.java)
