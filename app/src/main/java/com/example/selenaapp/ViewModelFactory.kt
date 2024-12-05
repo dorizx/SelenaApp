@@ -10,6 +10,7 @@ import com.example.selenaapp.ui.login.LoginViewModel
 import com.example.selenaapp.ui.main.MainViewModel
 import com.example.selenaapp.ui.otp.OtpViewModel
 import com.example.selenaapp.ui.signup.SignupViewModel
+import com.example.selenaapp.ui.transaction.TransactionViewModel
 
 class ViewModelFactory (private val repository: UserRepository,
                         private val userPreference: UserPreference)

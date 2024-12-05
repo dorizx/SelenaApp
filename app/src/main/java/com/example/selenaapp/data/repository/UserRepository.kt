@@ -58,6 +58,15 @@ class UserRepository private constructor(
         }
     }
 
+//    suspend fun getTransaction() {
+//        return withContext(Dispatchers.IO) {
+//            val token = userPreference.getSession().map { it.token }.firstOrNull() ?: ""
+//            val userId = userPreference.getSession().map { it.userId }.firstOrNull() ?: ""
+//
+//            ApiConfig.getApiService(token).getTransactions(userId)
+//        }
+//    }
+
     //melihat session sudah login atau belum
     fun getSession(): Flow<UserModel> {
         return userPreference.getSession().map { user ->

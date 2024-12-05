@@ -17,7 +17,6 @@ class ApiConfig {
             val client = OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
                 .build()
-            //val gson = GsonBuilder().setLenient().create()
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://selena-project-443105.et.r.appspot.com")
                 .addConverterFactory(GsonConverterFactory.create())
