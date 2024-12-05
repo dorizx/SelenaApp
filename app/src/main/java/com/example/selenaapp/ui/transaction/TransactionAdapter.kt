@@ -22,13 +22,13 @@ class TransactionAdapter(private val transactionList: List<DataItem?>) :
     }
 
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
-        val transactionList = transactionList[position]
-        holder.dateTextView.text = transactionList?.date
-        holder.amountTextView.text = transactionList?.amount.toString()
+        val transaction = transactionList[position]
+        holder.dateTextView.text = transaction?.date
+        holder.amountTextView.text = transaction?.amount.toString()
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailTransactionActivity::class.java)
-            intent.putExtra(DetailTransactionActivity.EXTRA_TRANSACTION_ID, transactionList)
+            intent.putExtra(DetailTransactionActivity.EXTRA_TRANSACTION_ID, transaction)
             holder.itemView.context.startActivity(intent)
         }
     }

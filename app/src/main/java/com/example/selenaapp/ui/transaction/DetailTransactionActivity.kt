@@ -7,8 +7,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.selenaapp.R
 import com.example.selenaapp.data.response.DataItem
+import com.example.selenaapp.databinding.ActivityDetailTransactionBinding
 
 class DetailTransactionActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityDetailTransactionBinding
 
     companion object {
         const val EXTRA_TRANSACTION_ID = "extra_transaction_id"
@@ -16,8 +19,16 @@ class DetailTransactionActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail_transaction)
+        binding = ActivityDetailTransactionBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val transaction = intent.getParcelableExtra<DataItem>(EXTRA_TRANSACTION_ID)
+    if (transaction != null) {
+        binding.tvTransactionIDValue.text = transaction.transactionId.toString()
+        binding.tvDateValue.text = transaction.date.toString()
+        binding.tvStatusValue.text = transaction.transactionType.toString()
+        binding.tvNotesValue.text = transaction.catatan.toString()
+    }
+
     }
 }
