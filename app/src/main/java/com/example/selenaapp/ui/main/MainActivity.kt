@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        showLoading(true)
+        //showLoading(true)
         val navView: BottomNavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         val appBarConfiguration = AppBarConfiguration(
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         saveTheme()
-        showLoading(false)
+        //showLoading(false)
     }
 
     fun saveTheme() {

@@ -1,5 +1,6 @@
 package com.example.selenaapp.data.api
 
+import com.example.selenaapp.data.response.DashboardResponse
 import com.example.selenaapp.data.response.DeleteResponse
 import com.example.selenaapp.data.response.FormResponse
 import com.example.selenaapp.data.response.LoginResponse
@@ -80,5 +81,10 @@ interface ApiService {
     suspend fun deleteTransaction(
         @Path("transactionId") transactionId: Int
     ) : Response<DeleteResponse>
+
+    @GET("/dashboard")
+    suspend fun getDashboard(
+        @Query("user_id") userId: Int
+    ) : Response<DashboardResponse>
 }
 

@@ -158,13 +158,13 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="15dp"
         android:textSize="20sp"
-        android:text="@string/anomali"
+        android:text="@string/finance_advice"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dataContainer" />
 
     <TextView
-        android:id="@+id/tv_anomali"
+        android:id="@+id/tv_finance_advice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -176,7 +176,7 @@
         app:layout_constraintTop_toBottomOf="@id/label_anomali" />
 
     <TextView
-        android:id="@+id/label_finance_advice"
+        android:id="@+id/label_anomaly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -184,20 +184,42 @@
         android:layout_marginEnd="8dp"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:text="@string/finance_advice"
+        android:text="@string/anomali"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_anomali" />
+        app:layout_constraintTop_toBottomOf="@id/tv_finance_advice" />
 
-    <TextView
-        android:id="@+id/tv_finance_advice"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewAnomaly"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:padding="8dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/label_anomaly"
+        app:layout_constraintVertical_bias="0.076" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textSize="20sp"
-        android:text="@string/testing"
+        android:layout_gravity="bottom"
+        app:menu="@menu/bottom_nav_menu"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <ProgressBar
+        android:id="@+id/progressIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/label_finance_advice" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
