@@ -32,7 +32,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, SignupActivity::class.java))
         }
 
-
+        supportActionBar?.hide()
 
     }
 
