@@ -1,5 +1,6 @@
 package com.example.selenaapp.ui.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,8 +38,6 @@ class HomeFragment : Fragment() {
         val homeViewModel =
             ViewModelProvider(this).get(HomeViewModel::class.java)
 
-
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -53,6 +52,7 @@ class HomeFragment : Fragment() {
 
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun getAnomaly() {
         //showLoading(true)
         val context = requireContext()
@@ -66,12 +66,12 @@ class HomeFragment : Fragment() {
                         .getDashboard(userId)
                     if (response.isSuccessful) {
                         val transactions = response.body()?.anomalyTransactions ?: emptyList()
-                        val staticText = response.body()
-                        binding.tvFinanceAdvice.text = staticText?.financialAdvice
+                        binding.tvFinanceAdvice.text = response.body()?.financialAdvice
                             viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
                                 adapter = DashboardAdapter(transactions)
                                 binding.recyclerViewAnomaly.adapter = adapter
                                 handleEmptyState(transactions.isEmpty())
+                                //showLoading(false)
                         }
                     } else {
                         Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show()

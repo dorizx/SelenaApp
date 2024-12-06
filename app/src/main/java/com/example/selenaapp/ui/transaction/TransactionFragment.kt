@@ -19,6 +19,8 @@ import com.example.selenaapp.ui.main.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.NumberFormat
+import java.util.Locale
 
 class TransactionFragment : Fragment() {
 
@@ -49,8 +51,12 @@ class TransactionFragment : Fragment() {
 
         showLoading(false)
 
+
+
         binding.recyclerViewTransaksi.layoutManager = LinearLayoutManager(requireContext())
         getTransactions()
+
+
 
         binding.buttonAddTransaction.setOnClickListener {
             val intent = Intent(requireContext(), ChooseMethodTransactionActivity::class.java)
@@ -69,11 +75,26 @@ class TransactionFragment : Fragment() {
                 try {
                     val response = ApiConfig.getApiService(token)
                         .getTransactions(userId)
-                    if (response.isSuccessful) {
+                    val responseStaticText = ApiConfig.getApiService(token)
+                        .getDashboard(userId)
+                    if (response.isSuccessful || responseStaticText.isSuccessful) {
                         val transactions = response.body()?.data ?: emptyList()
+                        val totalIncome =  responseStaticText.body()?.totalIncome
+                        val totalExpense = responseStaticText.body()?.totalExpense
+                        val totalProfit = (totalIncome ?: 0) - (totalExpense ?: 0)
+
+                        val rupiahFormatter = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
+
+                        val formattedIncome = rupiahFormatter.format(totalIncome)
+                        val formattedExpense = rupiahFormatter.format(totalExpense)
+                        val formattedProfit = rupiahFormatter.format(totalProfit)
+
                         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main){
                             adapter = TransactionAdapter(transactions)
                             binding.recyclerViewTransaksi.adapter = adapter
+                            binding.tvIncome.text = formattedIncome
+                            binding.tvOutcome.text = formattedExpense
+                            binding.tvProfit.text = formattedProfit
                             handleEmptyState(transactions.isEmpty())
                             showLoading(false)
                         }
