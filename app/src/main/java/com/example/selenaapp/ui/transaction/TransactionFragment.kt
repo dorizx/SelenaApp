@@ -51,10 +51,10 @@ class TransactionFragment : Fragment() {
 
         showLoading(false)
 
-
+        getTransactions()
 
         binding.recyclerViewTransaksi.layoutManager = LinearLayoutManager(requireContext())
-        getTransactions()
+
 
 
 

@@ -12,6 +12,7 @@ import com.example.selenaapp.data.response.DataItem
 import com.example.selenaapp.databinding.ActivityDetailTransactionBinding
 import com.example.selenaapp.ui.main.MainActivity
 import com.example.selenaapp.ui.transaction.TransactionFragment
+import com.example.selenaapp.ui.transaction.update.UpdateTransactionActivity
 import kotlinx.coroutines.launch
 
 class DetailTransactionActivity : AppCompatActivity() {
@@ -39,7 +40,14 @@ class DetailTransactionActivity : AppCompatActivity() {
             deleteTransaction(transaction?.transactionId!!.toInt())
         }
 
+        binding.btnUpdate.setOnClickListener{
+            val intent = Intent(this, UpdateTransactionActivity::class.java)
+            intent.putExtra(EXTRA_TRANSACTION_ID, transaction)
+            startActivity(intent)
+        }
+
     }
+
 
     private fun deleteTransaction(transactionId: Int) {
         lifecycleScope.launch {
@@ -63,6 +71,7 @@ class DetailTransactionActivity : AppCompatActivity() {
                                 "Gagal menghapus transaksi",
                                 Toast.LENGTH_SHORT
                             ).show()
+                            navigateBackToTransactions()
                         }
                     } catch (e: Exception) {
                         Toast.makeText(

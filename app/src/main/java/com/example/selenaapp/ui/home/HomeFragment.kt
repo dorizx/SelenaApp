@@ -74,10 +74,10 @@ class HomeFragment : Fragment() {
                                 //showLoading(false)
                         }
                     } else {
-                        Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: Exception) {
-                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
                 }
         }
     }

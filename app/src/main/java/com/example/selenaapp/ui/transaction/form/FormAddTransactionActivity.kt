@@ -31,11 +31,13 @@ class FormAddTransactionActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupSpinner()
-        showDatePicker()
 
         observeViewModel()
         setupAction()
 
+        binding.dateEditText.setOnClickListener {
+            showDatePicker()
+        }
 
     }
 

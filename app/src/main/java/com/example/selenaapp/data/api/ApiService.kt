@@ -9,6 +9,7 @@ import com.example.selenaapp.data.response.ShopeeResponse
 import com.example.selenaapp.data.response.SignupResponse
 import com.example.selenaapp.data.response.TokopediaResponse
 import com.example.selenaapp.data.response.TransactionResponse
+import com.example.selenaapp.data.response.UpdateResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.DELETE
@@ -17,6 +18,7 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -86,5 +88,15 @@ interface ApiService {
     suspend fun getDashboard(
         @Query("user_id") userId: Int
     ) : Response<DashboardResponse>
+
+    @FormUrlEncoded
+    @PUT("/transactions/{transactionId}")
+    suspend fun updateTransaction(
+        @Path("transactionId") transactionId: Int,
+        @Field("amount") amount: Int,
+        @Field("transaction_type") transactionType: String,
+        @Field("date") date: String,
+        @Field("catatan") note: String
+    ) : Response<UpdateResponse>
 }
 

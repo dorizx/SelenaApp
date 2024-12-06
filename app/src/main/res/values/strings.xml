@@ -17,6 +17,8 @@
     <string name="total_profit">Total Keuntungan</string>
     <string name="warning_no_transaction">Belum Ada Transaksi yang diunggah</string>
 
+    <string name="title_form_update_data">Form Update Transaksi</string>
+
     <!-- Kotak Transaksi -->
     <string name="average_income">Rata-rata Pemasukkan</string>
     <string name="average_outcome">Rata-rata Pengeluaran</string>
