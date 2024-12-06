@@ -1,0 +1,23 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:height="200dp" android:viewportHeight="1080" android:viewportWidth="1080" android:width="200dp">
+      
+    <path android:fillColor="#ffffff" android:pathData="M0,0h1080v1080h-1080z"/>
+      
+    <path android:fillColor="#02A8A8" android:pathData="M540,540m-500,0a500,500 0,1 1,1000 0a500,500 0,1 1,-1000 0"/>
+      
+    <path android:fillColor="#00000000" android:pathData="M540,540m-420,0a420,420 0,1 1,840 0a420,420 0,1 1,-840 0" android:strokeColor="#158688" android:strokeWidth="10"/>
+      
+    <path android:fillColor="#F5DEA3" android:pathData="M540,837h100v203h-100z"/>
+      
+    <path android:fillColor="#F5DEA3" android:pathData="M670,725h100v315h-100z"/>
+      
+    <path android:fillColor="#F5DEA3" android:pathData="M800,767h100v273h-100z"/>
+      
+    <path android:fillColor="#F5DEA3" android:pathData="M930,645h100v395h-100z"/>
+      
+    <path android:fillColor="#00000000" android:pathData="M556,749L716,629.5L848,670L976.5,528.5" android:strokeColor="#F5DEA3" android:strokeWidth="35"/>
+      
+    <path android:fillColor="#00000000" android:pathData="M901,521.5H985V598.5" android:strokeColor="#F5DEA3" android:strokeWidth="35"/>
+      
+    <path android:fillColor="#42E6A4" android:pathData="M280.4,608V317H394.8C427.9,317 453.6,325.6 471.8,343C490.2,360.3 499.3,383.3 499.3,412.1C499.3,432 494.9,449.1 486.1,463.3C477.2,477.3 464.5,487.9 448,494.9L509.7,608H441.7L386.6,504.9H341.7V608H280.4ZM341.7,455.5H383.3C418.5,455.5 436.1,441 436.1,412.1C436.1,397.6 431.7,386.6 423,378.9C414.2,371.2 401,367.4 383.1,367.4H341.7V455.5ZM542.1,689.6V389.6H601.7V426.6H604.4C607.1,420.6 611,414.5 615.9,408.4C621,402.3 627.7,397.2 635.9,393.2C644.2,389 654.4,386.9 666.5,386.9C682.5,386.9 697.2,391.1 710.5,399.4C723.9,407.6 734.6,420 742.7,436.7C750.8,453.4 754.8,474.2 754.8,499.2C754.8,523.4 750.9,543.9 743.1,560.7C735.3,577.4 724.7,590 711.3,598.6C697.8,607.2 682.8,611.5 666.1,611.5C654.4,611.5 644.5,609.6 636.3,605.7C628.2,601.8 621.5,596.9 616.3,591C611.3,585 607.3,579 604.4,573H602.7V689.6H542.1ZM601.3,499C601.3,518.3 605.3,533.8 613.2,545.7C621.3,557.5 632.6,563.5 647.2,563.5C662,563.5 673.4,557.5 681.2,545.5C689,533.4 692.9,517.9 692.9,499C692.9,480 689,464.6 681.2,452.7C673.5,440.9 662.2,435 647.2,435C632.6,435 621.3,440.7 613.2,452.3C605.3,463.9 601.3,479.5 601.3,499Z"/>
+    
+</vector>
