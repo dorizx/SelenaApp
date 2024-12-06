@@ -22,6 +22,7 @@ class SignupActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
+
         observeViewModel()
 
         binding.emailEditText.addTextChangedListener { text ->
@@ -50,6 +51,7 @@ class SignupActivity : AppCompatActivity() {
                 }
             }
         }
+        supportActionBar?.hide()
     }
     private fun observeViewModel() {
         // Observe email error
