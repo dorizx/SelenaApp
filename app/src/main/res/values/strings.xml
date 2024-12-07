@@ -57,5 +57,11 @@
     <string name="help_icon">icon help</string>
     <string name="arrow_icon">icon arrow</string>
     <string name="Amount">amount</string>
+    <string name="createdAt">creted at</string>
+    <string name="Notes">Catatan</string>
+    <string name="Status">Status</string>
+    <string name="Date">Tanggal</string>
+    <string name="ID_Transaksi">ID Transaksi</string>
+    <string name="User_ID">User ID</string>
 
 </resources>
