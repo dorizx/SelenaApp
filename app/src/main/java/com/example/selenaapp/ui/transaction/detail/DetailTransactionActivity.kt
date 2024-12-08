@@ -1,7 +1,9 @@
 package com.example.selenaapp.ui.transaction.detail
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -13,9 +15,12 @@ import com.example.selenaapp.databinding.ActivityDetailTransactionBinding
 import com.example.selenaapp.ui.main.MainActivity
 import com.example.selenaapp.ui.transaction.TransactionFragment
 import com.example.selenaapp.ui.transaction.update.UpdateTransactionActivity
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
 import java.util.Locale
+import java.util.TimeZone
 
 class DetailTransactionActivity : AppCompatActivity() {
 
@@ -30,17 +35,20 @@ class DetailTransactionActivity : AppCompatActivity() {
         binding = ActivityDetailTransactionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         val transaction = intent.getParcelableExtra<DataItem>(EXTRA_TRANSACTION_ID)
-        if (transaction != null) {
-            val rupiahFormatter = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
-            val amount = rupiahFormatter.format(transaction.amount)
-            binding.tvAmount.text = amount
-            binding.tvCreatedAt.text = transaction.date.toString()
-            binding.tvTransactionIDValue.text = transaction.transactionId.toString()
-            binding.tvDateValue.text = transaction.date.toString()
-            binding.tvStatusValue.text = transaction.transactionType.toString()
-            binding.tvNotesValue.text = transaction.catatan.toString()
-        }
+//        if (transaction != null) {
+//            val rupiahFormatter = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
+//            val amount = rupiahFormatter.format(transaction.amount)
+//            binding.tvAmount.text = amount
+//            binding.tvCreatedAt.text = transaction.date.toString()
+//            binding.tvTransactionIDValue.text = transaction.transactionId.toString()
+//            binding.tvDateValue.text = transaction.date.toString()
+//            binding.tvStatusValue.text = transaction.transactionType.toString()
+//            binding.tvNotesValue.text = transaction.catatan.toString()
+//        }
+
+        getDetail()
 
         binding.btnDelete.setOnClickListener{
             deleteTransaction(transaction?.transactionId!!.toInt())
@@ -52,6 +60,58 @@ class DetailTransactionActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+    }
+
+    private fun getDetail() {
+        lifecycleScope.launch {
+            val userPreference = UserPreference.getInstance(dataStore)
+            val userModel = userPreference.getSession().first()
+            val token = userModel.token
+            Log.d(TAG, "getDetail: $token")
+            val transaction = intent.getParcelableExtra<DataItem>(EXTRA_TRANSACTION_ID)
+            val transactionId = transaction?.transactionId
+
+            if (transactionId != null) {
+                val response = ApiConfig.getApiService(token).getDetailTransaction(transactionId)
+                if (response.isSuccessful) {
+                    val data = response.body()
+                    if (data != null) {
+                        val transaction = data.data
+                        val rupiahFormatter = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
+                        val amount = rupiahFormatter.format(transaction?.amount)
+                        Log.d(TAG, "getDetail: ${transaction?.userId}")
+                        Log.d(TAG, "getDetail: ${transaction?.transactionId}")
+                        Log.d(TAG, "getDetail: ${transaction?.amount}")
+                        binding.tvAmount.text = amount
+                        binding.tvCreatedAt.text = transaction?.date.toString()
+                        binding.tvTransactionIDValue.text = transaction?.transactionId.toString()
+                        binding.tvDateValue.text = transaction?.date.toString()
+                        binding.tvNotesValue.text = transaction?.catatan.toString()
+                        binding.tvCreatedAtValue.text = transaction?.createdAt?.let { formatDate(it) } ?: "N/A"
+                        binding.tvUpdatedAtValue.text = transaction?.updatedAt?.let { formatDate(it) } ?: "N/A"
+                    }
+                }
+            }
+        }
+    }
+
+    private fun formatDate(dateString: String): String {
+        return try {
+            // Format input sesuai dengan format ISO 8601
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+            inputFormat.timeZone = TimeZone.getTimeZone("UTC")
+
+            // Format output sesuai keinginan
+            val outputFormat = SimpleDateFormat("yyyy-MM-dd, HH:mm:ss", Locale.getDefault())
+            val date = inputFormat.parse(dateString)
+            if (date != null) {
+                outputFormat.format(date)
+            } else {
+                dateString // Kembalikan string asli jika parsing gagal
+            }
+        } catch (e: Exception) {
+            dateString // Kembalikan string asli jika ada error
+        }
     }
 
 
@@ -100,6 +160,4 @@ class DetailTransactionActivity : AppCompatActivity() {
     private fun navigateBackToTransactions() {
         finish()
     }
-
-
 }

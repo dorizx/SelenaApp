@@ -19,6 +19,9 @@
 
     <string name="title_form_update_data">Form Update Transaksi</string>
 
+    <string name="created_at">Dibuat pada</string>
+    <string name="updated_at">Diperbarui pada</string>
+
     <!-- Kotak Transaksi -->
     <string name="average_income">Rata-rata Pemasukkan</string>
     <string name="average_outcome">Rata-rata Pengeluaran</string>

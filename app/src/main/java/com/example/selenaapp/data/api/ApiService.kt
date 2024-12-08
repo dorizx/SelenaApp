@@ -2,6 +2,7 @@ package com.example.selenaapp.data.api
 
 import com.example.selenaapp.data.response.DashboardResponse
 import com.example.selenaapp.data.response.DeleteResponse
+import com.example.selenaapp.data.response.DetailResponse
 import com.example.selenaapp.data.response.FormResponse
 import com.example.selenaapp.data.response.LoginResponse
 import com.example.selenaapp.data.response.OtpResponse
@@ -10,6 +11,7 @@ import com.example.selenaapp.data.response.SignupResponse
 import com.example.selenaapp.data.response.TokopediaResponse
 import com.example.selenaapp.data.response.TransactionResponse
 import com.example.selenaapp.data.response.UpdateResponse
+import com.example.selenaapp.ui.transaction.detail.DetailTransactionActivity
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.DELETE
@@ -98,5 +100,10 @@ interface ApiService {
         @Field("date") date: String,
         @Field("catatan") note: String
     ) : Response<UpdateResponse>
+
+    @GET("/transactions/{transactionId}")
+    suspend fun getDetailTransaction(
+        @Path("transactionId") transactionId: Int
+    ) : Response<DetailResponse>
 }
 

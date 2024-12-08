@@ -103,7 +103,7 @@ class HomeFragment : Fragment() {
             PieEntry(totalExpense, "Expense")
         )
 
-        val pieDataSet = PieDataSet(pieEntries, "Financial Overview")
+        val pieDataSet = PieDataSet(pieEntries, "Persentase Income dan Expense")
         pieDataSet.colors = listOf(
             ContextCompat.getColor(requireContext(), R.color.button_1_dark), // Warna untuk Income
             ContextCompat.getColor(requireContext(), R.color.button_2_dark) // Warna untuk Expense
