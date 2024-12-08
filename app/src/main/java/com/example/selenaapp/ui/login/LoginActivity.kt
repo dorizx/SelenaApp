@@ -59,12 +59,14 @@ class LoginActivity : AppCompatActivity() {
                 passwordLayout.error = null
             }
 
-            viewModel.login(email, password) { success, token, userId ->
+            viewModel.login(email, password) { success, token, userId, name ->
                 if (success && !token.isNullOrEmpty() && !userId.isNullOrEmpty()) {
                     showLoading(false)
                     // Simpan sesi dengan token
                     val userID = userId.toInt()
-                    viewModel.saveSession(UserModel(email, token, true, userID))
+                    val nameUser = name.toString()
+                    Log.d("LoginActivity", "Login successful: name=$nameUser")
+                    viewModel.saveSession(UserModel(nameUser, email, token, true, userID))
                     Log.d("LoginActivity", "Login successful: Token saved=$token")
                     AlertDialog.Builder(this).apply {
                         setTitle("Yeah!")
