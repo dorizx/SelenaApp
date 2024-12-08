@@ -70,6 +70,8 @@ class DetailTransactionActivity : AppCompatActivity() {
             Log.d(TAG, "getDetail: $token")
             val transaction = intent.getParcelableExtra<DataItem>(EXTRA_TRANSACTION_ID)
             val transactionId = transaction?.transactionId
+            binding.tvTypeTransaction.text = transaction?.transactionType.toString()
+
 
             if (transactionId != null) {
                 val response = ApiConfig.getApiService(token).getDetailTransaction(transactionId)
@@ -83,9 +85,11 @@ class DetailTransactionActivity : AppCompatActivity() {
                         Log.d(TAG, "getDetail: ${transaction?.transactionId}")
                         Log.d(TAG, "getDetail: ${transaction?.amount}")
                         binding.tvAmount.text = amount
-                        binding.tvCreatedAt.text = transaction?.date.toString()
+
+                        binding.tvUserIdValue.text = transaction?.userId.toString()
                         binding.tvTransactionIDValue.text = transaction?.transactionId.toString()
                         binding.tvDateValue.text = transaction?.date.toString()
+                        binding.tvStatusValue.text = transaction?.status.toString()
                         binding.tvNotesValue.text = transaction?.catatan.toString()
                         binding.tvCreatedAtValue.text = transaction?.createdAt?.let { formatDate(it) } ?: "N/A"
                         binding.tvUpdatedAtValue.text = transaction?.updatedAt?.let { formatDate(it) } ?: "N/A"
@@ -102,7 +106,9 @@ class DetailTransactionActivity : AppCompatActivity() {
             inputFormat.timeZone = TimeZone.getTimeZone("UTC")
 
             // Format output sesuai keinginan
-            val outputFormat = SimpleDateFormat("yyyy-MM-dd, HH:mm:ss", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("dd-MM-yyyy, HH:mm:ss", Locale.getDefault())
+            outputFormat.timeZone = TimeZone.getDefault()
+
             val date = inputFormat.parse(dateString)
             if (date != null) {
                 outputFormat.format(date)

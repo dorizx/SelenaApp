@@ -40,15 +40,15 @@
                 android:padding="8dp">
 
                 <TextView
-                    android:id="@+id/labelTotalPengeluaran"
+                    android:id="@+id/labelTotalPemasukan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/average_income"
+                    android:text="@string/total_income"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@android:color/white" />
 
                 <TextView
-                    android:id="@+id/valueTotalPengeluaran"
+                    android:id="@+id/value_data_income"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/_100000"
@@ -70,15 +70,15 @@
                 android:padding="8dp">
 
                 <TextView
-                    android:id="@+id/labelData2"
+                    android:id="@+id/label_total_outcome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/average_outcome"
+                    android:text="@string/total_outcome"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@android:color/white" />
 
                 <TextView
-                    android:id="@+id/valueData2"
+                    android:id="@+id/value_data_expense"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/_100000"
@@ -109,12 +109,12 @@
                     android:id="@+id/labelData3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/anomali"
+                    android:text="@string/total_profit"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@android:color/white" />
 
                 <TextView
-                    android:id="@+id/valueData3"
+                    android:id="@+id/value_data_profit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/_100000"

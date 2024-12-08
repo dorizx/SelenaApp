@@ -81,12 +81,26 @@ class TransactionFragment : Fragment() {
                         val transactions = response.body()?.data ?: emptyList()
                         val totalIncome =  responseStaticText.body()?.totalIncome
                         val totalExpense = responseStaticText.body()?.totalExpense
-                        val totalProfit = (totalIncome ?: 0) - (totalExpense ?: 0)
+
+                        val incomeTransactions = transactions.filter { it?.transactionType == "income" }
+                        val averageIncome = if (incomeTransactions.isNotEmpty()) {
+                            (totalIncome ?: 0) / incomeTransactions.size
+                        } else {
+                            0
+                        }
+
+                        val expenseTransactions = transactions.filter { it?.transactionType == "expense" }
+                        val averageExpense = if (expenseTransactions.isNotEmpty()) {
+                            (totalExpense ?: 0) / expenseTransactions.size
+                        } else {
+                            0
+                        }
 
                         val rupiahFormatter = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
 
-                        val formattedIncome = rupiahFormatter.format(totalIncome)
-                        val formattedExpense = rupiahFormatter.format(totalExpense)
+                        val totalProfit = (averageIncome) - (averageExpense)
+                        val formattedIncome = rupiahFormatter.format(averageIncome)
+                        val formattedExpense = rupiahFormatter.format(averageExpense)
                         val formattedProfit = rupiahFormatter.format(totalProfit)
 
                         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main){

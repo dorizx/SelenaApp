@@ -26,6 +26,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.text.NumberFormat
+import java.util.Locale
 
 class HomeFragment : Fragment() {
 
@@ -79,8 +81,19 @@ class HomeFragment : Fragment() {
 
                         val totalIncome = response.body()?.totalIncome?.toFloat() ?: 0f
                         val totalExpense = response.body()?.totalExpense?.toFloat() ?: 0f
+                        val totalProfit = totalIncome - totalExpense
 
                         setupPieChart(totalIncome, totalExpense)
+
+                        val rupiahFormatter = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
+
+                        val formattedIncome = rupiahFormatter.format(totalIncome)
+                        val formattedExpense = rupiahFormatter.format(totalExpense)
+                        val formattedProfit = rupiahFormatter.format(totalProfit)
+
+                        binding.valueDataIncome.text = formattedIncome
+                        binding.valueDataExpense.text = formattedExpense
+                        binding.valueDataProfit.text = formattedProfit
 
                             viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
                                 adapter = DashboardAdapter(transactions)

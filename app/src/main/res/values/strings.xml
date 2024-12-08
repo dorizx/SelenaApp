@@ -25,6 +25,7 @@
     <!-- Kotak Transaksi -->
     <string name="average_income">Rata-rata Pemasukkan</string>
     <string name="average_outcome">Rata-rata Pengeluaran</string>
+    <string name="average_profit">Rata-rata Keuntungan</string>
     <string name="anomali">Anomali</string>
 
     <!-- Package Home -->
