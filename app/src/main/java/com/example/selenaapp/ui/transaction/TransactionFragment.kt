@@ -1,5 +1,6 @@
 package com.example.selenaapp.ui.transaction
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -64,6 +65,7 @@ class TransactionFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun getTransactions() {
         showLoading(true)
         val context = requireContext()

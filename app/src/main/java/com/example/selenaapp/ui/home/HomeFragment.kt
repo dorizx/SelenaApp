@@ -62,7 +62,7 @@ class HomeFragment : Fragment() {
 
     }
 
-    @SuppressLint("SuspiciousIndentation")
+    //@SuppressLint("SuspiciousIndentation")
     private fun getAnomaly() {
         //showLoading(true)
         val context = requireContext()
