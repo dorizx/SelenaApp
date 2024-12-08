@@ -14,6 +14,8 @@ import com.example.selenaapp.ui.main.MainActivity
 import com.example.selenaapp.ui.transaction.TransactionFragment
 import com.example.selenaapp.ui.transaction.update.UpdateTransactionActivity
 import kotlinx.coroutines.launch
+import java.text.NumberFormat
+import java.util.Locale
 
 class DetailTransactionActivity : AppCompatActivity() {
 
@@ -30,11 +32,15 @@ class DetailTransactionActivity : AppCompatActivity() {
 
         val transaction = intent.getParcelableExtra<DataItem>(EXTRA_TRANSACTION_ID)
         if (transaction != null) {
+            val rupiahFormatter = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
+            val amount = rupiahFormatter.format(transaction.amount)
+            binding.tvAmount.text = amount
+            binding.tvCreatedAt.text = transaction.date.toString()
             binding.tvTransactionIDValue.text = transaction.transactionId.toString()
             binding.tvDateValue.text = transaction.date.toString()
             binding.tvStatusValue.text = transaction.transactionType.toString()
             binding.tvNotesValue.text = transaction.catatan.toString()
-    }
+        }
 
         binding.btnDelete.setOnClickListener{
             deleteTransaction(transaction?.transactionId!!.toInt())
