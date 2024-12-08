@@ -67,5 +67,8 @@
     <string name="Date">Tanggal</string>
     <string name="ID_Transaksi">ID Transaksi</string>
     <string name="User_ID">User ID</string>
+    <string name="hint_name">Masukkan Nama Anda</string>
+    <string name="hint_email">      Masukkan e-mail anda</string>
+    <string name="hint_password">Buatlah password anda</string>
 
 </resources>

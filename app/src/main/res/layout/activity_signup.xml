@@ -18,8 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2"
-        app:srcCompat="@drawable/logo_signup"
-        android:background="@drawable/img_bg"/>
+        app:srcCompat="@drawable/logo_selena_6" />
 
     <TextView
         android:id="@+id/titleTextView"
@@ -134,7 +133,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="32dp"
-                android:text="@string/title_next" />
+                android:text="@string/title_next"
+                app:cornerRadius="32dp"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 

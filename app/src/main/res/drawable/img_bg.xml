@@ -4,5 +4,5 @@
     <stroke
         android:width="2dp"
         android:color="#F5F7F8" /> <!-- Warna dan ketebalan border -->
-    <corners android:radius="32dp" /> <!-- Opsional: Untuk border melengkung -->
+    <corners android:radius="500dp" /> <!-- Opsional: Untuk border melengkung -->
 </shape>
