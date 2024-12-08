@@ -17,6 +17,8 @@ import com.example.selenaapp.ui.transaction.TransactionFragment
 import com.example.selenaapp.ui.transaction.update.UpdateTransactionActivity
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileOutputStream
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -58,6 +60,13 @@ class DetailTransactionActivity : AppCompatActivity() {
             val intent = Intent(this, UpdateTransactionActivity::class.java)
             intent.putExtra(EXTRA_TRANSACTION_ID, transaction)
             startActivity(intent)
+        }
+
+        binding.btnDownloadPdf.setOnClickListener {
+            val transaction = intent.getParcelableExtra<DataItem>(EXTRA_TRANSACTION_ID)
+            if (transaction != null) {
+                //createPdf(transaction)
+            }
         }
 
     }
