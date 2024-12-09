@@ -136,7 +136,7 @@ class HomeFragment : Fragment() {
         binding.pieChart.data = pieData
         binding.pieChart.description.isEnabled = false
         binding.pieChart.setUsePercentValues(true)
-        binding.pieChart.invalidate() // Refresh chart
+        binding.pieChart.invalidate()
     }
 
 

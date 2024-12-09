@@ -166,12 +166,12 @@ class OtpActivity : AppCompatActivity() {
         val password = intent.getStringExtra(EXTRA_PASSWORD) ?: return
 
         otpViewModel.verifyOtp(otpCode, name, email, password) { otpResponse ->
-            if (otpResponse == null) {
-                Toast.makeText(this, "Invalid OTP, please try again", Toast.LENGTH_SHORT).show()
+            if (otpResponse != null) {
+                Toast.makeText(this, "Invalid OTP, coba cek email anda lagi", Toast.LENGTH_LONG).show()
                 reset()
                 return@verifyOtp
             } else {
-                Toast.makeText(this, "Pendaftaran berhasil, silahkan login", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Sedang Ada Gangguan", Toast.LENGTH_SHORT).show()
                 startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             }
