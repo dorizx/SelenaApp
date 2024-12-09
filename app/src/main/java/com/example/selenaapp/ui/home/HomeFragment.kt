@@ -55,6 +55,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        showLoading(false)
+
         binding.recyclerViewAnomaly.layoutManager = LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.HORIZONTAL, false
@@ -66,7 +68,7 @@ class HomeFragment : Fragment() {
 
     //@SuppressLint("SuspiciousIndentation")
     private fun getAnomaly() {
-        //showLoading(true)
+        showLoading(true)
         val context = requireContext()
         viewLifecycleOwner.lifecycleScope.launch {
             val userPreference = UserPreference.getInstance(context.dataStore)
@@ -83,7 +85,7 @@ class HomeFragment : Fragment() {
 
                     val totalIncome = response.body()?.totalIncome?.toFloat() ?: 0f
                     val totalExpense = response.body()?.totalExpense?.toFloat() ?: 0f
-                    val totalProfit = totalIncome - totalExpense
+                    val averageIncome = totalIncome/transactions.size
 
                     setupPieChart(totalIncome, totalExpense)
 
@@ -91,7 +93,7 @@ class HomeFragment : Fragment() {
 
                     val formattedIncome = rupiahFormatter.format(totalIncome)
                     val formattedExpense = rupiahFormatter.format(totalExpense)
-                    val formattedProfit = rupiahFormatter.format(totalProfit)
+                    val formattedProfit = rupiahFormatter.format(averageIncome)
 
                     binding.valueDataIncome.text = formattedIncome
                     binding.valueDataExpense.text = formattedExpense
@@ -101,7 +103,7 @@ class HomeFragment : Fragment() {
                         adapter = DashboardAdapter(transactions)
                         binding.recyclerViewAnomaly.adapter = adapter
                         handleEmptyState(transactions.isEmpty())
-                        //showLoading(false)
+                        showLoading(false)
                     }
                 } else {
                     //Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show()
@@ -138,6 +140,9 @@ class HomeFragment : Fragment() {
         binding.recyclerViewAnomaly.visibility = if (isEmpty) View.GONE else View.VISIBLE
     }
 
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -23,7 +23,7 @@
             android:id="@+id/label_total_income"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/average_income"
+            android:text="@string/total_income"
             android:textStyle="bold"
             android:textSize="20sp"/>
 
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_below="@+id/tv_income"
-            android:text="@string/average_outcome"
+            android:text="@string/total_outcome"
             android:textStyle="bold"
             android:textSize="20sp"/>
 
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_outcome"
             android:layout_marginTop="20dp"
-            android:text="@string/average_profit"
+            android:text="@string/total_profit"
             android:textStyle="bold"
             android:textSize="20sp"/>
 

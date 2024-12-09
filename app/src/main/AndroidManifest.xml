@@ -18,6 +18,9 @@
         android:theme="@style/Theme.SelenaApp"
         tools:targetApi="31">
         <activity
+            android:name=".ui.home.DetailAnomalyActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.transaction.update.UpdateTransactionActivity"
             android:exported="false" />
         <activity

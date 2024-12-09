@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.selenaapp.R
 import com.example.selenaapp.data.response.AnomalyTransactionsItem
+import com.example.selenaapp.data.response.DashboardResponse
 import com.example.selenaapp.data.response.DataItem
 import com.example.selenaapp.data.response.TransactionResponse
 import com.example.selenaapp.ui.transaction.detail.DetailTransactionActivity
@@ -33,8 +34,8 @@ class DashboardAdapter(private val transactionList: List<AnomalyTransactionsItem
         holder.amountTextView.text = "Rp. $formattedAmount"
 
         holder.itemView.setOnClickListener {
-            val intent = Intent(holder.itemView.context, DetailTransactionActivity::class.java)
-            intent.putExtra(DetailTransactionActivity.EXTRA_TRANSACTION_ID, transaction)
+            val intent = Intent(holder.itemView.context, DetailAnomalyActivity::class.java)
+            intent.putExtra(DetailAnomalyActivity.EXTRA_TRANSACTION_ANOMALY_ID, transaction)
             holder.itemView.context.startActivity(intent)
         }
     }
@@ -47,17 +48,17 @@ class DashboardAdapter(private val transactionList: List<AnomalyTransactionsItem
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<TransactionResponse>() {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DashboardResponse>() {
             override fun areItemsTheSame(
-                oldItem: TransactionResponse,
-                newItem: TransactionResponse
+                oldItem: DashboardResponse,
+                newItem: DashboardResponse
             ): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: TransactionResponse,
-                newItem: TransactionResponse
+                oldItem: DashboardResponse,
+                newItem: DashboardResponse
             ): Boolean {
                 return oldItem == newItem
             }

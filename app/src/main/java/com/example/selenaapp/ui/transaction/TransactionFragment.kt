@@ -79,13 +79,8 @@ class TransactionFragment : Fragment() {
                     val response = ApiConfig.getApiService(token)
                         .getTransactions(userId)
 
-                    //Mengambil data dari DashboardResponse
-                    val responseStaticText = ApiConfig.getApiService(token)
-                        .getDashboard(userId)
-                    if (response.isSuccessful || responseStaticText.isSuccessful) {
+                    if (response.isSuccessful) {
                         val transactions = response.body()?.data ?: emptyList()
-                        val totalIncome =  responseStaticText.body()?.totalIncome
-                        val totalExpense = responseStaticText.body()?.totalExpense
 
                         //filter transaski yang income
                         val incomeTransactions = transactions.filter { it?.transactionType == "income" }
