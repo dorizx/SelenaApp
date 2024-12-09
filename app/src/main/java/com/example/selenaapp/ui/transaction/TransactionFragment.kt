@@ -79,7 +79,7 @@ class TransactionFragment : Fragment() {
                     val response = ApiConfig.getApiService(token)
                         .getTransactions(userId)
 
-                    //Mengambil data dari DashboaardResponse
+                    //Mengambil data dari DashboardResponse
                     val responseStaticText = ApiConfig.getApiService(token)
                         .getDashboard(userId)
                     if (response.isSuccessful || responseStaticText.isSuccessful) {
@@ -89,28 +89,18 @@ class TransactionFragment : Fragment() {
 
                         //filter transaski yang income
                         val incomeTransactions = transactions.filter { it?.transactionType == "income" }
+                        val expenseTransactions = transactions.filter { it?.transactionType == "expense" }
 
                         //menjumlahkan keseluruhan data transaksi income
                         val totalAllIncome = incomeTransactions.sumOf { it?.amount ?: 0 }
+                        val totalAllExpense = expenseTransactions.sumOf { it?.amount ?: 0 }
 
-                        val averageIncome = if (incomeTransactions.isNotEmpty()) {
-                            (totalAllIncome ?: 0) / incomeTransactions.size
-                        } else {
-                            0
-                        }
-
-                        val expenseTransactions = transactions.filter { it?.transactionType == "expense" }
-                        val averageExpense = if (expenseTransactions.isNotEmpty()) {
-                            (totalExpense ?: 0) / expenseTransactions.size
-                        } else {
-                            0
-                        }
-
+                        //format perhitungan ke rupiah
                         val rupiahFormatter = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
 
-                        val totalProfit = (averageIncome) - (averageExpense)
-                        val formattedIncome = rupiahFormatter.format(averageIncome)
-                        val formattedExpense = rupiahFormatter.format(averageExpense)
+                        val totalProfit = totalAllIncome - totalAllExpense
+                        val formattedIncome = rupiahFormatter.format(totalAllIncome)
+                        val formattedExpense = rupiahFormatter.format(totalAllExpense)
                         val formattedProfit = rupiahFormatter.format(totalProfit)
 
                         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main){
