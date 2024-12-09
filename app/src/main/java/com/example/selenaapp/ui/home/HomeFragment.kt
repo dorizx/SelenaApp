@@ -34,7 +34,6 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private lateinit var adapter: DashboardAdapter
-    private var dataLoaded = false
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -59,21 +58,12 @@ class HomeFragment : Fragment() {
 
         showLoading(false)
 
-        binding.refreshButton.setOnClickListener {
-            // Tekan tombol refresh, set dataLoaded menjadi false untuk memuat ulang data
-            dataLoaded = false
-            getAnomaly() // Memanggil ulang API
-        }
-
-
         binding.recyclerViewAnomaly.layoutManager = LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.HORIZONTAL, false
         )
 
-        if (!dataLoaded) {
-            getAnomaly()
-        }
+        getAnomaly()
 
     }
 
@@ -118,7 +108,6 @@ class HomeFragment : Fragment() {
                         binding.recyclerViewAnomaly.adapter = adapter
                         handleEmptyState(transactions.isEmpty())
                         showLoading(false)
-                        dataLoaded = true
                     }
                 } else {
                     //Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show()
