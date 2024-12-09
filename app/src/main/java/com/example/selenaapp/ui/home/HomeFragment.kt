@@ -55,8 +55,10 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclerViewAnomaly.layoutManager = LinearLayoutManager(requireContext(),
-            LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerViewAnomaly.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.HORIZONTAL, false
+        )
 
         getAnomaly()
 
@@ -66,47 +68,47 @@ class HomeFragment : Fragment() {
     private fun getAnomaly() {
         //showLoading(true)
         val context = requireContext()
-        viewLifecycleOwner.lifecycleScope.launch{
+        viewLifecycleOwner.lifecycleScope.launch {
             val userPreference = UserPreference.getInstance(context.dataStore)
             val userModel = userPreference.getSession().first()
-                val token = userModel.token
-                val userId = userModel.userId
-                try {
-                    val response = ApiConfig.getApiService(token)
-                        .getDashboard(userId)
+            val token = userModel.token
+            val userId = userModel.userId
+            try {
+                val response = ApiConfig.getApiService(token)
+                    .getDashboard(userId)
 
-                    if (response.isSuccessful) {
-                        val transactions = response.body()?.anomalyTransactions ?: emptyList()
-                        binding.tvFinanceAdvice.text = response.body()?.financialAdvice
+                if (response.isSuccessful) {
+                    val transactions = response.body()?.anomalyTransactions ?: emptyList()
+                    binding.tvFinanceAdvice.text = response.body()?.financialAdvice
 
-                        val totalIncome = response.body()?.totalIncome?.toFloat() ?: 0f
-                        val totalExpense = response.body()?.totalExpense?.toFloat() ?: 0f
-                        val totalProfit = totalIncome - totalExpense
+                    val totalIncome = response.body()?.totalIncome?.toFloat() ?: 0f
+                    val totalExpense = response.body()?.totalExpense?.toFloat() ?: 0f
+                    val totalProfit = totalIncome - totalExpense
 
-                        setupPieChart(totalIncome, totalExpense)
+                    setupPieChart(totalIncome, totalExpense)
 
-                        val rupiahFormatter = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
+                    val rupiahFormatter = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
 
-                        val formattedIncome = rupiahFormatter.format(totalIncome)
-                        val formattedExpense = rupiahFormatter.format(totalExpense)
-                        val formattedProfit = rupiahFormatter.format(totalProfit)
+                    val formattedIncome = rupiahFormatter.format(totalIncome)
+                    val formattedExpense = rupiahFormatter.format(totalExpense)
+                    val formattedProfit = rupiahFormatter.format(totalProfit)
 
-                        binding.valueDataIncome.text = formattedIncome
-                        binding.valueDataExpense.text = formattedExpense
-                        binding.valueDataProfit.text = formattedProfit
+                    binding.valueDataIncome.text = formattedIncome
+                    binding.valueDataExpense.text = formattedExpense
+                    binding.valueDataProfit.text = formattedProfit
 
-                            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-                                adapter = DashboardAdapter(transactions)
-                                binding.recyclerViewAnomaly.adapter = adapter
-                                handleEmptyState(transactions.isEmpty())
-                                //showLoading(false)
-                        }
-                    } else {
-                        //Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show()
+                    viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                        adapter = DashboardAdapter(transactions)
+                        binding.recyclerViewAnomaly.adapter = adapter
+                        handleEmptyState(transactions.isEmpty())
+                        //showLoading(false)
                     }
-                } catch (e: Exception) {
-                    //Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                } else {
+                    //Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show()
                 }
+            } catch (e: Exception) {
+                //Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
