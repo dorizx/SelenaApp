@@ -196,7 +196,7 @@ class DetailTransactionActivity : AppCompatActivity() {
     private fun createPdf(transaction: DataItem) {
         try {
             // Menentukan lokasi file PDF
-            val file = File(filesDir, "transaction_${transaction.transactionId}.pdf")
+            val file = File(filesDir, "Report Detail Transaction_${transaction.transactionId}.pdf")
 
             // Membuat PdfWriter dengan FileOutputStream
             val pdfWriter = PdfWriter(FileOutputStream(file))
