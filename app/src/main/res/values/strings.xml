@@ -71,4 +71,9 @@
     <string name="hint_email">      Masukkan e-mail anda</string>
     <string name="hint_password">Buatlah password anda</string>
 
+
+    <string name="ex_name">yourname</string>
+    <string name="ex_email">yourname@gmail.com</string>
+    <string name="ex_password">password</string>
+
 </resources>
