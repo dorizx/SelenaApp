@@ -75,8 +75,11 @@ class TransactionFragment : Fragment() {
                 val token = userModel.token
                 val userId = userModel.userId
                 try {
+                    //mengambil data dari TransactionResponse
                     val response = ApiConfig.getApiService(token)
                         .getTransactions(userId)
+
+                    //Mengambil data dari DashboaardResponse
                     val responseStaticText = ApiConfig.getApiService(token)
                         .getDashboard(userId)
                     if (response.isSuccessful || responseStaticText.isSuccessful) {
@@ -84,9 +87,14 @@ class TransactionFragment : Fragment() {
                         val totalIncome =  responseStaticText.body()?.totalIncome
                         val totalExpense = responseStaticText.body()?.totalExpense
 
+                        //filter transaski yang income
                         val incomeTransactions = transactions.filter { it?.transactionType == "income" }
+
+                        //menjumlahkan keseluruhan data transaksi income
+                        val totalAllIncome = incomeTransactions.sumOf { it?.amount ?: 0 }
+
                         val averageIncome = if (incomeTransactions.isNotEmpty()) {
-                            (totalIncome ?: 0) / incomeTransactions.size
+                            (totalAllIncome ?: 0) / incomeTransactions.size
                         } else {
                             0
                         }
