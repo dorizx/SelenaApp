@@ -1,11 +1,15 @@
 package com.example.selenaapp.ui.signup
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
+import com.example.selenaapp.R
 import com.example.selenaapp.ViewModelFactory
 import com.example.selenaapp.databinding.ActivitySignupBinding
 import com.example.selenaapp.ui.otp.OtpActivity
@@ -20,8 +24,6 @@ class SignupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
 
         observeViewModel()
 
@@ -47,7 +49,7 @@ class SignupActivity : AppCompatActivity() {
                     }
                     startActivity(intent)
                 } else {
-                    Toast.makeText(this, "Pendaftaran gagal: ${response.errorBody()}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Pendaftaran gagal: ${response.body()?.message.toString()}", Toast.LENGTH_LONG).show()
                 }
             }
         }

@@ -12,6 +12,8 @@ import retrofit2.Response
 
 class SignupViewModel (private val repository: UserRepository) : ViewModel() {
 
+    private val _errorMessage = MutableLiveData<String?>()
+
     private val _emailError = MutableLiveData<String?>()
     val emailError: LiveData<String?> = _emailError
 
@@ -25,6 +27,15 @@ class SignupViewModel (private val repository: UserRepository) : ViewModel() {
         viewModelScope.launch {
             try {
                 val response = repository.signup(name, email, password)
+                if (response.isSuccessful) {
+                    // Tangani respons sukses
+                    callback(response)
+                } else {
+                    val errorMessage = response.errorBody()?.string() ?: "Pendaftaran gagal"
+
+                    callback(Response.error(response.code(), response.errorBody()))
+                    _errorMessage.value = errorMessage
+                }
                 callback(response)
             } catch (e: Exception) {
                e.printStackTrace()
