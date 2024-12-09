@@ -2,6 +2,7 @@ package com.example.selenaapp.ui.home
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -85,7 +86,10 @@ class HomeFragment : Fragment() {
 
                     val totalIncome = response.body()?.totalIncome?.toFloat() ?: 0f
                     val totalExpense = response.body()?.totalExpense?.toFloat() ?: 0f
-                    val averageIncome = totalIncome/transactions.size
+                    val mountedIncome =transactions.size
+                    val averageIncome = totalIncome/mountedIncome
+
+                    Log.d("DASHBOARDDDDDDDD", "totalIncome: $totalIncome")
 
                     setupPieChart(totalIncome, totalExpense)
 
