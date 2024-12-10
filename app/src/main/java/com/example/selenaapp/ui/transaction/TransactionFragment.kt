@@ -1,64 +1,56 @@
 package com.example.selenaapp.ui.transaction
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.selenaapp.data.api.ApiConfig
+import com.example.selenaapp.ViewModelFactory
+import com.example.selenaapp.data.injection.Injection
 import com.example.selenaapp.data.preference.UserPreference
 import com.example.selenaapp.data.preference.dataStore
 import com.example.selenaapp.databinding.FragmentTransactionBinding
-import com.example.selenaapp.ui.main.MainActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.text.NumberFormat
-import java.util.Locale
 
 class TransactionFragment : Fragment() {
 
     private var _binding: FragmentTransactionBinding? = null
-    private lateinit var adapter: TransactionAdapter
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+
+    private lateinit var viewModel: TransactionViewModel
+    private lateinit var adapter: TransactionAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val transactionViewModel =
-            ViewModelProvider(this).get(TransactionViewModel::class.java)
-
         _binding = FragmentTransactionBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        return root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("TransactionFragment", "onViewCreated called")
 
-        showLoading(false)
+        val userPreference = UserPreference.getInstance(requireContext().dataStore)
+        val userRepository = Injection.provideUserRepository(requireContext())
+        val viewModelFactory = ViewModelFactory(userRepository, userPreference)
+        viewModel = ViewModelProvider(this, viewModelFactory)[TransactionViewModel::class.java]
 
-        getTransactions()
+        setupObservers()
+        setupUI()
+    }
 
+    private fun setupUI() {
         binding.recyclerViewTransaksi.layoutManager = LinearLayoutManager(requireContext())
 
+        viewModel.fetchTransactions()
 
         binding.refreshButton.setOnClickListener {
-            getTransactions()
+            viewModel.fetchTransactions()
         }
 
         binding.buttonAddTransaction.setOnClickListener {
@@ -67,59 +59,31 @@ class TransactionFragment : Fragment() {
         }
     }
 
-    @SuppressLint("SuspiciousIndentation")
-    private fun getTransactions() {
-        showLoading(true)
-        val context = requireContext()
-        viewLifecycleOwner.lifecycleScope.launch{
-            val userPreference = UserPreference.getInstance(context.dataStore)
-            userPreference.getSession().collect { userModel ->
-                val token = userModel.token
-                val userId = userModel.userId
-                try {
-                    //mengambil data dari TransactionResponse
-                    val response = ApiConfig.getApiService(token)
-                        .getTransactions(userId)
+    private fun setupObservers() {
+        viewModel.transactions.observe(viewLifecycleOwner) { transactions ->
+            adapter = TransactionAdapter(transactions)
+            binding.recyclerViewTransaksi.adapter = adapter
+            handleEmptyState(transactions.isEmpty())
+        }
 
-                    if (response.isSuccessful) {
-                        val transactions = response.body()?.data ?: emptyList()
+        viewModel.totalIncome.observe(viewLifecycleOwner) { income ->
+            binding.tvIncome.text = income
+        }
 
-                        //filter transaski yang income
-                        val incomeTransactions = transactions.filter { it?.transactionType == "income" }
-                        val expenseTransactions = transactions.filter { it?.transactionType == "expense" }
+        viewModel.totalExpense.observe(viewLifecycleOwner) { expense ->
+            binding.tvOutcome.text = expense
+        }
 
-                        //menjumlahkan keseluruhan data transaksi income
-                        val totalAllIncome = incomeTransactions.sumOf { it?.amount ?: 0 }
-                        val totalAllExpense = expenseTransactions.sumOf { it?.amount ?: 0 }
+        viewModel.totalProfit.observe(viewLifecycleOwner) { profit ->
+            binding.tvProfit.text = profit
+        }
 
-                        //format perhitungan ke rupiah
-                        val rupiahFormatter = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.progressIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
 
-                        val totalProfit = totalAllIncome - totalAllExpense
-                        val formattedIncome = rupiahFormatter.format(totalAllIncome)
-                        val formattedExpense = rupiahFormatter.format(totalAllExpense)
-                        val formattedProfit = rupiahFormatter.format(totalProfit)
-
-                        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main){
-                            adapter = TransactionAdapter(transactions)
-                            binding.recyclerViewTransaksi.adapter = adapter
-                            binding.tvIncome.text = formattedIncome
-                            binding.tvOutcome.text = formattedExpense
-                            binding.tvProfit.text = formattedProfit
-                            handleEmptyState(transactions.isEmpty())
-                            showLoading(false)
-                        }
-                    } else {
-                        handleEmptyState(true)
-                        showToast("Gagal memuat data: ${response.errorBody()?.string()}")
-                        showLoading(false)
-                    }
-                } catch (e: Exception) {
-                    handleEmptyState(true)
-                    showToast("Error: ${e.message}")
-                    showLoading(false)
-                }
-            }
+        viewModel.errorMessage.observe(viewLifecycleOwner) { message ->
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -128,21 +92,8 @@ class TransactionFragment : Fragment() {
         binding.textStatus.visibility = if (isEmpty) View.VISIBLE else View.GONE
     }
 
-    private fun showToast(message: String) {
-        if (isAdded) {
-            CoroutineScope(Dispatchers.Main).launch {
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun showLoading(isLoading: Boolean) {
-        binding.progressIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
-        Log.d("TransactionFragment", "onDestroyView called")
         _binding = null
     }
 }

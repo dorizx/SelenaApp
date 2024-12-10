@@ -31,6 +31,9 @@ class ViewModelFactory (private val repository: UserRepository,
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
                 return LoginViewModel(repository) as T
             }
+            modelClass.isAssignableFrom(TransactionViewModel::class.java) -> {
+                return TransactionViewModel(userPreference) as T
+            }
             else -> throw IllegalArgumentException("Unknown ViewModel class")
         }
     }
