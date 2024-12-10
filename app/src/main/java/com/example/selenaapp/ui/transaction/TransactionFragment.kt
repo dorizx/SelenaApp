@@ -57,7 +57,9 @@ class TransactionFragment : Fragment() {
         binding.recyclerViewTransaksi.layoutManager = LinearLayoutManager(requireContext())
 
 
-
+        binding.refreshButton.setOnClickListener {
+            getTransactions()
+        }
 
         binding.buttonAddTransaction.setOnClickListener {
             val intent = Intent(requireContext(), ChooseMethodTransactionActivity::class.java)
