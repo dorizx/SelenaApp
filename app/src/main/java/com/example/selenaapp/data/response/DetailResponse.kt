@@ -22,7 +22,7 @@ data class Data(
 	@field:SerializedName("amount")
 	val amount: Int? = null,
 
-	@field:SerializedName("updated_at")
+	@field:SerializedName("updatedAt")
 	val updatedAt: String? = null,
 
 	@field:SerializedName("user_id")
@@ -31,7 +31,7 @@ data class Data(
 	@field:SerializedName("catatan")
 	val catatan: String? = null,
 
-	@field:SerializedName("created_at")
+	@field:SerializedName("createdAt")
 	val createdAt: String? = null,
 
 	@field:SerializedName("status")

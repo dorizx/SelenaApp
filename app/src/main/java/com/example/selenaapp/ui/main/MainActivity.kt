@@ -45,6 +45,12 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        intent.getStringExtra("navigate_to")?.let { destination ->
+            if (destination == "transactions") {
+                navController.navigate(R.id.navigation_transaction)
+            }
+        }
+
         viewModel.getSession().observe(this) { user ->
             if (!user.isLogin) {
                 startActivity(Intent(this, LoginActivity::class.java))

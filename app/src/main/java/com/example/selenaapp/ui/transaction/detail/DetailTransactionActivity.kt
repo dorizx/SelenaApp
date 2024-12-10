@@ -46,6 +46,7 @@ class DetailTransactionActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_TRANSACTION_ID = "extra_transaction_id"
     }
+    
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,17 +106,16 @@ class DetailTransactionActivity : AppCompatActivity() {
                         val transaction = data.data
                         val rupiahFormatter = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
                         val amount = rupiahFormatter.format(transaction?.amount)
-                        Log.d(TAG, "getDetail: ${transaction?.userId}")
-                        Log.d(TAG, "getDetail: ${transaction?.transactionId}")
-                        Log.d(TAG, "getDetail: ${transaction?.amount}")
+                        val createValue = data.data?.createdAt.toString()
+                        Log.d(TAG, "TANGGALLLLL: $createValue")
+
                         binding.tvAmount.text = amount
 
                         binding.tvUserIdValue.text = transaction?.userId.toString()
                         binding.tvTransactionIDValue.text = transaction?.transactionId.toString()
                         binding.tvDateValue.text = transaction?.date.toString()
                         binding.tvNotesValue.text = transaction?.catatan.toString()
-                        binding.tvCreatedAtValue.text =
-                            transaction?.createdAt?.let { formatDate(it) } ?: "N/A"
+                        binding.tvCreatedAtValue.text = formatDate(createValue.toString())
                         binding.tvUpdatedAtValue.text =
                             transaction?.updatedAt?.let { formatDate(it) } ?: "N/A"
                     }

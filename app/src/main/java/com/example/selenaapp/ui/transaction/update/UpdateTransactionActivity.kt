@@ -1,6 +1,7 @@
 package com.example.selenaapp.ui.transaction.update
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -15,6 +16,8 @@ import com.example.selenaapp.data.preference.UserPreference
 import com.example.selenaapp.data.preference.dataStore
 import com.example.selenaapp.data.response.DataItem
 import com.example.selenaapp.databinding.ActivityUpdateTransactionBinding
+import com.example.selenaapp.ui.home.HomeFragment
+import com.example.selenaapp.ui.main.MainActivity
 import com.example.selenaapp.ui.transaction.detail.DetailTransactionActivity
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -93,7 +96,10 @@ class UpdateTransactionActivity : AppCompatActivity() {
 
                 if (response.isSuccessful) {
                     Toast.makeText(this@UpdateTransactionActivity, "Transaksi berhasil diperbarui", Toast.LENGTH_SHORT).show()
-                    finish() // Tutup halaman
+                    val intent = Intent(this@UpdateTransactionActivity, MainActivity::class.java)
+                    intent.putExtra("navigate_to", "transactions")
+                    startActivity(intent)
+                    finish()
                 } else {
                     Toast.makeText(this@UpdateTransactionActivity, "Gagal memperbarui transaksi", Toast.LENGTH_SHORT).show()
                 }
