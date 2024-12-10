@@ -194,6 +194,22 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <Button
+        android:id="@+id/btn_delete_all"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:text="@string/deleteAll"
+        android:textColor="#FF0000"
+        android:backgroundTint="@color/white"
+        app:strokeColor="#FF0000"
+        app:strokeWidth="2dp"
+        app:icon="@drawable/ic_delete_all"
+        app:cornerRadius="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginBottom="150dp" />
     <!-- Button Logout -->
     <Button
         android:id="@+id/btn_logout"

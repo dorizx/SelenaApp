@@ -75,5 +75,6 @@
     <string name="ex_name">yourname</string>
     <string name="ex_email">yourname@gmail.com</string>
     <string name="ex_password">password</string>
+    <string name="deleteAll">Hapus Transaksi</string>
 
 </resources>
