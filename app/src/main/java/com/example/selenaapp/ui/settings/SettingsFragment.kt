@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -13,16 +14,17 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.example.selenaapp.data.preference.UserModel
+import com.example.selenaapp.data.api.ApiConfig
 import com.example.selenaapp.data.preference.UserPreference
-import com.example.selenaapp.data.preference.dataStore
 import com.example.selenaapp.databinding.FragmentSettingsBinding
 import com.example.selenaapp.ui.help.HelpActivity
 import com.example.selenaapp.ui.login.LoginActivity
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-// Deklarasikan dataStore sebagai ekstensi Context
+// Ekstensi Context untuk DataStore
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class SettingsFragment : Fragment() {
@@ -35,30 +37,26 @@ class SettingsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Pastikan ViewModel diinstansiasi menggunakan SettingsViewModelFactory
+        // Inisialisasi ViewModel
         val pref = SettingsPreference.getInstance(requireContext().dataStore)
         val viewModelFactory = SettingsViewModelFactory(pref)
-        val mainViewModel = ViewModelProvider(this, viewModelFactory).get(SettingsViewModel::class.java)
-
-
-
+        val mainViewModel = ViewModelProvider(this, viewModelFactory)
+            .get(SettingsViewModel::class.java)
 
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-
-       viewLifecycleOwner.lifecycleScope.launch {
-           val userPreference = context?.let { UserPreference.getInstance(it.dataStore) }
-           val userModel = userPreference?.getSession()?.first()
-           binding.tvUser.text = userModel?.name
-           binding.tvEmail.text = userModel?.email
+        // Set user information
+        viewLifecycleOwner.lifecycleScope.launch {
+            val userPreference = UserPreference.getInstance(requireContext().dataStore)
+            val userModel = userPreference.getSession().first()
+            binding.tvUser.text = userModel.name
+            binding.tvEmail.text = userModel.email
         }
-
 
         // Tombol logout
         binding.btnLogout.setOnClickListener {
-            val userPreference = UserPreference.getInstance(requireContext().dataStore)
             lifecycleScope.launch {
+                val userPreference = UserPreference.getInstance(requireContext().dataStore)
                 userPreference.logout()
                 val intent = Intent(requireContext(), LoginActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -88,9 +86,43 @@ class SettingsFragment : Fragment() {
             mainViewModel.saveThemeSetting(isChecked)
         }
 
-        return root
+        binding.btnDeleteAll.setOnClickListener {
+            deleteAllTransaction()
+        }
+
+        return binding.root
     }
 
+    private fun deleteAllTransaction() {
+        lifecycleScope.launch {
+            val userPreference = UserPreference.getInstance(requireContext().dataStore)
+            val session = userPreference.getSession().first()
+
+            val userId = session.userId
+            val token = session.token
+
+            try {
+                val response = ApiConfig.getApiService(token).deleteAllTransaction(userId)
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful) {
+                        showToast(response.body()?.message ?: "Berhasil menghapus semua transaksi.")
+                    } else {
+                        showToast(response.body()?.message ?: "Gagal menghapus transaksi.")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    showToast("Terjadi kesalahan: ${e.message}")
+                }
+            }
+        }
+    }
+
+    private fun showToast(message: String) {
+        if (isAdded) {
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
