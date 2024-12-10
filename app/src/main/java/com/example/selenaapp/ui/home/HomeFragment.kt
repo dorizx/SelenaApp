@@ -1,121 +1,101 @@
 package com.example.selenaapp.ui.home
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.selenaapp.R
-import com.example.selenaapp.data.api.ApiConfig
+import com.example.selenaapp.ViewModelFactory
+import com.example.selenaapp.data.injection.Injection
 import com.example.selenaapp.data.preference.UserPreference
 import com.example.selenaapp.data.preference.dataStore
+import com.example.selenaapp.data.repository.HomeRepository
 import com.example.selenaapp.databinding.FragmentHomeBinding
-import com.example.selenaapp.ui.transaction.TransactionAdapter
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.Locale
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
-    private lateinit var adapter: DashboardAdapter
+    private lateinit var homeViewModel: HomeViewModel
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        return root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as? AppCompatActivity)?.supportActionBar?.hide()
 
-        showLoading(false)
+        val userPreference = UserPreference.getInstance(requireContext().dataStore)
+        val userRepository = Injection.provideUserRepository(requireContext())
+        val viewModelFactory = ViewModelFactory(userRepository, userPreference, HomeRepository(userPreference))
+        homeViewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
 
-        binding.recyclerViewAnomaly.layoutManager = LinearLayoutManager(
-            requireContext(),
-            LinearLayoutManager.HORIZONTAL, false
-        )
+        binding.refreshButton.setOnClickListener {
+            homeViewModel.fetchAnomalyData()
+        }
 
-        getAnomaly()
+        observeViewModel()
+        setupRecyclerView()
 
     }
 
-    //@SuppressLint("SuspiciousIndentation")
-    private fun getAnomaly() {
-        showLoading(true)
-        val context = requireContext()
-        viewLifecycleOwner.lifecycleScope.launch {
-            val userPreference = UserPreference.getInstance(context.dataStore)
-            val userModel = userPreference.getSession().first()
-            val token = userModel.token
-            val userId = userModel.userId
-            try {
-                val response = ApiConfig.getApiService(token)
-                    .getDashboard(userId)
-
-                if (response.isSuccessful) {
-                    val transactions = response.body()?.anomalyTransactions ?: emptyList()
-                    binding.tvFinanceAdvice.text = response.body()?.financialAdvice
-
-                    val totalIncome = response.body()?.totalIncome?.toFloat() ?: 0f
-                    val totalExpense = response.body()?.totalExpense?.toFloat() ?: 0f
-                    val mountedIncome =transactions.size
-                    val averageIncome = totalIncome/mountedIncome
-
-                    Log.d("DASHBOARDDDDDDDD", "totalIncome: $totalIncome")
-
-                    setupPieChart(totalIncome, totalExpense)
-
-                    val rupiahFormatter = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
-
-                    val formattedIncome = rupiahFormatter.format(totalIncome)
-                    val formattedExpense = rupiahFormatter.format(totalExpense)
-                    val formattedProfit = rupiahFormatter.format(averageIncome)
-
-                    binding.valueDataIncome.text = formattedIncome
-                    binding.valueDataExpense.text = formattedExpense
-                    binding.valueDataProfit.text = formattedProfit
-
-                    viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-                        adapter = DashboardAdapter(transactions)
-                        binding.recyclerViewAnomaly.adapter = adapter
-                        handleEmptyState(transactions.isEmpty())
-                        showLoading(false)
-                    }
-                } else {
-                    //Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show()
-                }
-            } catch (e: Exception) {
-                //Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+    private fun observeViewModel() {
+        homeViewModel.anomalyTransactions.observe(viewLifecycleOwner) { transactions ->
+            binding.recyclerViewAnomaly.adapter = transactions?.let { DashboardAdapter(it) }
+            if (transactions != null) {
+                handleEmptyState(transactions.isEmpty())
             }
         }
+
+        homeViewModel.financialAdvice.observe(viewLifecycleOwner) { financialAdvice ->
+            binding.tvFinanceAdvice.text = financialAdvice
+        }
+
+        homeViewModel.totalIncome.observe(viewLifecycleOwner) { totalIncome ->
+            val formattedIncome = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(totalIncome.toInt())
+            binding.valueDataIncome.text = formattedIncome
+        }
+
+        homeViewModel.totalExpense.observe(viewLifecycleOwner) { totalExpense ->
+            val formattedExpense = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(totalExpense.toInt())
+            binding.valueDataExpense.text = formattedExpense
+        }
+
+        homeViewModel.totalProfit.observe(viewLifecycleOwner) { totalProfit ->
+            binding.valueDataProfit.text = totalProfit
+        }
+
+        homeViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            showLoading(isLoading)
+        }
+
+        homeViewModel.totalIncome.observe(viewLifecycleOwner) { totalIncome ->
+            homeViewModel.totalExpense.observe(viewLifecycleOwner) { totalExpense ->
+                setupPieChart(totalIncome.toFloat(), totalExpense.toFloat())
+            }
+        }
+    }
+
+    private fun setupRecyclerView() {
+        binding.recyclerViewAnomaly.layoutManager = LinearLayoutManager(
+            requireContext(), LinearLayoutManager.HORIZONTAL, false
+        )
     }
 
     private fun setupPieChart(totalIncome: Float, totalExpense: Float) {
@@ -140,12 +120,12 @@ class HomeFragment : Fragment() {
     }
 
 
-    private fun handleEmptyState(isEmpty: Boolean) {
-        binding.recyclerViewAnomaly.visibility = if (isEmpty) View.GONE else View.VISIBLE
-    }
-
     private fun showLoading(isLoading: Boolean) {
         binding.progressIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun handleEmptyState(isEmpty: Boolean) {
+        binding.recyclerViewAnomaly.visibility = if (isEmpty) View.GONE else View.VISIBLE
     }
 
     override fun onDestroyView() {

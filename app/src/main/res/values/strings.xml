@@ -79,5 +79,6 @@
     <string name="forgot_password"><u>Lupa Password?</u></string>
     <string name="reset_password">Reset Password</string>
     <string name="new_password">New Password</string>
+    <string name="refresh">refresh</string>
 
 </resources>

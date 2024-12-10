@@ -13,6 +13,7 @@ import com.example.selenaapp.ViewModelFactory
 import com.example.selenaapp.data.injection.Injection
 import com.example.selenaapp.data.preference.UserPreference
 import com.example.selenaapp.data.preference.dataStore
+import com.example.selenaapp.data.repository.HomeRepository
 import com.example.selenaapp.databinding.FragmentTransactionBinding
 
 class TransactionFragment : Fragment() {
@@ -37,7 +38,7 @@ class TransactionFragment : Fragment() {
 
         val userPreference = UserPreference.getInstance(requireContext().dataStore)
         val userRepository = Injection.provideUserRepository(requireContext())
-        val viewModelFactory = ViewModelFactory(userRepository, userPreference)
+        val viewModelFactory = ViewModelFactory(userRepository, userPreference, homeRepository = HomeRepository(userPreference))
         viewModel = ViewModelProvider(this, viewModelFactory)[TransactionViewModel::class.java]
 
         setupObservers()
