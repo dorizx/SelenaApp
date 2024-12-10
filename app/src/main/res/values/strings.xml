@@ -77,5 +77,7 @@
     <string name="ex_password">password</string>
     <string name="deleteAll">Hapus Transaksi</string>
     <string name="forgot_password"><u>Lupa Password?</u></string>
+    <string name="reset_password">Reset Password</string>
+    <string name="new_password">New Password</string>
 
 </resources>
