@@ -21,7 +21,6 @@
             android:layout_height="wrap_content"
             android:text="12 Dec 2024"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@android:color/black"
             android:layout_gravity="center_vertical" />
 
         <!-- Spacer -->
@@ -44,7 +43,6 @@
                 android:layout_height="wrap_content"
                 android:text="Rp 10.000.000"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@android:color/black"
                 android:textSize="14sp" />
 
             <!-- Lihat Detail -->

@@ -113,7 +113,6 @@ class DetailTransactionActivity : AppCompatActivity() {
                         binding.tvUserIdValue.text = transaction?.userId.toString()
                         binding.tvTransactionIDValue.text = transaction?.transactionId.toString()
                         binding.tvDateValue.text = transaction?.date.toString()
-                        binding.tvStatusValue.text = transaction?.status.toString()
                         binding.tvNotesValue.text = transaction?.catatan.toString()
                         binding.tvCreatedAtValue.text =
                             transaction?.createdAt?.let { formatDate(it) } ?: "N/A"

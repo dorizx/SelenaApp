@@ -11,157 +11,180 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
-    <LinearLayout
-        android:id="@+id/dataContainer"
-        android:layout_width="0dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardviewdashboard"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_margin="16dp"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="8dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="16dp">
+        app:cardBackgroundColor="@color/main_light">
 
-        <!-- Row 1 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="8dp">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <!-- Kotak 1 -->
+            <!-- Judul -->
+            <TextView
+                android:id="@+id/tvRingkasanBulanan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Ringkasan Bulanan"
+                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/white"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Row 1 -->
             <LinearLayout
-                android:id="@+id/kotak1Container"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:background="@android:color/darker_gray"
-                android:gravity="center"
-                android:padding="8dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
 
-                <TextView
-                    android:id="@+id/labelTotalPemasukan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/total_income"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@android:color/white" />
+                <!-- Kotak 1 -->
+                <LinearLayout
+                    android:id="@+id/kotak1Container"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_dashboard"
+                    android:gravity="center"
+                    android:padding="8dp">
 
-                <TextView
-                    android:id="@+id/value_data_income"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/_100000"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@android:color/white"
-                    android:layout_marginTop="4dp" />
+                    <TextView
+                        android:id="@+id/labelTotalPemasukan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/total_income"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:id="@+id/value_data_income"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/_100000"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@android:color/white"
+                        android:layout_marginTop="4dp" />
+                </LinearLayout>
+
+                <!-- Kotak 2 -->
+                <LinearLayout
+                    android:id="@+id/kotak2Container"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_dashboard"
+                    android:gravity="center"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/label_total_outcome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/total_outcome"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:id="@+id/value_data_expense"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/_100000"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@android:color/white"
+                        android:layout_marginTop="4dp" />
+                </LinearLayout>
             </LinearLayout>
 
-            <!-- Kotak 2 -->
+            <!-- Row 2 -->
             <LinearLayout
-                android:id="@+id/kotak2Container"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:orientation="vertical"
-                android:background="@android:color/darker_gray"
-                android:gravity="center"
-                android:padding="8dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/label_total_outcome"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/total_outcome"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@android:color/white" />
+                <!-- Kotak 3 -->
+                <LinearLayout
+                    android:id="@+id/kotak3Container"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_dashboard"
+                    android:gravity="center"
+                    android:padding="8dp">
 
-                <TextView
-                    android:id="@+id/value_data_expense"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/_100000"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@android:color/white"
-                    android:layout_marginTop="4dp" />
+                    <TextView
+                        android:id="@+id/label_saving"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/average_income"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:id="@+id/value_data_profit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/_100000"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@android:color/white"
+                        android:layout_marginTop="4dp" />
+                </LinearLayout>
+
+                <!-- Kotak 4 -->
+                <LinearLayout
+                    android:id="@+id/kotak4Container"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_dashboard"
+                    android:gravity="center"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/label_expense_limit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/average_outcome"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:id="@+id/value_data_limit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/_100000"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@android:color/white"
+                        android:layout_marginTop="4dp" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-        <!-- Row 2 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
-            <!-- Kotak 3 -->
-            <LinearLayout
-                android:id="@+id/kotak3Container"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:background="@android:color/darker_gray"
-                android:gravity="center"
-                android:padding="8dp">
-
-                <TextView
-                    android:id="@+id/labelData3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/average_income"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@android:color/white" />
-
-                <TextView
-                    android:id="@+id/value_data_profit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/_100000"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@android:color/white"
-                    android:layout_marginTop="4dp" />
-            </LinearLayout>
-
-            <!-- Kotak 4 -->
-            <LinearLayout
-                android:id="@+id/kotak4Container"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:orientation="vertical"
-                android:background="@android:color/darker_gray"
-                android:gravity="center"
-                android:padding="8dp">
-
-                <TextView
-                    android:id="@+id/labelData4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/average_outcome"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@android:color/white" />
-
-                <TextView
-                    android:id="@+id/valueData4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/_100000"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@android:color/white"
-                    android:layout_marginTop="4dp" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatImageButton
+    <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/refreshButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
+            android:layout_marginTop="4dp"
             android:src="@drawable/ic_refresh"
-            app:layout_constraintTop_toBottomOf="@id/dataContainer"
+            app:layout_constraintTop_toBottomOf="@id/cardviewdashboard"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_gravity="end" />
 
@@ -185,7 +208,8 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:textSize="20sp"
+        android:textSize="16sp"
+        android:justificationMode="inter_word"
         tools:text="@string/_100000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/label_anomali" />

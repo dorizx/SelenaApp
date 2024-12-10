@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:text="@string/total_income"
             android:textStyle="bold"
+            android:textColor="@color/white"
             android:textSize="20sp"/>
 
         <TextView
@@ -33,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:textSize="15sp"
+            android:textColor="@color/white"
             android:layout_below="@+id/label_total_income"
             tools:text="@string/_100000"/>
 
@@ -44,7 +46,8 @@
             android:layout_below="@+id/tv_income"
             android:text="@string/total_outcome"
             android:textStyle="bold"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:textColor="@color/white"/>
 
         <TextView
             android:id="@+id/tv_outcome"
@@ -52,6 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:textSize="15sp"
+            android:textColor="@color/white"
             android:layout_below="@+id/label_total_outcome"
             tools:text="@string/_100000"/>
 
@@ -63,7 +67,8 @@
             android:layout_marginTop="20dp"
             android:text="@string/total_profit"
             android:textStyle="bold"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:textColor="@color/white"/>
 
         <TextView
             android:id="@+id/tv_profit"
@@ -71,6 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:textSize="15sp"
+            android:textColor="@color/white"
             android:layout_below="@+id/label_total_profit"
             tools:text="@string/_100000"/>
 
