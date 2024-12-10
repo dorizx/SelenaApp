@@ -7,6 +7,10 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import androidx.lifecycle.lifecycleScope
+import com.example.selenaapp.data.api.ApiConfig
+import com.example.selenaapp.data.preference.UserPreference
+import com.example.selenaapp.data.preference.dataStore
 import com.example.selenaapp.data.response.AnomalyTransactionsItem
 import com.example.selenaapp.data.response.DataItem
 import com.example.selenaapp.databinding.ActivityDetailAnomalyBinding
@@ -16,6 +20,7 @@ import com.itextpdf.kernel.pdf.PdfDocument
 import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.layout.Document
 import com.itextpdf.layout.element.Paragraph
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.text.NumberFormat
@@ -26,15 +31,16 @@ class DetailAnomalyActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailAnomalyBinding
 
     companion object {
-        const val EXTRA_TRANSACTION_ANOMALY_ID= "extra_transaction_anomaly_id"
+        const val EXTRA_TRANSACTION_ANOMALY_ID = "extra_transaction_anomaly_id"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailAnomalyBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val transaction = intent.getParcelableExtra<AnomalyTransactionsItem>(EXTRA_TRANSACTION_ANOMALY_ID)
+        val transaction =
+            intent.getParcelableExtra<AnomalyTransactionsItem>(EXTRA_TRANSACTION_ANOMALY_ID)
+        val transactionId = transaction?.transactionId
         if (transaction != null) {
             val rupiahFormatter = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
             val amount = rupiahFormatter.format(transaction.amount)
@@ -42,11 +48,17 @@ class DetailAnomalyActivity : AppCompatActivity() {
             binding.tvTransactionIDValue.text = transaction.transactionId.toString()
             binding.tvDateValue.text = transaction.date.toString()
             binding.tvNotesValue.text = transaction.catatan.toString()
-       }
+        }
 
         binding.btnDownloadPdf.setOnClickListener {
             if (transaction != null) {
                 createPdf(transaction)
+            }
+        }
+
+        binding.btnDelete.setOnClickListener {
+            if (transactionId != null) {
+                deleteTransaction(transactionId)
             }
         }
     }
@@ -54,7 +66,8 @@ class DetailAnomalyActivity : AppCompatActivity() {
     private fun createPdf(transaction: AnomalyTransactionsItem) {
         try {
             // Menentukan lokasi file PDF
-            val file = File(filesDir, "Report Detail Anomaly Transaction_${transaction.transactionId}.pdf")
+            val file =
+                File(filesDir, "Report Detail Anomaly Transaction_${transaction.transactionId}.pdf")
 
             // Membuat PdfWriter dengan FileOutputStream
             val pdfWriter = PdfWriter(FileOutputStream(file))
@@ -65,7 +78,9 @@ class DetailAnomalyActivity : AppCompatActivity() {
             val titleFont: PdfFont = PdfFontFactory.createFont("Times-Roman")
             val contentFont: PdfFont = PdfFontFactory.createFont("Helvetica")
 
-            document.add(Paragraph("Transaction Anomaly Details").setFont(titleFont).setFontSize(18f))
+            document.add(
+                Paragraph("Transaction Anomaly Details").setFont(titleFont).setFontSize(18f)
+            )
             document.add(
                 Paragraph("Transaction ID: ${transaction.transactionId}").setFont(
                     contentFont
@@ -122,6 +137,48 @@ class DetailAnomalyActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(this, "Failed to open PDF: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun deleteTransaction(transactionId: Int) {
+        lifecycleScope.launch {
+            val userPreference = UserPreference.getInstance(dataStore)
+            userPreference.getSession().collect { userModel ->
+                val token = userModel.token
+                if (!token.isNullOrEmpty()) {
+                    try {
+                        val response = ApiConfig.getApiService(token)
+                            .deleteTransaction(transactionId)
+                        if (response.isSuccessful) {
+                            Toast.makeText(
+                                this@DetailAnomalyActivity,
+                                "Transaksi berhasil dihapus",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            finish()
+                        } else {
+                            Toast.makeText(
+                                this@DetailAnomalyActivity,
+                                "Gagal menghapus transaksi",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            finish()
+                        }
+                    } catch (e: Exception) {
+                        Toast.makeText(
+                            this@DetailAnomalyActivity,
+                            "Error: ${e.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                } else {
+                    Toast.makeText(
+                        this@DetailAnomalyActivity,
+                        "Token tidak valid. Silakan login kembali.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
     }
 }

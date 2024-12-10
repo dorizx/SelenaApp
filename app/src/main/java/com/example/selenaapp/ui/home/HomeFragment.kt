@@ -86,8 +86,9 @@ class HomeFragment : Fragment() {
         }
 
         homeViewModel.totalIncome.observe(viewLifecycleOwner) { totalIncome ->
+            val totalIncomeFloat = totalIncome.toFloat()
             homeViewModel.totalExpense.observe(viewLifecycleOwner) { totalExpense ->
-                setupPieChart(totalIncome.toFloat(), totalExpense.toFloat())
+                setupPieChart(totalIncomeFloat, totalExpense.toFloat())
             }
         }
     }
