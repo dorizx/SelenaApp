@@ -14,6 +14,8 @@ import java.util.*
 
 class TransactionViewModel(private val userPreference: UserPreference) : ViewModel() {
 
+
+
     private val _transactions = MutableLiveData<List<DataItem?>>()
     val transactions: LiveData<List<DataItem?>> = _transactions
 
@@ -41,7 +43,7 @@ class TransactionViewModel(private val userPreference: UserPreference) : ViewMod
                 Log.d("TransactionViewModel", "fetchTransactions: $token")
                 val response = ApiConfig.getApiService(user.token).getTransactions(user.userId)
 
-                if (response.isSuccessful) {
+                if (response.isSuccessful || response.body() != null) {
                     val transactions = response.body()?.data ?: emptyList()
                     _transactions.postValue(transactions)
 
@@ -58,7 +60,8 @@ class TransactionViewModel(private val userPreference: UserPreference) : ViewMod
                     _totalExpense.postValue(rupiahFormatter.format(totalExpense))
                     _totalProfit.postValue(rupiahFormatter.format(totalProfit))
                 } else {
-                    _errorMessage.postValue("Gagal memuat data: ${response.errorBody()?.string()}")
+                    _transactions.postValue(emptyList())
+                    //_errorMessage.postValue("Gagal memuat data: ${response.errorBody()?.string()}")
                 }
             } catch (e: Exception) {
                 _errorMessage.postValue("Error: ${e.message}")

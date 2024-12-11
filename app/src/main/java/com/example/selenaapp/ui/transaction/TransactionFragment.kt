@@ -64,9 +64,18 @@ class TransactionFragment : Fragment() {
 
     private fun setupObservers() {
         viewModel.transactions.observe(viewLifecycleOwner) { transactions ->
-            adapter = TransactionAdapter(transactions)
-            binding.recyclerViewTransaksi.adapter = adapter
-            handleEmptyState(transactions.isEmpty())
+            if (transactions.isNullOrEmpty()) {
+                handleEmptyState(true) // Tampilkan status kosong
+            } else {
+                handleEmptyState(false) // Tampilkan data transaksi
+            }
+
+            if (::adapter.isInitialized) {
+                adapter.updateData(transactions)
+            } else {
+                adapter = TransactionAdapter(transactions)
+                binding.recyclerViewTransaksi.adapter = adapter
+            }
         }
 
         viewModel.totalIncome.observe(viewLifecycleOwner) { income ->

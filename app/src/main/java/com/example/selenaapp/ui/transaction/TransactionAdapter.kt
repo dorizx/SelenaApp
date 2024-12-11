@@ -16,9 +16,13 @@ import com.example.selenaapp.ui.transaction.detail.DetailTransactionActivity
 import java.text.NumberFormat
 import java.util.Locale
 
-class TransactionAdapter(private val transactionList: List<DataItem?>) :
+class TransactionAdapter(private var transactionList: List<DataItem?>) :
     RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
 
+    fun updateData(newList: List<DataItem?>) {
+        transactionList = newList
+        notifyDataSetChanged() // Memperbarui RecyclerView
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -56,6 +60,8 @@ class TransactionAdapter(private val transactionList: List<DataItem?>) :
         val dateTextView: TextView = itemView.findViewById(R.id.tanggalLabel)
         val amountTextView: TextView = itemView.findViewById(R.id.totalUang)
     }
+
+
 
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<TransactionResponse>() {
