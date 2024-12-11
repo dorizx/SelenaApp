@@ -80,5 +80,11 @@
     <string name="reset_password">Reset Password</string>
     <string name="new_password">New Password</string>
     <string name="refresh">refresh</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">This is an app widget description</string>
+
+    <string name="go_to_transaction">Go to Transaction</string>
+    <string name="transaction_icon">Transaction Icon</string>
 
 </resources>
