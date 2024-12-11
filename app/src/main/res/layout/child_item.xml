@@ -3,17 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="16dp"
-    android:layout_marginVertical="4dp"
-    app:cardCornerRadius="6dp"
-    app:cardElevation="2dp">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
 
-    <TextView
-        android:id="@+id/textChild"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12dp"
-        android:text="Child Item"
-        android:textSize="14sp"
-        android:textColor="@android:color/black" />
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/stepText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Step description"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="8dp" />
+
+        <ImageView
+            android:id="@+id/stepImage"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
+    </LinearLayout>
 </androidx.cardview.widget.CardView>
