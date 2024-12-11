@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.selenaapp.R
 import com.example.selenaapp.ViewModelFactory
+import com.example.selenaapp.data.api.ApiConfig
 import com.example.selenaapp.data.injection.Injection
 import com.example.selenaapp.data.preference.UserPreference
 import com.example.selenaapp.data.preference.dataStore
@@ -128,6 +129,7 @@ class HomeFragment : Fragment() {
     private fun handleEmptyState(isEmpty: Boolean) {
         binding.recyclerViewAnomaly.visibility = if (isEmpty) View.GONE else View.VISIBLE
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

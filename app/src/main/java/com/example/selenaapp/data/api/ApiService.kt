@@ -25,6 +25,7 @@ import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
+import java.util.Date
 
 interface ApiService {
 
@@ -80,6 +81,12 @@ interface ApiService {
     @GET("/transactions")
     suspend fun getTransactions(
         @Query("user_id") userId: Int
+    ) : Response<TransactionResponse>
+
+    @GET("/transactions")
+    suspend fun getMonthlyTransactions(
+        @Query("start_date") startDate: String,
+        @Query("end_date") endDate: String
     ) : Response<TransactionResponse>
 
     @DELETE("/transactions/{transactionId}")
