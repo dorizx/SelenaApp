@@ -2,7 +2,7 @@ package com.example.selenaapp.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.util.Log
 import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -14,13 +14,13 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.selenaapp.R
 import com.example.selenaapp.ViewModelFactory
-import com.example.selenaapp.data.preference.UserModel
+import com.example.selenaapp.data.preference.dataStore
 import com.example.selenaapp.databinding.ActivityMainBinding
 import com.example.selenaapp.ui.login.LoginActivity
 import com.example.selenaapp.ui.settings.SettingsPreference
 import com.example.selenaapp.ui.settings.SettingsViewModel
 import com.example.selenaapp.ui.settings.SettingsViewModelFactory
-import com.example.selenaapp.ui.settings.dataStore
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        saveTheme()
 
         val navView: BottomNavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
@@ -52,14 +53,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.getSession().observe(this) { user ->
+
             if (!user.isLogin) {
+                saveTheme()
                 startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             }
         }
-
-        saveTheme()
-
 
     }
 
@@ -72,6 +72,7 @@ class MainActivity : AppCompatActivity() {
 
         // Dapatkan pengaturan tema dari DataStore dan atur tema aplikasi
         settingsViewModel.getThemeSettings().observe(this) { isDarkModeActive ->
+            Log.d("MainActivity", "isDarkModeActive: $isDarkModeActive")
             if (isDarkModeActive) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             } else {

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -16,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.selenaapp.data.api.ApiConfig
 import com.example.selenaapp.data.preference.UserPreference
+import com.example.selenaapp.data.preference.dataStore
 import com.example.selenaapp.databinding.FragmentSettingsBinding
 import com.example.selenaapp.ui.help.HelpActivity
 import com.example.selenaapp.ui.login.LoginActivity
@@ -23,9 +25,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
-// Ekstensi Context untuk DataStore
-val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class SettingsFragment : Fragment() {
 
@@ -43,6 +42,7 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as? AppCompatActivity)?.supportActionBar?.hide()
 
         // Inisialisasi ViewModel
         val pref = SettingsPreference.getInstance(requireContext().dataStore)

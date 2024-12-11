@@ -1,5 +1,6 @@
 package com.example.selenaapp.ui.settings
 
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -13,11 +14,14 @@ class SettingsPreference private constructor(private val dataStore: DataStore<Pr
 
     fun getThemeSetting(): Flow<Boolean> {
         return dataStore.data.map { preferences ->
-            preferences[THEME_KEY] ?: false
+            val isDarkMode = preferences[THEME_KEY] ?: false
+            Log.d("SettingsPreference", "Theme default: $isDarkMode")
+            isDarkMode
         }
     }
 
     suspend fun saveThemeSetting(isDarkModeActive: Boolean) {
+        Log.d("SettingsPreference", "saveThemeSetting called with: $isDarkModeActive")
         dataStore.edit { preferences ->
             preferences[THEME_KEY] = isDarkModeActive
         }
