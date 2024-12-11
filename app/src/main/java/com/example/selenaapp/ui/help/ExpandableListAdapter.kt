@@ -5,13 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
+import android.widget.ImageView
 import android.widget.TextView
 import com.example.selenaapp.R
 
 class ExpandableListAdapter(
     private val context: Context,
     private val questions: List<String>,
-    private val answers: List<List<String>>
+    private val answers: List<List<Pair<String, Int?>>>
 ) : BaseExpandableListAdapter() {
 
     override fun getChild(groupPosition: Int, childPosition: Int): Any {
@@ -54,10 +55,25 @@ class ExpandableListAdapter(
         parent: ViewGroup?
     ): View {
         val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.child_item, parent, false)
-        val childTextView = view.findViewById<TextView>(R.id.textChild)
-        childTextView.text = answers[groupPosition][childPosition]
+        val stepTextView = view.findViewById<TextView>(R.id.stepText)
+        val stepImageView = view.findViewById<ImageView>(R.id.stepImage)
+
+        val step = answers[groupPosition][childPosition]
+
+        // Set teks langkah
+        stepTextView.text = step.first
+
+        // Set gambar jika ada
+        if (step.second != null) {
+            stepImageView.visibility = View.VISIBLE
+            stepImageView.setImageResource(step.second!!)
+        } else {
+            stepImageView.visibility = View.GONE
+        }
+
         return view
     }
+
 
     override fun getGroupView(
         groupPosition: Int,
