@@ -37,39 +37,34 @@ class SettingsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        _binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         // Inisialisasi ViewModel
         val pref = SettingsPreference.getInstance(requireContext().dataStore)
         val viewModelFactory = SettingsViewModelFactory(pref)
         val mainViewModel = ViewModelProvider(this, viewModelFactory)
             .get(SettingsViewModel::class.java)
 
-        _binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        setupUserInfo()
+        setupThemeSwitch(mainViewModel)
+        setupListeners(mainViewModel)
+    }
 
-        // Set user information
+    private fun setupUserInfo() {
         viewLifecycleOwner.lifecycleScope.launch {
             val userPreference = UserPreference.getInstance(requireContext().dataStore)
             val userModel = userPreference.getSession().first()
             binding.tvUser.text = userModel.name
             binding.tvEmail.text = userModel.email
         }
+    }
 
-        // Tombol logout
-        binding.btnLogout.setOnClickListener {
-            lifecycleScope.launch {
-                val userPreference = UserPreference.getInstance(requireContext().dataStore)
-                userPreference.logout()
-                val intent = Intent(requireContext(), LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
-            }
-        }
-
-        // Tombol help
-        binding.cardHelp.setOnClickListener {
-            val intent = Intent(requireContext(), HelpActivity::class.java)
-            startActivity(intent)
-        }
-
+    private fun setupThemeSwitch(mainViewModel: SettingsViewModel) {
         // Mengatur mode gelap/terang berdasarkan pengaturan
         mainViewModel.getThemeSettings().observe(viewLifecycleOwner) { isDarkModeActive ->
             if (isDarkModeActive) {
@@ -85,16 +80,34 @@ class SettingsFragment : Fragment() {
         binding.switch2.setOnCheckedChangeListener { _, isChecked ->
             mainViewModel.saveThemeSetting(isChecked)
         }
+    }
 
+    private fun setupListeners(mainViewModel: SettingsViewModel) {
+        // Tombol logout
+        binding.btnLogout.setOnClickListener {
+            viewLifecycleOwner.lifecycleScope.launch {
+                val userPreference = UserPreference.getInstance(requireContext().dataStore)
+                userPreference.logout()
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+            }
+        }
+
+        // Tombol help
+        binding.cardHelp.setOnClickListener {
+            val intent = Intent(requireContext(), HelpActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Tombol hapus semua transaksi
         binding.btnDeleteAll.setOnClickListener {
             deleteAllTransaction()
         }
-
-        return binding.root
     }
 
     private fun deleteAllTransaction() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val userPreference = UserPreference.getInstance(requireContext().dataStore)
             val session = userPreference.getSession().first()
 
