@@ -110,7 +110,7 @@
             tools:ignore="SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- TextView for Forgot Password -->
+    <!-- TextView for Forgot Password
     <TextView
         android:id="@+id/forgotPasswordTextView"
         android:layout_width="wrap_content"
@@ -126,6 +126,7 @@
         app:layout_constraintEnd_toEndOf="@+id/passwordEditTextLayout"
         app:layout_constraintTop_toBottomOf="@+id/passwordEditTextLayout"
         tools:alpha="100" />
+    -->
 
     <Button
         android:id="@+id/loginButton"
