@@ -1,10 +1,12 @@
 package com.example.selenaapp.ui.transaction
 
+import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.selenaapp.R
@@ -34,7 +36,8 @@ class TransactionAdapter(private val transactionList: List<DataItem?>) :
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailTransactionActivity::class.java)
             intent.putExtra(DetailTransactionActivity.EXTRA_TRANSACTION_ID, transaction)
-            holder.itemView.context.startActivity(intent)
+            holder.itemView.context.startActivity(intent, ActivityOptionsCompat
+                .makeSceneTransitionAnimation(holder.itemView.context as Activity).toBundle())
         }
     }
 

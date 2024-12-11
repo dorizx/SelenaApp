@@ -108,8 +108,8 @@ class HomeFragment : Fragment() {
 
         val pieDataSet = PieDataSet(pieEntries, "Persentase Income dan Expense")
         pieDataSet.colors = listOf(
-            ContextCompat.getColor(requireContext(), R.color.button_1_dark),
-            ContextCompat.getColor(requireContext(), R.color.button_2_dark)
+            ContextCompat.getColor(requireContext(), R.color.green),
+            ContextCompat.getColor(requireContext(), R.color.red)
         )
         pieDataSet.valueTextColor = ContextCompat.getColor(requireContext(), android.R.color.black)
         pieDataSet.valueTextSize = 12f

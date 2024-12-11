@@ -19,4 +19,7 @@
     <color name="button_2_dark">#3ADF9B</color>
     <color name="text_dark">#E2C68C</color>
 
+    <color name="red">#B06161</color>
+    <color name="green">#D5F0C1</color>
+
 </resources>

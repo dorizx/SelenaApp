@@ -1,10 +1,12 @@
 package com.example.selenaapp.ui.home
 
+import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.selenaapp.R
@@ -36,7 +38,8 @@ class DashboardAdapter(private val transactionList: List<AnomalyTransactionsItem
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailAnomalyActivity::class.java)
             intent.putExtra(DetailAnomalyActivity.EXTRA_TRANSACTION_ANOMALY_ID, transaction)
-            holder.itemView.context.startActivity(intent)
+            holder.itemView.context.startActivity(intent, ActivityOptionsCompat
+                .makeSceneTransitionAnimation(holder.itemView.context as Activity).toBundle())
         }
     }
 
