@@ -13,6 +13,7 @@ import com.example.selenaapp.R
 import com.example.selenaapp.ViewModelFactory
 import com.example.selenaapp.databinding.ActivitySignupBinding
 import com.example.selenaapp.ui.otp.OtpActivity
+import org.json.JSONObject
 
 class SignupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
@@ -49,7 +50,22 @@ class SignupActivity : AppCompatActivity() {
                     }
                     startActivity(intent)
                 } else {
-                    Toast.makeText(this, "Pendaftaran gagal: ${response.body()?.message.toString()}", Toast.LENGTH_LONG).show()
+                    val errorMessage = try {
+                        val errorBody = response.errorBody()?.string()
+                        if (!errorBody.isNullOrEmpty()) {
+                            val json = JSONObject(errorBody)
+                            json.optString("message", "Terjadi kesalahan")
+                        } else {
+                            when (response.code()) {
+                                409 -> "Email sudah terdaftar!"
+                                400 -> "Nama, email, dan password perlu diisi!"
+                                else -> "Terjadi kesalahan. Kode: ${response.code()}"
+                            }
+                        }
+                    } catch (e: Exception) {
+                        "Terjadi kesalahan: ${e.message}"
+                    }
+                    Toast.makeText(this, "Pendaftaran gagal: $errorMessage", Toast.LENGTH_LONG).show()
                 }
             }
         }

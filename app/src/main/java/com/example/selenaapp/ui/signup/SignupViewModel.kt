@@ -32,7 +32,6 @@ class SignupViewModel (private val repository: UserRepository) : ViewModel() {
                     callback(response)
                 } else {
                     val errorMessage = response.errorBody()?.string() ?: "Pendaftaran gagal"
-
                     callback(Response.error(response.code(), response.errorBody()))
                     _errorMessage.value = errorMessage
                 }
