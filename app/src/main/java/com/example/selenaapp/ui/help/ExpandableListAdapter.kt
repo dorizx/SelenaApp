@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import android.widget.TextView
+import com.example.selenaapp.R
 
 class ExpandableListAdapter(
     private val context: Context,
@@ -52,14 +53,10 @@ class ExpandableListAdapter(
         convertView: View?,
         parent: ViewGroup?
     ): View {
-        var view = convertView
-        if (view == null) {
-            val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            view = inflater.inflate(android.R.layout.simple_expandable_list_item_2, null)
-        }
-        val answerTextView = view?.findViewById<TextView>(android.R.id.text2)
-        answerTextView?.text = answers[groupPosition][childPosition]
-        return view!!
+        val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.child_item, parent, false)
+        val childTextView = view.findViewById<TextView>(R.id.textChild)
+        childTextView.text = answers[groupPosition][childPosition]
+        return view
     }
 
     override fun getGroupView(
@@ -68,13 +65,10 @@ class ExpandableListAdapter(
         convertView: View?,
         parent: ViewGroup?
     ): View {
-        var view = convertView
-        if (view == null) {
-            val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            view = inflater.inflate(android.R.layout.simple_expandable_list_item_1, null)
-        }
-        val questionTextView = view?.findViewById<TextView>(android.R.id.text1)
-        questionTextView?.text = questions[groupPosition]
-        return view!!
+        val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.group_item, parent, false)
+        val groupTextView = view.findViewById<TextView>(R.id.textGroup)
+        groupTextView.text = questions[groupPosition]
+        return view
     }
+
 }
