@@ -33,7 +33,7 @@ class DashboardAdapter(private val transactionList: List<AnomalyTransactionsItem
         val formattedAmount = NumberFormat.getNumberInstance(Locale("id", "ID"))
             .format(transaction?.amount)
         holder.dateTextView.text = transaction?.date
-        holder.amountTextView.text = "Rp. $formattedAmount"
+        holder.amountTextView.text = "Rp. ${formattedAmount}"
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailAnomalyActivity::class.java)

@@ -31,7 +31,16 @@ class TransactionAdapter(private val transactionList: List<DataItem?>) :
         val formattedAmount = NumberFormat.getNumberInstance(Locale("id", "ID"))
             .format(transaction?.amount)
         holder.dateTextView.text = transaction?.date
-        holder.amountTextView.text = "Rp. $formattedAmount"
+        holder.amountTextView.text = "Rp. ${formattedAmount}"
+
+        val context = holder.itemView.context
+        val color = if (transaction?.transactionType == "income") {
+            context.getColor(R.color.green_adapter)
+        } else {
+            context.getColor(R.color.red_adapter)
+        }
+
+        holder.amountTextView.setTextColor(color)
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailTransactionActivity::class.java)
