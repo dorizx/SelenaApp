@@ -191,7 +191,7 @@
             android:background="@drawable/bg_refresh"/>
 
     <TextView
-        android:id="@+id/label_anomali"
+        android:id="@+id/label_advice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -214,7 +214,7 @@
         android:justificationMode="inter_word"
         tools:text="@string/_100000"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/label_anomali" />
+        app:layout_constraintTop_toBottomOf="@id/label_advice" />
 
     <TextView
         android:id="@+id/label_anomaly"
@@ -229,6 +229,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_finance_advice" />
 
+    <TextView
+        android:id="@+id/tv_anomaly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
+        android:textSize="16sp"
+        android:text="@string/no_anomaly"
+        android:justificationMode="inter_word"
+        tools:text="@string/_100000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/label_anomaly" />
+
+    <TextView
+        android:id="@+id/label_chart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="8dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="@string/chart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recyclerViewAnomaly" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewAnomaly"
         android:layout_width="0dp"
@@ -240,7 +267,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/label_anomaly"
+        app:layout_constraintTop_toBottomOf="@id/tv_anomaly"
         app:layout_constraintVertical_bias="0.076" />
 
     <com.github.mikephil.charting.charts.PieChart

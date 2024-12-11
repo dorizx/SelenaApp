@@ -102,11 +102,11 @@ class HomeFragment : Fragment() {
 
     private fun setupPieChart(totalIncome: Float, totalExpense: Float) {
         val pieEntries = listOf(
-            PieEntry(totalIncome, "Income"),
-            PieEntry(totalExpense, "Expense")
+            PieEntry(totalIncome, "Pemasukan"),
+            PieEntry(totalExpense, "Pengeluaran")
         )
 
-        val pieDataSet = PieDataSet(pieEntries, "Persentase Income dan Expense")
+        val pieDataSet = PieDataSet(pieEntries, "Persentase Pemasukan dan Pengeluaran")
         pieDataSet.colors = listOf(
             ContextCompat.getColor(requireContext(), R.color.green),
             ContextCompat.getColor(requireContext(), R.color.red)
@@ -128,6 +128,7 @@ class HomeFragment : Fragment() {
 
     private fun handleEmptyState(isEmpty: Boolean) {
         binding.recyclerViewAnomaly.visibility = if (isEmpty) View.GONE else View.VISIBLE
+        binding.tvAnomaly.visibility = if (isEmpty) View.VISIBLE else View.GONE
     }
 
 

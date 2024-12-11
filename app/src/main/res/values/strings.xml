@@ -87,4 +87,7 @@
     <string name="go_to_transaction">Go to Transaction</string>
     <string name="transaction_icon">Transaction Icon</string>
 
+    <string name="no_anomaly">Belum Ada Anomali Pengeluaran</string>
+    <string name="chart">Grafik</string>
+
 </resources>
