@@ -19,7 +19,6 @@
             android:layout_height="wrap_content"
             android:text="Step description"
             android:textSize="14sp"
-            android:textColor="@android:color/black"
             android:layout_marginBottom="8dp" />
 
         <ImageView
