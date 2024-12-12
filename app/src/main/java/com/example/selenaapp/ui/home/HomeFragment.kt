@@ -134,6 +134,7 @@ class HomeFragment : Fragment() {
         val pieEntries = listOf(
             PieEntry(totalIncome, "Pemasukan"),
             PieEntry(totalExpense, "Pengeluaran")
+
         )
 
         if (pieEntries.isEmpty()) {
@@ -145,14 +146,19 @@ class HomeFragment : Fragment() {
             ContextCompat.getColor(requireContext(), R.color.green),
             ContextCompat.getColor(requireContext(), R.color.red)
         )
-        pieDataSet.valueTextColor = ContextCompat.getColor(requireContext(), R.color.black)
-        pieDataSet.valueTextSize = 12f
 
         val pieData = PieData(pieDataSet)
         binding.pieChart.data = pieData
         binding.pieChart.description.isEnabled = false
         binding.pieChart.setUsePercentValues(true)
         binding.pieChart.invalidate()
+        binding.pieChart.setEntryLabelColor(ContextCompat.getColor(requireContext(), R.color.black))
+        pieDataSet.valueTextSize = 13f
+        binding.pieChart.legend.apply {
+            textColor = ContextCompat.getColor(requireContext(), R.color.main_light)
+            textSize = 12f
+            xEntrySpace = 16f
+        }
     }
 
 

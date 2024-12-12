@@ -37,9 +37,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        settingsPreferences = SettingsPreference.getInstance(dataStore)
+        viewModel.getSession().observe(this) { user ->
+            if (!user.isLogin) {
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+            }
+        }
 
-        // Check and apply theme only once in onCreate
+        settingsPreferences = SettingsPreference.getInstance(dataStore)
         checkThemeSettings()
 
         val navView: BottomNavigationView = binding.navView
@@ -50,19 +55,11 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        viewModel.getSession().observe(this) { user ->
-            if (!user.isLogin) {
-                startActivity(Intent(this, LoginActivity::class.java))
-                finish()
-            }
-        }
     }
 
-    // Apply theme only once, avoiding infinite loop
     private fun checkThemeSettings() {
         lifecycleScope.launch {
             settingsPreferences.getThemeSetting().collect { isDarkModeActive ->
-                // Apply theme only if needed
                 if (isDarkModeActive) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 } else {
