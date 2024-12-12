@@ -1,11 +1,11 @@
 package com.example.selenaapp.ui.transaction.file
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,30 +13,31 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat.startActivity
+import androidx.fragment.app.Fragment
 import com.example.selenaapp.R
 import com.example.selenaapp.data.api.ApiConfig
 import com.example.selenaapp.data.preference.UserPreference
 import com.example.selenaapp.data.preference.dataStore
 import com.example.selenaapp.databinding.FragmentTokopediaBinding
 import com.example.selenaapp.ui.main.MainActivity
-import com.example.selenaapp.ui.transaction.TransactionFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
-
 class TokopediaFragment : Fragment() {
 
-    private lateinit var selectFileButton: Button
     private lateinit var fileNameTextView: TextView
-    private lateinit var uploadButton: Button
     private var selectedFileUri: Uri? = null
     private var _binding: FragmentTokopediaBinding? = null
+    private val binding get() = _binding!!
 
     private val selectFileLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
@@ -44,7 +45,9 @@ class TokopediaFragment : Fragment() {
         if (uri != null) {
             selectedFileUri = uri
             val fileName = getFileName(uri)
-            fileNameTextView.text = "Nama File: $fileName"
+            if (fileName.isNotEmpty()) {
+                fileNameTextView.text = "Nama File: $fileName"
+            }
         } else {
             Log.d("File Picker", "No file selected")
         }
@@ -53,52 +56,39 @@ class TokopediaFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the fragment layout
-        val binding = inflater.inflate(R.layout.fragment_tokopedia, container, false)
+    ): View {
+        _binding = FragmentTokopediaBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        // Initialize UI components
-        selectFileButton = binding.findViewById(R.id.selectFileButton)
-        fileNameTextView = binding.findViewById(R.id.fileNameTextView)
-        uploadButton = binding.findViewById(R.id.uploadButtonTokopedia)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        // Set click listeners
-        selectFileButton.setOnClickListener {
+        fileNameTextView =
+            binding.fileNameTextView // Assuming you have a TextView to show the file name
+
+        binding.selectFileButton.setOnClickListener {
             selectFileLauncher.launch("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
         }
 
-        uploadButton.setOnClickListener {
+        binding.uploadButtonTokopedia.setOnClickListener {
             uploadFile()
         }
-
-        return binding
-    }
-
-    // onViewCreated - digunakan untuk setup dan konfigurasi tambahan setelah tampilan fragment dibuat
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        // Anda bisa menambahkan inisialisasi atau setup lainnya di sini
-        Log.d("TokopediaFragment", "onViewCreated called")
-    }
-
-    // onDestroyView - membersihkan referensi tampilan dan sumber daya yang digunakan oleh fragment
-    override fun onDestroyView() {
-        super.onDestroyView()
-        selectedFileUri = null
-        _binding = null
     }
 
     private fun getFileName(uri: Uri): String {
         var fileName = "Unknown"
-        val cursor = context?.contentResolver?.query(uri, null, null, null, null)
-        cursor?.let {
-            if (it.moveToFirst()) {
-                val columnIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-                if (columnIndex >= 0) {
-                    fileName = it.getString(columnIndex)
+        context?.let { context ->
+            val cursor = context.contentResolver.query(uri, null, null, null, null)
+            cursor?.let {
+                if (it.moveToFirst()) {
+                    val columnIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                    if (columnIndex >= 0) {
+                        fileName = it.getString(columnIndex)
+                    }
                 }
+                it.close()
             }
-            it.close()
         }
 
         if (!fileName.endsWith(".xlsx", ignoreCase = true)) {
@@ -109,15 +99,10 @@ class TokopediaFragment : Fragment() {
         return fileName
     }
 
-    private var isFileUploaded = false
+    private var uploadJob: Job? = null
 
     private fun uploadFile() {
         val context = context ?: return
-
-        if (isFileUploaded) {
-            Toast.makeText(context, "File sudah diupload", Toast.LENGTH_SHORT).show()
-            return
-        }
 
         if (selectedFileUri == null) {
             Toast.makeText(context, "Pilih file terlebih dahulu", Toast.LENGTH_SHORT).show()
@@ -125,9 +110,14 @@ class TokopediaFragment : Fragment() {
         }
 
         val fileUri = selectedFileUri ?: return
-        val file = File(context.cacheDir, getFileName(fileUri))
-        selectedFileUri = null
+        val fileName = getFileName(fileUri)
 
+        if (fileName.isEmpty()) {
+            // File not valid (e.g., not .xlsx)
+            return
+        }
+
+        val file = File(context.cacheDir, fileName)
         val inputStream = context.contentResolver.openInputStream(fileUri)
 
         if (inputStream != null) {
@@ -135,44 +125,78 @@ class TokopediaFragment : Fragment() {
                 inputStream.copyTo(output)
             }
 
-            val fileRequestBody = file.asRequestBody("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet".toMediaTypeOrNull())
-            val filePart = MultipartBody.Part.createFormData("file-excel", file.name, fileRequestBody)
+            val fileRequestBody =
+                file.asRequestBody("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet".toMediaTypeOrNull())
+            val filePart =
+                MultipartBody.Part.createFormData("file-excel", file.name, fileRequestBody)
 
-            CoroutineScope(Dispatchers.IO).launch {
+            uploadJob?.cancel()
 
+            uploadJob = CoroutineScope(Dispatchers.IO).launch {
                 val userPreference = UserPreference.getInstance(context.dataStore)
                 userPreference.getSession().collect { userModel ->
                     val userId = userModel.userId
                     val token = userModel.token
-                // Upload file ke server
-                try {
 
-                    val response = ApiConfig.getApiService(token).addTokopediaTransaction(userId, filePart)
-                    withContext(Dispatchers.Main) {
-                        if (response.isSuccessful) {
-                            requireActivity().supportFragmentManager.beginTransaction().remove(this@TokopediaFragment).commit()
+                    try {
+                        val response =
+                            ApiConfig.getApiService(token).addTokopediaTransaction(userId, filePart)
 
-                            selectedFileUri = null
-                            val intent = Intent(context, MainActivity::class.java)
-                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            startActivity(intent)
-                        } else {
-                            Toast.makeText(context, "Upload gagal", Toast.LENGTH_SHORT).show()
+                        if (isAdded) {
+                            CoroutineScope(Dispatchers.Main).launch {
+                                if (response.isSuccessful) {
+                                    Toast.makeText(
+                                        context,
+                                        "Upload berhasil: ${response.body()?.message}",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    showSuccessDialog(context)
+                                } else {
+                                    Toast.makeText(
+                                        context,
+                                        "Upload gagal: ${response.errorBody()?.string()}",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                        }
+                    } catch (e: Exception) {
+                        if (isAdded) {
+                            CoroutineScope(Dispatchers.Main).launch {
+                                Toast.makeText(
+                                    context,
+                                    "Terjadi kesalahan: ${e.message}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     }
-                } catch (e: Exception) {
-                    withContext(Dispatchers.Main) {
-//                        Toast.makeText(
-//                            context,
-//                            "Terjadi kesalahan: ${e.message}",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-                    }
-                }
                 }
             }
         } else {
             Toast.makeText(context, "Gagal membaca file", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun showSuccessDialog(context: Context) {
+        if (isAdded) {
+            AlertDialog.Builder(requireContext()).apply {
+                setTitle("Yeah!")
+                setMessage("Anda berhasil upload. Ayo cek transaksi Anda.")
+                setPositiveButton("Lanjut") { _, _ ->
+                    val intent = Intent(context, MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                }
+                create()
+                show()
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        uploadJob?.cancel()
+        _binding = null
     }
 }

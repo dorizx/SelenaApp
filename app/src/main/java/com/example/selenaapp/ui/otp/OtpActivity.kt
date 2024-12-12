@@ -171,12 +171,12 @@ class OtpActivity : AppCompatActivity() {
                 intent = Intent(this, LoginActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intent)
-                //reset()
-                //return@verifyOtp
+
             } else {
-                Toast.makeText(this, "Sedang Ada Gangguan", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, LoginActivity::class.java))
-                finish()
+                Toast.makeText(this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show()
+                intent = Intent(this, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
             }
         }
     }
