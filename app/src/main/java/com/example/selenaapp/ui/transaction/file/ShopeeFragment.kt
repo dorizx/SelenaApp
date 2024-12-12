@@ -1,5 +1,6 @@
 package com.example.selenaapp.ui.transaction.file
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
@@ -16,6 +17,8 @@ import com.example.selenaapp.R
 import com.example.selenaapp.data.api.ApiConfig
 import com.example.selenaapp.data.preference.UserPreference
 import com.example.selenaapp.data.preference.dataStore
+import com.example.selenaapp.ui.main.MainActivity
+import com.example.selenaapp.ui.transaction.TransactionFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -118,12 +121,26 @@ class ShopeeFragment : Fragment() {
                     // Call API to upload the file
                     try {
                         val response = ApiConfig
-                                .getApiService(token)
-                                .addShopeeTransaction(userId, filePart)
+                            .getApiService(token)
+                            .addShopeeTransaction(userId, filePart)
 
                         CoroutineScope(Dispatchers.Main).launch {
                             if (response.isSuccessful) {
                                 Toast.makeText(context, "Upload berhasil: ${response.body()?.message}", Toast.LENGTH_SHORT).show()
+
+                                // Intent ke MainActivity dan pindah fragment
+                                val intent = Intent(context, MainActivity::class.java)
+                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                startActivity(intent)
+
+                                // Opsional: Memasukkan fragment TransactionFragment di MainActivity
+                                val transactionFragment = TransactionFragment()
+                                val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
+
+                                // Gantikan fragment di container
+                                fragmentTransaction.replace(R.id.fragment_container, transactionFragment)
+                                fragmentTransaction.commit()
+
                             } else {
                                 Toast.makeText(context, "Upload gagal: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
                             }

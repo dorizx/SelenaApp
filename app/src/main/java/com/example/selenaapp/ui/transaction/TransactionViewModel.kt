@@ -61,6 +61,9 @@ class TransactionViewModel(private val userPreference: UserPreference) : ViewMod
                     _totalProfit.postValue(rupiahFormatter.format(totalProfit))
                 } else {
                     _transactions.postValue(emptyList())
+                    _totalIncome.postValue("Rp 0")
+                    _totalExpense.postValue("Rp 0")
+                    _totalProfit.postValue("Rp 0")
                     //_errorMessage.postValue("Gagal memuat data: ${response.errorBody()?.string()}")
                 }
             } catch (e: Exception) {

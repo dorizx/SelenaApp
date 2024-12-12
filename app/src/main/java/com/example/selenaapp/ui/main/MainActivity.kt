@@ -8,6 +8,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -20,12 +21,13 @@ import com.example.selenaapp.ui.login.LoginActivity
 import com.example.selenaapp.ui.settings.SettingsPreference
 import com.example.selenaapp.ui.settings.SettingsViewModel
 import com.example.selenaapp.ui.settings.SettingsViewModelFactory
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val navController by lazy { findNavController(R.id.nav_host_fragment_activity_main) }
+    private lateinit var settingsPreferences: SettingsPreference
     private val viewModel by viewModels<MainViewModel> {
         ViewModelFactory.getInstance(this)
     }
@@ -42,13 +44,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        settingsPreferences = SettingsPreference.getInstance(dataStore)
+        // Check and apply theme only once in onCreate
+        checkThemeSettings()
+
         val navView: BottomNavigationView = binding.navView
-            val navController = findNavController(R.id.nav_host_fragment_activity_main)
-            val appBarConfiguration = AppBarConfiguration(
-                setOf(
-                    R.id.navigation_home, R.id.navigation_transaction, R.id.navigation_settings
-                )
-            )
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(R.id.navigation_home, R.id.navigation_transaction, R.id.navigation_settings)
+        )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
@@ -57,26 +61,21 @@ class MainActivity : AppCompatActivity() {
                 navController.navigate(R.id.navigation_transaction)
             }
         }
-        //saveTheme()
     }
 
-    fun saveTheme() {
-        val pref = SettingsPreference.getInstance(applicationContext.dataStore)
-
-        // Gunakan ViewModel untuk memantau pengaturan tema
-        val viewModelFactory = SettingsViewModelFactory(pref)
-        val settingsViewModel =
-            ViewModelProvider(this, viewModelFactory).get(SettingsViewModel::class.java)
-
-        // Dapatkan pengaturan tema dari DataStore dan atur tema aplikasi
-        settingsViewModel.getThemeSettings().observe(this) { isDarkModeActive ->
-            Log.d("MainActivity", "isDarkModeActive: $isDarkModeActive")
-            if (isDarkModeActive) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+    // Apply theme only once, avoiding infinite loop
+    private fun checkThemeSettings() {
+        lifecycleScope.launch {
+            settingsPreferences.getThemeSetting().collect { isDarkModeActive ->
+                // Apply theme only if needed
+                if (isDarkModeActive) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
             }
         }
     }
-
 }
+
+

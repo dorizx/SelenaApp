@@ -1,12 +1,16 @@
 package com.example.selenaapp.ui.settings
 
+import android.content.Context
 import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class SettingsPreference private constructor(private val dataStore: DataStore<Preferences>) {
 
@@ -14,14 +18,11 @@ class SettingsPreference private constructor(private val dataStore: DataStore<Pr
 
     fun getThemeSetting(): Flow<Boolean> {
         return dataStore.data.map { preferences ->
-            val isDarkMode = preferences[THEME_KEY] ?: false
-            Log.d("SettingsPreference", "Theme default: $isDarkMode")
-            isDarkMode
+            preferences[THEME_KEY] ?: false // Default ke false (tema terang)
         }
     }
 
     suspend fun saveThemeSetting(isDarkModeActive: Boolean) {
-        Log.d("SettingsPreference", "saveThemeSetting called with: $isDarkModeActive")
         dataStore.edit { preferences ->
             preferences[THEME_KEY] = isDarkModeActive
         }
@@ -39,5 +40,4 @@ class SettingsPreference private constructor(private val dataStore: DataStore<Pr
             }
         }
     }
-
 }

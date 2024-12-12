@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -44,15 +45,22 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (activity as? AppCompatActivity)?.supportActionBar?.hide()
 
-        // Inisialisasi ViewModel
-        val pref = SettingsPreference.getInstance(requireContext().dataStore)
-        val viewModelFactory = SettingsViewModelFactory(pref)
-        val mainViewModel = ViewModelProvider(this, viewModelFactory)
+        val switchTheme = binding.switch2
+        val pref = SettingsPreference.getInstance(requireActivity().dataStore)
+        val settingViewModel = ViewModelProvider(this, SettingsViewModelFactory(pref))
             .get(SettingsViewModel::class.java)
 
+        // Observe changes to theme setting
+        settingViewModel.getThemeSettings().observe(viewLifecycleOwner) { isDarkModeActive ->
+            switchTheme.isChecked = isDarkModeActive // Update the UI based on current setting
+        }
+
+        switchTheme.setOnCheckedChangeListener { _, isChecked ->
+            settingViewModel.saveThemeSetting(isChecked) // Save theme setting, don't apply directly here
+        }
+
         setupUserInfo()
-        setupThemeSwitch(mainViewModel)
-        setupListeners(mainViewModel)
+        setupListeners()
     }
 
     private fun setupUserInfo() {
@@ -64,25 +72,7 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    private fun setupThemeSwitch(mainViewModel: SettingsViewModel) {
-        // Mengatur mode gelap/terang berdasarkan pengaturan
-        mainViewModel.getThemeSettings().observe(viewLifecycleOwner) { isDarkModeActive ->
-            if (isDarkModeActive) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                binding.switch2.isChecked = true
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                binding.switch2.isChecked = false
-            }
-        }
-
-        // Menangani perubahan pada switch untuk tema
-        binding.switch2.setOnCheckedChangeListener { _, isChecked ->
-            mainViewModel.saveThemeSetting(isChecked)
-        }
-    }
-
-    private fun setupListeners(mainViewModel: SettingsViewModel) {
+    private fun setupListeners() {
         // Tombol logout
         binding.btnLogout.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
@@ -142,3 +132,5 @@ class SettingsFragment : Fragment() {
         _binding = null
     }
 }
+
+

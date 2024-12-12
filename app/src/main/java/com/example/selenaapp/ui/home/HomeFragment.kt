@@ -83,13 +83,38 @@ class HomeFragment : Fragment() {
             binding.valueDataExpense.text = formattedExpense
         }
 
-        homeViewModel.totalProfit.observe(viewLifecycleOwner) { totalProfit ->
-            binding.valueDataProfit.text = totalProfit
+        homeViewModel.incomeTransationsSize.observe(viewLifecycleOwner) { incomeTransationsSize ->
+            val totalIncome = homeViewModel.totalIncome.value ?: 0
+
+            // Pastikan incomeTransationsSize tidak 0 untuk menghindari pembagian dengan nol
+            if (incomeTransationsSize != 0) {
+                val averageIncome = totalIncome / incomeTransationsSize
+                val formattedAverageIncome = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(averageIncome)
+                binding.valueAverageIncome.text = formattedAverageIncome
+            } else {
+                binding.valueAverageIncome.text = "Rp0"
+            }
+        }
+
+        homeViewModel.expenseTransationsSize.observe(viewLifecycleOwner) { expenseTransationsSize ->
+            // Pastikan totalExpense bukan null, jika null set menjadi 0
+            val totalExpense = homeViewModel.totalExpense.value?: 0
+
+            // Pastikan expenseTransationsSize tidak 0 untuk menghindari pembagian dengan nol
+            if (expenseTransationsSize != 0) {
+                val averageExpense = totalExpense / expenseTransationsSize
+                val formattedAverageExpense = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(averageExpense)
+                binding.valueAverageExpense.text = formattedAverageExpense
+            } else {
+                binding.valueAverageExpense.text = "Rp0"
+            }
         }
 
         homeViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             showLoading(isLoading)
         }
+
+
 
         homeViewModel.totalIncome.observe(viewLifecycleOwner) { totalIncome ->
             val totalIncomeFloat = totalIncome.toFloat()
@@ -120,7 +145,7 @@ class HomeFragment : Fragment() {
             ContextCompat.getColor(requireContext(), R.color.green),
             ContextCompat.getColor(requireContext(), R.color.red)
         )
-        pieDataSet.valueTextColor = ContextCompat.getColor(requireContext(), android.R.color.black)
+        pieDataSet.valueTextColor = ContextCompat.getColor(requireContext(), R.color.black)
         pieDataSet.valueTextSize = 12f
 
         val pieData = PieData(pieDataSet)

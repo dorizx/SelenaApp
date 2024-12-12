@@ -9,7 +9,13 @@ import kotlinx.coroutines.launch
 
 class SettingsViewModel (private val pref: SettingsPreference) : ViewModel() {
     fun getThemeSettings(): LiveData<Boolean> {
-        return pref.getThemeSetting().asLiveData()
+        val result = MutableLiveData<Boolean>()
+        viewModelScope.launch {
+            pref.getThemeSetting().collect { isDarkModeActive ->
+                result.postValue(isDarkModeActive)
+            }
+        }
+        return result
     }
 
     fun saveThemeSetting(isDarkModeActive: Boolean) {

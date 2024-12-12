@@ -16,20 +16,23 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
     private val _anomalyTransactions = MutableLiveData<List<AnomalyTransactionsItem>?>()
     val anomalyTransactions: LiveData<List<AnomalyTransactionsItem>?> = _anomalyTransactions
 
-    private val _totalIncome = MutableLiveData<String>()
-    val totalIncome: LiveData<String> = _totalIncome
+    private val _totalIncome = MutableLiveData<Int>()
+    val totalIncome: LiveData<Int> = _totalIncome
 
-    private val _totalExpense = MutableLiveData<String>()
-    val totalExpense: LiveData<String> = _totalExpense
-
-    private val _totalProfit = MutableLiveData<String>()
-    val totalProfit: LiveData<String> = _totalProfit
+    private val _totalExpense = MutableLiveData<Int>()
+    val totalExpense: LiveData<Int> = _totalExpense
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
     private val _financialAdvice = MutableLiveData<String>()
     val financialAdvice: LiveData<String> = _financialAdvice
+
+    private val _incomeTransationsSize = MutableLiveData<Int>()
+    val incomeTransationsSize: LiveData<Int> = _incomeTransationsSize
+
+    private val _expenseTransationsSize = MutableLiveData<Int>()
+    val expenseTransationsSize: LiveData<Int> = _expenseTransationsSize
 
     init {
         fetchAnomalyData()
@@ -41,9 +44,11 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
             try {
                 val result = repository.getAnomalyTransactions()
                 _anomalyTransactions.postValue(result.anomalyTransactions as List<AnomalyTransactionsItem>?)
-                _totalIncome.postValue(result.totalIncome?.toString() ?: "0")
-                _totalExpense.postValue(result.totalExpense?.toString() ?: "0")
+                _totalIncome.postValue(result.transactionStats?.totalIncome?: 0 )
+                _totalExpense.postValue(result.transactionStats?.totalExpense?: 0 )
                 _financialAdvice.postValue(result.financialAdvice.toString())
+                _incomeTransationsSize.postValue(result.transactionStats?.incomeTransationsSize ?: 0 )
+                _expenseTransationsSize.postValue(result.transactionStats?.expenseTransationsSize ?: 0)
             } catch (e: Exception) {
                 Log.e("HomeViewModel", "Error fetching anomaly data: ${e.message}")
             } finally {

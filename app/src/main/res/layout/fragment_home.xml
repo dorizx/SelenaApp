@@ -126,7 +126,7 @@
                     android:padding="8dp">
 
                     <TextView
-                        android:id="@+id/label_saving"
+                        android:id="@+id/label_average_income"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/average_income"
@@ -134,7 +134,7 @@
                         android:textColor="@android:color/white" />
 
                     <TextView
-                        android:id="@+id/value_data_profit"
+                        android:id="@+id/value_average_income"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/_100000"
@@ -156,7 +156,7 @@
                     android:padding="8dp">
 
                     <TextView
-                        android:id="@+id/label_expense_limit"
+                        android:id="@+id/label_average_expense"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/average_outcome"
@@ -164,7 +164,7 @@
                         android:textColor="@android:color/white" />
 
                     <TextView
-                        android:id="@+id/value_data_limit"
+                        android:id="@+id/value_average_expense"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/_100000"

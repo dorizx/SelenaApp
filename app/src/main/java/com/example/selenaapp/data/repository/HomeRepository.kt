@@ -4,6 +4,7 @@ import com.example.selenaapp.data.api.ApiConfig
 import com.example.selenaapp.data.preference.UserPreference
 import com.example.selenaapp.data.response.DashboardResponse
 import com.example.selenaapp.data.response.DataItem
+import com.example.selenaapp.data.response.TransactionStats
 import kotlinx.coroutines.flow.first
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -23,9 +24,9 @@ class HomeRepository(private val userPreference: UserPreference) {
             val body = response.body()!!
             return DashboardResponse(
                 anomalyTransactions = body.anomalyTransactions,
-                totalIncome = body.totalIncome,
-                totalExpense = body.totalExpense,
                 financialAdvice = body.financialAdvice,
+                message = body.message,
+                transactionStats = body.transactionStats
             )
         } else {
             throw Exception("Failed to fetch data")
