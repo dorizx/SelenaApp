@@ -167,9 +167,12 @@ class OtpActivity : AppCompatActivity() {
 
         otpViewModel.verifyOtp(otpCode, name, email, password) { otpResponse ->
             if (otpResponse != null) {
-                Toast.makeText(this, "Invalid OTP, coba cek email anda lagi", Toast.LENGTH_LONG).show()
-                reset()
-                return@verifyOtp
+                Toast.makeText(this, "Pendaftaran Berhasil", Toast.LENGTH_LONG).show()
+                intent = Intent(this, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+                //reset()
+                //return@verifyOtp
             } else {
                 Toast.makeText(this, "Sedang Ada Gangguan", Toast.LENGTH_SHORT).show()
                 startActivity(Intent(this, LoginActivity::class.java))

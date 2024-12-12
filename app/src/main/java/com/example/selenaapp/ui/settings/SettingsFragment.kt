@@ -131,6 +131,7 @@ class SettingsFragment : Fragment() {
             try {
                 val response = ApiConfig.getApiService(token).deleteAllTransaction(userId)
                 withContext(Dispatchers.Main) {
+
                     if (response.isSuccessful) {
                         showToast(response.body()?.message ?: "Berhasil menghapus semua transaksi.")
                         val intent = Intent(context, MainActivity::class.java)

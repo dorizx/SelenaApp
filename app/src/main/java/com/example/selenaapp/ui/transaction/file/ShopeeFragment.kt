@@ -17,6 +17,7 @@ import com.example.selenaapp.R
 import com.example.selenaapp.data.api.ApiConfig
 import com.example.selenaapp.data.preference.UserPreference
 import com.example.selenaapp.data.preference.dataStore
+import com.example.selenaapp.databinding.FragmentShopeeBinding
 import com.example.selenaapp.ui.main.MainActivity
 import com.example.selenaapp.ui.transaction.TransactionFragment
 import kotlinx.coroutines.CoroutineScope
@@ -34,6 +35,7 @@ class ShopeeFragment : Fragment() {
     private lateinit var fileNameTextView: TextView
     private lateinit var uploadButton: Button
     private var selectedFileUri: Uri? = null
+    private var _binding: FragmentShopeeBinding? = null
 
     private val selectFileLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
@@ -75,15 +77,14 @@ class ShopeeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // Anda bisa menambahkan inisialisasi atau setup lainnya di sini
-        Log.d("TokopediaFragment", "onViewCreated called")
+        Log.d("ShopeeFragment", "onViewCreated called")
     }
 
     // onDestroyView - membersihkan referensi tampilan dan sumber daya yang digunakan oleh fragment
     override fun onDestroyView() {
         super.onDestroyView()
-        // Membersihkan referensi tampilan
-        // Jika Anda memiliki komponen atau variabel yang perlu dibersihkan, lakukan di sini
-        Log.d("TokopediaFragment", "onDestroyView called")
+        selectedFileUri = null
+        _binding = null
     }
 
     private fun getFileName(uri: Uri): String {
@@ -107,16 +108,27 @@ class ShopeeFragment : Fragment() {
         return fileName
     }
 
+    private var isFileUploaded = false
+
     private fun uploadFile() {
         val context = context ?: return
+
+
 
         if (selectedFileUri == null) {
             Toast.makeText(context, "Pilih file terlebih dahulu", Toast.LENGTH_SHORT).show()
             return
         }
 
+        if (isFileUploaded) {
+            Toast.makeText(context, "File sudah diupload", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val fileUri = selectedFileUri ?: return
         val file = File(context.cacheDir, getFileName(fileUri))
+        selectedFileUri = null
+
         val inputStream = context.contentResolver.openInputStream(fileUri)
 
         if (inputStream != null) {
@@ -128,42 +140,35 @@ class ShopeeFragment : Fragment() {
             val filePart = MultipartBody.Part.createFormData("file-excel", file.name, fileRequestBody)
 
             CoroutineScope(Dispatchers.IO).launch {
-                // Get user_id from preferences
+
                 val userPreference = UserPreference.getInstance(context.dataStore)
                 userPreference.getSession().collect { userModel ->
                     val userId = userModel.userId
                     val token = userModel.token
-
-                    // Call API to upload the file
+                    // Upload file ke server
                     try {
-                        val response = ApiConfig
-                            .getApiService(token)
-                            .addShopeeTransaction(userId, filePart)
-
-                        // Pastikan untuk kembali ke Main thread setelah task selesai
+                        val response = ApiConfig.getApiService(token).addShopeeTransaction(userId, filePart)
                         withContext(Dispatchers.Main) {
-                            // Cek apakah fragment masih terhubung ke activity
-                            if (isAdded) {
-                                if (response.isSuccessful) {
-                                    Toast.makeText(context, "Upload berhasil: ${response.body()?.message}", Toast.LENGTH_SHORT).show()
+                            if (response.isSuccessful) {
+                                // Berhasil upload, navigasi ke MainActivity
+                                requireActivity().supportFragmentManager.beginTransaction().remove(this@ShopeeFragment).commit()
 
-                                    requireActivity().supportFragmentManager.beginTransaction().remove(this@ShopeeFragment).commit()
-
-                                    val intent = Intent(context, MainActivity::class.java)
-                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                    startActivity(intent)
-
-                                } else {
-                                    Toast.makeText(context, "Upload gagal: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
-                                }
+                                selectedFileUri = null
+                                val intent = Intent(context, MainActivity::class.java)
+                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                requireContext().
+                                startActivity(intent)
                             } else {
-                                Log.w("ShopeeFragment", "Fragment not attached to activity, cannot start MainActivity.")
+                                Toast.makeText(context, "Upload gagal", Toast.LENGTH_SHORT).show()
                             }
                         }
                     } catch (e: Exception) {
-                        // Pastikan untuk menangani error dan kembali ke Main Thread
                         withContext(Dispatchers.Main) {
-                            Toast.makeText(context, "Terjadi kesalahan: ${e.message}", Toast.LENGTH_SHORT).show()
+//                            Toast.makeText(
+//                                context,
+//                                "Terjadi kesalahan: ${e.message}",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
                         }
                     }
                 }
