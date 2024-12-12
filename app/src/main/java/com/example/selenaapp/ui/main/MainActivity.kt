@@ -35,31 +35,29 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         viewModel.getSession().observe(this) { user ->
             if (!user.isLogin) {
                 startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             }
-            else {
-                saveTheme()
-                val navView: BottomNavigationView = binding.navView
-                val navController = findNavController(R.id.nav_host_fragment_activity_main)
-                val appBarConfiguration = AppBarConfiguration(
-                    setOf(
-                        R.id.navigation_home, R.id.navigation_transaction, R.id.navigation_settings
-                    )
-                )
-                setupActionBarWithNavController(navController, appBarConfiguration)
-                navView.setupWithNavController(navController)
-            }
         }
+
+        val navView: BottomNavigationView = binding.navView
+            val navController = findNavController(R.id.nav_host_fragment_activity_main)
+            val appBarConfiguration = AppBarConfiguration(
+                setOf(
+                    R.id.navigation_home, R.id.navigation_transaction, R.id.navigation_settings
+                )
+            )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
 
         intent.getStringExtra("navigate_to")?.let { destination ->
             if (destination == "transactions") {
                 navController.navigate(R.id.navigation_transaction)
             }
         }
+        //saveTheme()
     }
 
     fun saveTheme() {
@@ -67,7 +65,8 @@ class MainActivity : AppCompatActivity() {
 
         // Gunakan ViewModel untuk memantau pengaturan tema
         val viewModelFactory = SettingsViewModelFactory(pref)
-        val settingsViewModel = ViewModelProvider(this, viewModelFactory).get(SettingsViewModel::class.java)
+        val settingsViewModel =
+            ViewModelProvider(this, viewModelFactory).get(SettingsViewModel::class.java)
 
         // Dapatkan pengaturan tema dari DataStore dan atur tema aplikasi
         settingsViewModel.getThemeSettings().observe(this) { isDarkModeActive ->

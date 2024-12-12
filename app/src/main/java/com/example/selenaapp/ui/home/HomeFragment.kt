@@ -47,13 +47,18 @@ class HomeFragment : Fragment() {
         val viewModelFactory = ViewModelFactory(userRepository, userPreference, HomeRepository(userPreference))
         homeViewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
 
-        binding.refreshButton.setOnClickListener {
-            homeViewModel.fetchAnomalyData()
-        }
+
 
         observeViewModel()
         setupRecyclerView()
+        setupUi()
 
+    }
+
+    private fun setupUi() {
+        binding.refreshButton.setOnClickListener {
+            homeViewModel.fetchAnomalyData()
+        }
     }
 
     private fun observeViewModel() {
@@ -105,6 +110,10 @@ class HomeFragment : Fragment() {
             PieEntry(totalIncome, "Pemasukan"),
             PieEntry(totalExpense, "Pengeluaran")
         )
+
+        if (pieEntries.isEmpty()) {
+            binding.pieChart.visibility = View.GONE
+        }
 
         val pieDataSet = PieDataSet(pieEntries, "Persentase Pemasukan dan Pengeluaran")
         pieDataSet.colors = listOf(
