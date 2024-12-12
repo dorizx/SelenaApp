@@ -131,21 +131,29 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupPieChart(totalIncome: Float, totalExpense: Float) {
-        val pieEntries = listOf(
-            PieEntry(totalIncome, "Pemasukan"),
-            PieEntry(totalExpense, "Pengeluaran")
 
+        val total = totalIncome + totalExpense
+        val totalIncomePercentage = if (total > 0) (totalIncome / total) * 100 else 0f
+        val totalExpensePercentage = if (total > 0) (totalExpense / total) * 100 else 0f
+
+
+        val pieEntries = listOf(
+            PieEntry(totalIncomePercentage, "Pemasukan"),
+            PieEntry(totalExpensePercentage, "Pengeluaran")
         )
 
         if (pieEntries.isEmpty()) {
             binding.pieChart.visibility = View.GONE
         }
 
+
+
         val pieDataSet = PieDataSet(pieEntries, "Persentase Pemasukan dan Pengeluaran")
         pieDataSet.colors = listOf(
             ContextCompat.getColor(requireContext(), R.color.green),
             ContextCompat.getColor(requireContext(), R.color.red)
         )
+
 
         val pieData = PieData(pieDataSet)
         binding.pieChart.data = pieData
