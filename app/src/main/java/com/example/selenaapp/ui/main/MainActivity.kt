@@ -37,14 +37,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.getSession().observe(this) { user ->
-            if (!user.isLogin) {
-                startActivity(Intent(this, LoginActivity::class.java))
-                finish()
-            }
-        }
-
         settingsPreferences = SettingsPreference.getInstance(dataStore)
+
         // Check and apply theme only once in onCreate
         checkThemeSettings()
 
@@ -56,9 +50,10 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        intent.getStringExtra("navigate_to")?.let { destination ->
-            if (destination == "transactions") {
-                navController.navigate(R.id.navigation_transaction)
+        viewModel.getSession().observe(this) { user ->
+            if (!user.isLogin) {
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
             }
         }
     }
@@ -77,6 +72,3 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
-
-
-

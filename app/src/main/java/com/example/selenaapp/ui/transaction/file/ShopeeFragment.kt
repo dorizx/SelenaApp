@@ -22,6 +22,7 @@ import com.example.selenaapp.ui.transaction.TransactionFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -31,7 +32,7 @@ class ShopeeFragment : Fragment() {
 
     private lateinit var selectFileButton: Button
     private lateinit var fileNameTextView: TextView
-    private lateinit var uploadFileButton: Button
+    private lateinit var uploadButton: Button
     private var selectedFileUri: Uri? = null
 
     private val selectFileLauncher = registerForActivityResult(
@@ -50,17 +51,20 @@ class ShopeeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Inflate the fragment layout
         val binding = inflater.inflate(R.layout.fragment_shopee, container, false)
 
+        // Initialize UI components
         selectFileButton = binding.findViewById(R.id.selectFileButton)
         fileNameTextView = binding.findViewById(R.id.fileNameTextView)
-        uploadFileButton = binding.findViewById(R.id.uploadButtonShopee)
+        uploadButton = binding.findViewById(R.id.uploadButtonShopee)
 
+        // Set click listeners
         selectFileButton.setOnClickListener {
             selectFileLauncher.launch("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
         }
 
-        uploadFileButton.setOnClickListener {
+        uploadButton.setOnClickListener {
             uploadFile()
         }
 
@@ -71,7 +75,7 @@ class ShopeeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // Anda bisa menambahkan inisialisasi atau setup lainnya di sini
-        Log.d("ShopeeFragment", "onViewCreated called")
+        Log.d("TokopediaFragment", "onViewCreated called")
     }
 
     // onDestroyView - membersihkan referensi tampilan dan sumber daya yang digunakan oleh fragment
@@ -79,7 +83,7 @@ class ShopeeFragment : Fragment() {
         super.onDestroyView()
         // Membersihkan referensi tampilan
         // Jika Anda memiliki komponen atau variabel yang perlu dibersihkan, lakukan di sini
-        Log.d("ShopeeFragment", "onDestroyView called")
+        Log.d("TokopediaFragment", "onDestroyView called")
     }
 
     private fun getFileName(uri: Uri): String {
@@ -130,26 +134,35 @@ class ShopeeFragment : Fragment() {
                     val userId = userModel.userId
                     val token = userModel.token
 
-                    Log.d("ShopeeFragment", "Token: $token")
-                    Log.d("ShopeeFragment", "User ID: $userId")
-
                     // Call API to upload the file
                     try {
                         val response = ApiConfig
                             .getApiService(token)
                             .addShopeeTransaction(userId, filePart)
 
-                        CoroutineScope(Dispatchers.Main).launch {
-                            if (response.isSuccessful) {
-                                Toast.makeText(context, "Upload berhasil: ${response.body()?.message}", Toast.LENGTH_SHORT).show()
-                                val intent = Intent(context, MainActivity::class.java)
-                                startActivity(intent)
+                        // Pastikan untuk kembali ke Main thread setelah task selesai
+                        withContext(Dispatchers.Main) {
+                            // Cek apakah fragment masih terhubung ke activity
+                            if (isAdded) {
+                                if (response.isSuccessful) {
+                                    Toast.makeText(context, "Upload berhasil: ${response.body()?.message}", Toast.LENGTH_SHORT).show()
+
+                                    // Hentikan semua task lainnya di background
+                                    // Tidak ada lagi coroutine yang perlu dijalankan
+                                    val intent = Intent(context, MainActivity::class.java)
+                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    startActivity(intent)
+
+                                } else {
+                                    Toast.makeText(context, "Upload gagal: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
+                                }
                             } else {
-                                Toast.makeText(context, "Upload gagal: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
+                                Log.w("ShopeeFragment", "Fragment not attached to activity, cannot start MainActivity.")
                             }
                         }
                     } catch (e: Exception) {
-                        CoroutineScope(Dispatchers.Main).launch {
+                        // Pastikan untuk menangani error dan kembali ke Main Thread
+                        withContext(Dispatchers.Main) {
                             Toast.makeText(context, "Terjadi kesalahan: ${e.message}", Toast.LENGTH_SHORT).show()
                         }
                     }

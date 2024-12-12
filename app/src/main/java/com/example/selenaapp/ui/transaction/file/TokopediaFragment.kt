@@ -22,6 +22,7 @@ import com.example.selenaapp.ui.transaction.TransactionFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -140,18 +141,29 @@ class TokopediaFragment : Fragment() {
                             .getApiService(token)
                             .addTokopediaTransaction(userId, filePart)
 
-                        CoroutineScope(Dispatchers.Main).launch {
-                            if (response.isSuccessful) {
-                                Toast.makeText(context, "Upload berhasil: ${response.body()?.message}", Toast.LENGTH_SHORT).show()
-                                val intent = Intent(context, MainActivity::class.java)
-                                startActivity(intent)
+                        // Pastikan untuk kembali ke Main thread setelah task selesai
+                        withContext(Dispatchers.Main) {
+                            // Cek apakah fragment masih terhubung ke activity
+                            if (isAdded) {
+                                if (response.isSuccessful) {
+                                    Toast.makeText(context, "Upload berhasil: ${response.body()?.message}", Toast.LENGTH_SHORT).show()
 
+                                    // Hentikan semua task lainnya di background
+                                    // Tidak ada lagi coroutine yang perlu dijalankan
+                                    val intent = Intent(context, MainActivity::class.java)
+                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    startActivity(intent)
+
+                                } else {
+                                    Toast.makeText(context, "Upload gagal: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
+                                }
                             } else {
-                                Toast.makeText(context, "Upload gagal: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
+                                Log.w("TokopediaFragment", "Fragment not attached to activity, cannot start MainActivity.")
                             }
                         }
                     } catch (e: Exception) {
-                        CoroutineScope(Dispatchers.Main).launch {
+                        // Pastikan untuk menangani error dan kembali ke Main Thread
+                        withContext(Dispatchers.Main) {
                             Toast.makeText(context, "Terjadi kesalahan: ${e.message}", Toast.LENGTH_SHORT).show()
                         }
                     }
