@@ -148,12 +148,11 @@ class TokopediaFragment : Fragment() {
                                 if (response.isSuccessful) {
                                     Toast.makeText(context, "Upload berhasil: ${response.body()?.message}", Toast.LENGTH_SHORT).show()
 
-                                    // Hentikan semua task lainnya di background
-                                    // Tidak ada lagi coroutine yang perlu dijalankan
+                                    requireActivity().supportFragmentManager.beginTransaction().remove(this@TokopediaFragment).commit()
+
                                     val intent = Intent(context, MainActivity::class.java)
                                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                     startActivity(intent)
-
                                 } else {
                                     Toast.makeText(context, "Upload gagal: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
                                 }

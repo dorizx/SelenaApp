@@ -77,8 +77,8 @@ class SettingsFragment : Fragment() {
         // Tombol logout
         binding.btnLogout.setOnClickListener {
             AlertDialog.Builder(requireContext()).apply {
-            setTitle("Hapus Semua Transaksi")
-            setMessage("Anda yakin ingin menghapus semua transaksi?")
+            setTitle("Keluar")
+            setMessage("Anda yakin ingin keluar aplikasi?")
             setPositiveButton("Ya") { _, _ ->
                 viewLifecycleOwner.lifecycleScope.launch {
                     val userPreference = UserPreference.getInstance(requireContext().dataStore)
@@ -106,8 +106,8 @@ class SettingsFragment : Fragment() {
         // Tombol hapus semua transaksi
         binding.btnDeleteAll.setOnClickListener {
             AlertDialog.Builder(requireContext()).apply {
-                setTitle("Keluar")
-                setMessage("Anda yakin ingin Logout dari aplikasi?")
+                setTitle("Hapus Semua Transaksi")
+                setMessage("Anda yakin ingin menghapus semua transaksi?")
                 setPositiveButton("Ya") { _, _ ->
                     deleteAllTransaction()
                 }
