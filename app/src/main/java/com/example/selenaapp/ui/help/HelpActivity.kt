@@ -35,7 +35,17 @@ class HelpActivity : AppCompatActivity() {
                 Pair("Tentukan rentang waktu laporan dalam kotak dialog.", R.drawable.tokopedia_step_4),
                 Pair("Klik tombol Minta Laporan setelah memilih rentang waktu.", R.drawable.tokopedia_step_5),
                 Pair("Pindah ke tab Riwayat Laporan untuk mengunduh laporan.", R.drawable.tokopedia_step_6),
-                Pair("Cari laporan yang baru saja diminta berdasarkan tanggal, lalu klik tombol Download di sebelahnya (gambar ketiga).", R.drawable.tokopedia_step_7)
+                Pair("Cari laporan yang baru saja diminta berdasarkan tanggal, lalu klik tombol Download di sebelahnya .", R.drawable.tokopedia_step_7),
+                Pair("Ikuti langkah-langkah ini untuk memastikan laporan yang benar diunduh dan dapat digunakan sesuai kebutuhan. Jika ada kendala, pastikan Anda menggunakan browser terbaru dan memperbarui halaman.", null)
+            ),
+            listOf(
+                Pair("Buka Shopee Seller Center. Klik menu Saldo Saya di sidebar kiri", R.drawable.shopee_step_1),
+                Pair("Pada halaman Saldo Penjual, pilih rentang tanggal transaksi yang diinginkan dengan membuka dropdown Tanggal Transaksi Dibuat. Pilih opsi seperti \"Dalam bulan ini,\" \"3 bulan terakhir,\" atau tetapkan tanggal khusus (gambar keempat).", R.drawable.shopee_step_2),
+                Pair("Filter tipe transaksi ke \"Transaksi Masuk\" untuk mengimpor data pendapatan. Hal ini harus dilakukan agar pengunggahan file Excel berhasil, karena Selena hanya menerima data pendapatan dalam kasus in", R.drawable.shopee_step_3),
+                Pair("Setelah menentukan rentang tanggal dan filter, klik tombol Terapkan untuk menampilkan hasil yang sesuai .", R.drawable.shopee_step_4),
+                Pair("Di bagian kanan bawah tabel transaksi, klik tombol Export untuk memulai proses pembuatan laporan Excel.", R.drawable.shopee_step_5),
+                Pair("Setelah laporan siap, buka bagian Laporan Terakhir yang muncul di sebelah kanan layar. Klik tombol Download untuk mengunduh file laporan.", R.drawable.shopee_step_6),
+                Pair("Panduan ini akan membantu Anda menghasilkan file laporan transaksi Shopee yang akurat untuk kebutuhan pencatatan atau pengelolaan bisnis Anda. Jika terdapat kendala, pastikan browser Anda dalam versi terbaru dan coba segarkan halaman.", null)
             )
         )
 
