@@ -51,12 +51,15 @@ class TokopediaFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Inflate the fragment layout
         val binding = inflater.inflate(R.layout.fragment_tokopedia, container, false)
 
+        // Initialize UI components
         selectFileButton = binding.findViewById(R.id.selectFileButton)
         fileNameTextView = binding.findViewById(R.id.fileNameTextView)
         uploadButton = binding.findViewById(R.id.uploadButtonTokopedia)
 
+        // Set click listeners
         selectFileButton.setOnClickListener {
             selectFileLauncher.launch("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
         }
@@ -66,6 +69,21 @@ class TokopediaFragment : Fragment() {
         }
 
         return binding
+    }
+
+    // onViewCreated - digunakan untuk setup dan konfigurasi tambahan setelah tampilan fragment dibuat
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // Anda bisa menambahkan inisialisasi atau setup lainnya di sini
+        Log.d("TokopediaFragment", "onViewCreated called")
+    }
+
+    // onDestroyView - membersihkan referensi tampilan dan sumber daya yang digunakan oleh fragment
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // Membersihkan referensi tampilan
+        // Jika Anda memiliki komponen atau variabel yang perlu dibersihkan, lakukan di sini
+        Log.d("TokopediaFragment", "onDestroyView called")
     }
 
     private fun getFileName(uri: Uri): String {
@@ -125,19 +143,8 @@ class TokopediaFragment : Fragment() {
                         CoroutineScope(Dispatchers.Main).launch {
                             if (response.isSuccessful) {
                                 Toast.makeText(context, "Upload berhasil: ${response.body()?.message}", Toast.LENGTH_SHORT).show()
-
-                                // Intent ke MainActivity dan pindah fragment
                                 val intent = Intent(context, MainActivity::class.java)
-                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 startActivity(intent)
-
-                                // Opsional: Memasukkan fragment TransactionFragment di MainActivity
-                                val transactionFragment = TransactionFragment()
-                                val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
-
-                                // Gantikan fragment di container
-                                fragmentTransaction.replace(R.id.fragment_container, transactionFragment)
-                                fragmentTransaction.commit()
 
                             } else {
                                 Toast.makeText(context, "Upload gagal: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
