@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.transaction.detail.DetailTransactionActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".ui.transaction.detail.DetailTransactionActivity">
+    android:padding="16dp">
 
     <!-- ImageView di atas Amount -->
     <ImageView
@@ -22,11 +26,12 @@
 
     <Button
         android:id="@+id/btn_download_pdf"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         app:layout_constraintTop_toBottomOf="@id/iv_icon"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/ic_download"/>
+        android:background="@drawable/ic_download"
+        android:contentDescription="@string/testing"/>
 
     <!-- CardView untuk semua TextView -->
     <androidx.cardview.widget.CardView
@@ -285,6 +290,7 @@
         android:id="@+id/btn_delete"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
         android:text="Delete"
         android:textColor="#FF0000"
         android:backgroundTint="@color/white"
@@ -293,6 +299,7 @@
         app:strokeWidth="2dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btn_update"
+        app:layout_constraintTop_toBottomOf="@id/card_details"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="30dp"/>
@@ -310,3 +317,5 @@
         android:layout_marginBottom="30dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

@@ -92,7 +92,7 @@ class HomeFragment : Fragment() {
                 val formattedAverageIncome = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(averageIncome)
                 binding.valueAverageIncome.text = formattedAverageIncome
             } else {
-                binding.valueAverageIncome.text = "Rp0"
+                binding.valueAverageIncome.text = "Rp 0"
             }
         }
 
@@ -106,7 +106,7 @@ class HomeFragment : Fragment() {
                 val formattedAverageExpense = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(averageExpense)
                 binding.valueAverageExpense.text = formattedAverageExpense
             } else {
-                binding.valueAverageExpense.text = "Rp0"
+                binding.valueAverageExpense.text = "Rp 0"
             }
         }
 
