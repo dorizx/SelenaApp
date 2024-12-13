@@ -12,7 +12,6 @@ import com.example.selenaapp.data.response.SignupResponse
 import com.example.selenaapp.data.response.TokopediaResponse
 import com.example.selenaapp.data.response.TransactionResponse
 import com.example.selenaapp.data.response.UpdateResponse
-import com.example.selenaapp.ui.transaction.detail.DetailTransactionActivity
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.DELETE
@@ -25,7 +24,6 @@ import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
-import java.util.Date
 
 interface ApiService {
 
@@ -56,7 +54,6 @@ interface ApiService {
     @FormUrlEncoded
     @POST("/transactions")
     suspend fun addTransaction(
-        //@Path("transactionsId") transactionsId: String,
         @Field("user_id") userId: String,
         @Field("amount") amount: Int,
         @Field("transaction_type") type: String,
@@ -81,12 +78,6 @@ interface ApiService {
     @GET("/transactions")
     suspend fun getTransactions(
         @Query("user_id") userId: Int
-    ) : Response<TransactionResponse>
-
-    @GET("/transactions")
-    suspend fun getMonthlyTransactions(
-        @Query("start_date") startDate: String,
-        @Query("end_date") endDate: String
     ) : Response<TransactionResponse>
 
     @DELETE("/transactions/{transactionId}")

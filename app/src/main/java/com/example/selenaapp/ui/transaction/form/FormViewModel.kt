@@ -5,23 +5,13 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.bumptech.glide.load.engine.Resource
 import com.example.selenaapp.data.api.ApiConfig
 import com.example.selenaapp.data.preference.UserPreference
-import com.example.selenaapp.data.repository.UserRepository
 import com.example.selenaapp.data.response.FormResponse
 import com.google.gson.Gson
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import retrofit2.HttpException
-import java.io.File
 
 class FormViewModel (private val userPreference: UserPreference) : ViewModel() {
 
@@ -38,12 +28,10 @@ class FormViewModel (private val userPreference: UserPreference) : ViewModel() {
     ) {
         viewModelScope.launch {
             try {
-                // Ambil token dari session
                 val session = userPreference.getSession().first()
                 val apiService = ApiConfig.getApiService(session.token)
-                Log.d(TAG, "addTransaction: $apiService")// Pastikan `ApiConfig` sesuai
+                Log.d(TAG, "addTransaction: $apiService")
 
-                // Lakukan POST request
                 val response = apiService.addTransaction(
                     userId = userId,
                     amount = amount,

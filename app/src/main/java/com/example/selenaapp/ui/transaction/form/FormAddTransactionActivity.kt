@@ -7,7 +7,6 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.example.selenaapp.data.preference.UserModel
 import com.example.selenaapp.data.preference.UserPreference
 import com.example.selenaapp.data.preference.dataStore
 import com.example.selenaapp.databinding.ActivityFormAddTransactionBinding
@@ -38,7 +37,6 @@ class FormAddTransactionActivity : AppCompatActivity() {
         binding.dateEditText.setOnClickListener {
             showDatePicker()
         }
-
     }
 
     private fun setupSpinner() {

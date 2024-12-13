@@ -1,9 +1,7 @@
 package com.example.selenaapp.ui.home
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
@@ -12,7 +10,6 @@ import com.example.selenaapp.data.api.ApiConfig
 import com.example.selenaapp.data.preference.UserPreference
 import com.example.selenaapp.data.preference.dataStore
 import com.example.selenaapp.data.response.AnomalyTransactionsItem
-import com.example.selenaapp.data.response.DataItem
 import com.example.selenaapp.databinding.ActivityDetailAnomalyBinding
 import com.itextpdf.kernel.font.PdfFont
 import com.itextpdf.kernel.font.PdfFontFactory
@@ -69,12 +66,10 @@ class DetailAnomalyActivity : AppCompatActivity() {
             val file =
                 File(filesDir, "Report Detail Anomaly Transaction_${transaction.transactionId}.pdf")
 
-            // Membuat PdfWriter dengan FileOutputStream
             val pdfWriter = PdfWriter(FileOutputStream(file))
             val pdfDocument = PdfDocument(pdfWriter)
             val document = Document(pdfDocument)
 
-            // Menambahkan konten ke dalam dokumen PDF
             val titleFont: PdfFont = PdfFontFactory.createFont("Times-Roman")
             val contentFont: PdfFont = PdfFontFactory.createFont("Helvetica")
 
@@ -111,10 +106,6 @@ class DetailAnomalyActivity : AppCompatActivity() {
             openPdf(file)
 
         } catch (e: Exception) {
-            // Log error untuk debugging
-            Log.e(TAG, "Failed to create PDF", e)
-
-            // Menampilkan Toast error yang lebih jelas
             Toast.makeText(this, "Failed to create PDF: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }

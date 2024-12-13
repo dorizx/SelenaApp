@@ -2,12 +2,10 @@ package com.example.selenaapp.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -19,8 +17,6 @@ import com.example.selenaapp.data.preference.dataStore
 import com.example.selenaapp.databinding.ActivityMainBinding
 import com.example.selenaapp.ui.login.LoginActivity
 import com.example.selenaapp.ui.settings.SettingsPreference
-import com.example.selenaapp.ui.settings.SettingsViewModel
-import com.example.selenaapp.ui.settings.SettingsViewModelFactory
 import kotlinx.coroutines.launch
 
 

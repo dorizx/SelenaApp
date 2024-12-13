@@ -21,7 +21,7 @@ class TransactionAdapter(private var transactionList: List<DataItem?>) :
 
     fun updateData(newList: List<DataItem?>) {
         transactionList = newList
-        notifyDataSetChanged() // Memperbarui RecyclerView
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
@@ -60,7 +60,6 @@ class TransactionAdapter(private var transactionList: List<DataItem?>) :
         val dateTextView: TextView = itemView.findViewById(R.id.tanggalLabel)
         val amountTextView: TextView = itemView.findViewById(R.id.totalUang)
     }
-
 
 
     companion object {

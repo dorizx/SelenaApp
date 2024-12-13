@@ -5,7 +5,6 @@ import androidx.lifecycle.*
 import com.example.selenaapp.data.api.ApiConfig
 import com.example.selenaapp.data.preference.UserPreference
 import com.example.selenaapp.data.response.DataItem
-import com.example.selenaapp.data.response.Transaction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -13,8 +12,6 @@ import java.text.NumberFormat
 import java.util.*
 
 class TransactionViewModel(private val userPreference: UserPreference) : ViewModel() {
-
-
 
     private val _transactions = MutableLiveData<List<DataItem?>>()
     val transactions: LiveData<List<DataItem?>> = _transactions
@@ -64,7 +61,6 @@ class TransactionViewModel(private val userPreference: UserPreference) : ViewMod
                     _totalIncome.postValue("Rp 0")
                     _totalExpense.postValue("Rp 0")
                     _totalProfit.postValue("Rp 0")
-                    //_errorMessage.postValue("Gagal memuat data: ${response.errorBody()?.string()}")
                 }
             } catch (e: Exception) {
                 _errorMessage.postValue("Error: ${e.message}")

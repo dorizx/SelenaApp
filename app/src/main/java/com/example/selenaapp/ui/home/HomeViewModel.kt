@@ -2,15 +2,12 @@ package com.example.selenaapp.ui.home
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.selenaapp.data.api.ApiConfig
 import com.example.selenaapp.data.repository.HomeRepository
 import com.example.selenaapp.data.response.AnomalyTransactionsItem
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class HomeViewModel(private val repository: HomeRepository) : ViewModel() {

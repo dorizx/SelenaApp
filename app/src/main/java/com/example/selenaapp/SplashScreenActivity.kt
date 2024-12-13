@@ -30,11 +30,9 @@ class SplashScreenActivity : AppCompatActivity() {
     fun saveTheme() {
         val pref = SettingsPreference.getInstance(applicationContext.dataStore)
 
-        // Gunakan ViewModel untuk memantau pengaturan tema
         val viewModelFactory = SettingsViewModelFactory(pref)
         val settingsViewModel = ViewModelProvider(this, viewModelFactory).get(SettingsViewModel::class.java)
 
-        // Dapatkan pengaturan tema dari DataStore dan atur tema aplikasi
         settingsViewModel.getThemeSettings().observe(this) { isDarkModeActive ->
             Log.d("MainActivity", "isDarkModeActive: $isDarkModeActive")
             if (isDarkModeActive) {

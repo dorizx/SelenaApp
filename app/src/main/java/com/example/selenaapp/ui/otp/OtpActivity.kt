@@ -3,7 +3,6 @@ package com.example.selenaapp.ui.otp
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -14,8 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.example.selenaapp.R
 import com.example.selenaapp.ViewModelFactory
-import com.example.selenaapp.data.api.ApiConfig
-import com.example.selenaapp.data.api.ApiService
 import com.example.selenaapp.ui.login.LoginActivity
 
 class OtpActivity : AppCompatActivity() {
@@ -188,28 +185,3 @@ class OtpActivity : AppCompatActivity() {
     }
 
 }
-
-
-
-
-//        val otpCode = "${editTextOne.text.toString().trim()}" +
-//                "${editTextTwo.text.toString().trim()}" +
-//                "${editTextThree.text.toString().trim()}" +
-//                "${editTextFour.text.toString().trim()}" +
-//                "${editTextFive.text.toString().trim()}" +
-//                "${editTextSix.text.toString().trim()}"
-//
-//        if(6 != otpCode.length) {
-//            return
-//        }
-//        if (otpCode == TEST_VERIFY_CODE) {
-//            Toast.makeText(this, "Success, Should do next", Toast.LENGTH_LONG).show()
-//
-//            val inputManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-//            inputManager.hideSoftInputFromWindow(frameLayoutRoot.windowToken, 0)
-//
-//            return
-//        }
-//        Toast.makeText(this, "Error, please input again", Toast.LENGTH_SHORT).show()
-//        reset()
-//    }

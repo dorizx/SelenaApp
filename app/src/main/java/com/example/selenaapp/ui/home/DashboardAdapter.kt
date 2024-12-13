@@ -12,9 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.selenaapp.R
 import com.example.selenaapp.data.response.AnomalyTransactionsItem
 import com.example.selenaapp.data.response.DashboardResponse
-import com.example.selenaapp.data.response.DataItem
-import com.example.selenaapp.data.response.TransactionResponse
-import com.example.selenaapp.ui.transaction.detail.DetailTransactionActivity
 import java.text.NumberFormat
 import java.util.Locale
 

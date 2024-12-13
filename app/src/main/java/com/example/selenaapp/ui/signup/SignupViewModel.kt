@@ -28,7 +28,6 @@ class SignupViewModel (private val repository: UserRepository) : ViewModel() {
             try {
                 val response = repository.signup(name, email, password)
                 if (response.isSuccessful) {
-                    // Tangani respons sukses
                     callback(response)
                 } else {
                     val errorMessage = response.errorBody()?.string() ?: "Pendaftaran gagal"

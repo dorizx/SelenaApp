@@ -3,7 +3,6 @@ package com.example.selenaapp.data.repository
 import android.content.ContentValues.TAG
 import android.util.Log
 import com.example.selenaapp.data.api.ApiConfig
-import com.example.selenaapp.data.api.ApiService
 import com.example.selenaapp.data.preference.UserModel
 import com.example.selenaapp.data.preference.UserPreference
 import com.example.selenaapp.data.response.LoginResponse

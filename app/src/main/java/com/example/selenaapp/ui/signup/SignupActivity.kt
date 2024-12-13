@@ -1,15 +1,11 @@
 package com.example.selenaapp.ui.signup
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
-import com.example.selenaapp.R
 import com.example.selenaapp.ViewModelFactory
 import com.example.selenaapp.databinding.ActivitySignupBinding
 import com.example.selenaapp.ui.otp.OtpActivity

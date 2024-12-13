@@ -10,24 +10,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import com.example.selenaapp.R
 import com.example.selenaapp.data.api.ApiConfig
 import com.example.selenaapp.data.preference.UserPreference
 import com.example.selenaapp.data.preference.dataStore
 import com.example.selenaapp.databinding.FragmentShopeeBinding
-import com.example.selenaapp.databinding.FragmentTokopediaBinding
 import com.example.selenaapp.ui.main.MainActivity
-import com.example.selenaapp.ui.transaction.TransactionFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -62,7 +57,6 @@ class ShopeeFragment : Fragment() {
         return binding.root
     }
 
-    // onViewCreated - digunakan untuk setup dan konfigurasi tambahan setelah tampilan fragment dibuat
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

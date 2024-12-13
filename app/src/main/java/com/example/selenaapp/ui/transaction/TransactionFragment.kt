@@ -65,9 +65,9 @@ class TransactionFragment : Fragment() {
     private fun setupObservers() {
         viewModel.transactions.observe(viewLifecycleOwner) { transactions ->
             if (transactions.isNullOrEmpty()) {
-                handleEmptyState(true) // Tampilkan status kosong
+                handleEmptyState(true)
             } else {
-                handleEmptyState(false) // Tampilkan data transaksi
+                handleEmptyState(false)
             }
 
             if (::adapter.isInitialized) {

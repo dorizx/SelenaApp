@@ -24,6 +24,5 @@ class ChooseMethodTransactionActivity : AppCompatActivity() {
             val intent = Intent(this, FileUploadActivity::class.java)
             startActivity(intent)
         }
-
     }
 }

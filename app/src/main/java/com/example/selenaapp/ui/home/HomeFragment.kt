@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.selenaapp.R
 import com.example.selenaapp.ViewModelFactory
-import com.example.selenaapp.data.api.ApiConfig
 import com.example.selenaapp.data.injection.Injection
 import com.example.selenaapp.data.preference.UserPreference
 import com.example.selenaapp.data.preference.dataStore
@@ -86,7 +85,6 @@ class HomeFragment : Fragment() {
         homeViewModel.incomeTransationsSize.observe(viewLifecycleOwner) { incomeTransationsSize ->
             val totalIncome = homeViewModel.totalIncome.value ?: 0
 
-            // Pastikan incomeTransationsSize tidak 0 untuk menghindari pembagian dengan nol
             if (incomeTransationsSize != 0) {
                 val averageIncome = totalIncome / incomeTransationsSize
                 val formattedAverageIncome = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(averageIncome)
@@ -97,10 +95,8 @@ class HomeFragment : Fragment() {
         }
 
         homeViewModel.expenseTransationsSize.observe(viewLifecycleOwner) { expenseTransationsSize ->
-            // Pastikan totalExpense bukan null, jika null set menjadi 0
             val totalExpense = homeViewModel.totalExpense.value?: 0
 
-            // Pastikan expenseTransationsSize tidak 0 untuk menghindari pembagian dengan nol
             if (expenseTransationsSize != 0) {
                 val averageExpense = totalExpense / expenseTransationsSize
                 val formattedAverageExpense = NumberFormat.getCurrencyInstance(Locale("in", "ID")).format(averageExpense)
@@ -178,7 +174,6 @@ class HomeFragment : Fragment() {
         binding.recyclerViewAnomaly.visibility = if (isEmpty) View.GONE else View.VISIBLE
         binding.tvAnomaly.visibility = if (isEmpty) View.VISIBLE else View.GONE
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

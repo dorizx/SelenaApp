@@ -22,10 +22,10 @@ class OtpViewModel (private val repository: UserRepository) : ViewModel() {
                     if (otpResponse != null) {
                         callback(otpResponse)  // Panggil callback dengan data OtpResponse
                     } else {
-                        callback(OtpResponse("Response body is null", null))  // Jika body kosong
+                        callback(OtpResponse("Response body is null", null))
                     }
                 } else {
-                    callback(OtpResponse("OTP verification failed", null))  // Error dari server
+                    callback(OtpResponse("OTP verification failed", null))
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

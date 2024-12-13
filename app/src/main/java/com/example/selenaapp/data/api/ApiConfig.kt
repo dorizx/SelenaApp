@@ -2,7 +2,6 @@ package com.example.selenaapp.data.api
 
 import android.content.ContentValues.TAG
 import android.util.Log
-import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

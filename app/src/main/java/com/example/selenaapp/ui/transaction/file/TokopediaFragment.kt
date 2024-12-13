@@ -9,15 +9,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
-import com.example.selenaapp.R
 import com.example.selenaapp.data.api.ApiConfig
 import com.example.selenaapp.data.preference.UserPreference
 import com.example.selenaapp.data.preference.dataStore
@@ -65,7 +61,7 @@ class TokopediaFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         fileNameTextView =
-            binding.fileNameTextView // Assuming you have a TextView to show the file name
+            binding.fileNameTextView
 
         binding.selectFileButton.setOnClickListener {
             selectFileLauncher.launch("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")

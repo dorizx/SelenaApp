@@ -2,9 +2,7 @@ package com.example.selenaapp.ui.transaction.detail
 
 import android.content.ContentValues.TAG
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.provider.DocumentsContract
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -15,10 +13,7 @@ import com.example.selenaapp.data.preference.UserPreference
 import com.example.selenaapp.data.preference.dataStore
 import com.example.selenaapp.data.response.DataItem
 import com.example.selenaapp.databinding.ActivityDetailTransactionBinding
-import com.example.selenaapp.ui.main.MainActivity
-import com.example.selenaapp.ui.transaction.TransactionFragment
 import com.example.selenaapp.ui.transaction.update.UpdateTransactionActivity
-import com.itextpdf.kernel.pdf.PdfName.Font
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.io.File
@@ -31,13 +26,8 @@ import com.itextpdf.kernel.pdf.PdfDocument
 import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.layout.Document
 import com.itextpdf.layout.element.Paragraph
-import com.itextpdf.layout.element.Text
-import com.itextpdf.layout.property.TextAlignment
-import com.itextpdf.layout.property.VerticalAlignment
 import com.itextpdf.kernel.font.PdfFontFactory
 import com.itextpdf.kernel.font.PdfFont
-import com.itextpdf.kernel.pdf.PdfName
-
 
 class DetailTransactionActivity : AppCompatActivity() {
 
@@ -55,16 +45,6 @@ class DetailTransactionActivity : AppCompatActivity() {
 
 
         val transaction = intent.getParcelableExtra<DataItem>(EXTRA_TRANSACTION_ID)
-//        if (transaction != null) {
-//            val rupiahFormatter = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
-//            val amount = rupiahFormatter.format(transaction.amount)
-//            binding.tvAmount.text = amount
-//            binding.tvCreatedAt.text = transaction.date.toString()
-//            binding.tvTransactionIDValue.text = transaction.transactionId.toString()
-//            binding.tvDateValue.text = transaction.date.toString()
-//            binding.tvStatusValue.text = transaction.transactionType.toString()
-//            binding.tvNotesValue.text = transaction.catatan.toString()
-//        }
 
         getDetail()
 
@@ -138,10 +118,10 @@ class DetailTransactionActivity : AppCompatActivity() {
             if (date != null) {
                 outputFormat.format(date)
             } else {
-                dateString // Kembalikan string asli jika parsing gagal
+                dateString
             }
         } catch (e: Exception) {
-            dateString // Kembalikan string asli jika ada error
+            dateString
         }
     }
 
@@ -197,12 +177,10 @@ class DetailTransactionActivity : AppCompatActivity() {
             // Menentukan lokasi file PDF
             val file = File(filesDir, "Report Detail Transaction_${transaction.transactionId}.pdf")
 
-            // Membuat PdfWriter dengan FileOutputStream
             val pdfWriter = PdfWriter(FileOutputStream(file))
             val pdfDocument = PdfDocument(pdfWriter)
             val document = Document(pdfDocument)
 
-            // Menambahkan konten ke dalam dokumen PDF
             val titleFont: PdfFont = PdfFontFactory.createFont("Times-Roman")
             val contentFont: PdfFont = PdfFontFactory.createFont("Helvetica")
 
@@ -230,17 +208,11 @@ class DetailTransactionActivity : AppCompatActivity() {
             // Menutup dokumen PDF
             document.close()
 
-            // Memberikan feedback bahwa PDF telah berhasil dibuat
             Toast.makeText(this, "PDF created successfully!", Toast.LENGTH_SHORT).show()
 
-            // Optionally, membuka file PDF setelah pembuatan
             openPdf(file)
 
         } catch (e: Exception) {
-            // Log error untuk debugging
-            Log.e(TAG, "Failed to create PDF", e)
-
-            // Menampilkan Toast error yang lebih jelas
             Toast.makeText(this, "Failed to create PDF: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
@@ -248,14 +220,12 @@ class DetailTransactionActivity : AppCompatActivity() {
 
     private fun openPdf(file: File) {
         try {
-            // Menggunakan FileProvider untuk mendapatkan URI yang dapat dibagikan
             val uri = FileProvider.getUriForFile(
                 this,
                 "${packageName}.provider",
                 file
             )
 
-            // Membuat intent untuk membuka file PDF
             val intent = Intent(Intent.ACTION_VIEW)
             intent.setDataAndType(uri, "application/pdf")
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
