@@ -148,7 +148,7 @@ class HomeFragment : Fragment() {
 
 
 
-        val pieDataSet = PieDataSet(pieEntries, "Persentase Pemasukan dan Pengeluaran")
+        val pieDataSet = PieDataSet(pieEntries, "Persentase Keuangan")
         pieDataSet.colors = listOf(
             ContextCompat.getColor(requireContext(), R.color.green),
             ContextCompat.getColor(requireContext(), R.color.red)
