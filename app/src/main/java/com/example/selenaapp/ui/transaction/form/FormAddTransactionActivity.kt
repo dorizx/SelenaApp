@@ -22,7 +22,7 @@ class FormAddTransactionActivity : AppCompatActivity() {
     private val calendar = Calendar.getInstance()
 
     private val viewModel: FormViewModel by lazy {
-        FormViewModel(UserPreference.getInstance(dataStore)) // Pastikan dataStore tersedia
+        FormViewModel(UserPreference.getInstance(dataStore))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

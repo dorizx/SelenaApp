@@ -70,7 +70,7 @@ class LoginActivity : AppCompatActivity() {
                     Log.d("LoginActivity", "Login successful: Token saved=$token")
                     AlertDialog.Builder(this).apply {
                         setTitle("Yeah!")
-                        setMessage("Anda berhasil login. Selamat datang di Aplikasi Selena")
+                        setMessage("Anda berhasil login. Selamat datang di Selena App!")
                         setPositiveButton("Lanjut") { _, _ ->
                             val intent = Intent(context, MainActivity::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

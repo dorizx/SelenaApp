@@ -141,7 +141,7 @@
         android:id="@+id/btn_delete"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Delete"
+        android:text="@string/delete"
         android:textColor="#FF0000"
         android:backgroundTint="@color/white"
         app:cornerRadius="32dp"
