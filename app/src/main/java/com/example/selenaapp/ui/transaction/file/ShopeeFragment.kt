@@ -192,7 +192,7 @@ class ShopeeFragment : Fragment() {
     }
 
     override fun onDestroy() {
-        super.onDestroyView()
+        super.onDestroy()
         uploadJob?.cancel()
         _binding = null
     }
