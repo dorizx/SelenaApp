@@ -23,7 +23,8 @@ class HelpActivity : AppCompatActivity() {
         questionList = listOf(
             "Apa itu SelenaApp?",
             "Bagaimana cara menggunakan aplikasi?",
-            "Bagaimana Cara Mengunduh File Excel Tokopedia?"
+            "Bagaimana Cara Mengunduh File Excel Tokopedia?",
+            "Bagaimana Cara Mengunduh File Excel Shopee?"
         )
         answerList = listOf(
             listOf(Pair("SelenaApp adalah aplikasi yang menyediakan berbagai fitur untuk manajemen transaksi.", null)),
